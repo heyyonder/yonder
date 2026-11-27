@@ -6,7 +6,7 @@ import { invoke } from "@tauri-apps/api/core";
 
 export const SITE = "https://yonder.so";
 
-export type Account = { email: string; email_verified?: boolean; superuser?: boolean; voice?: string; referral?: string; avatar?: string | null };
+export type Account = { email: string; email_verified?: boolean; superuser?: boolean; plan?: string; voice?: string; referral?: string; avatar?: string | null };
 type Saved = { token: string; account: Account };
 
 export const saved = (): Saved | undefined => {
@@ -95,6 +95,8 @@ export const appleSignIn = () =>
   }).then((token) => api("apple", { token }));
 export const signOut = () => save();
 export const superuser = () => !!saved()?.account.superuser;
+// yonder.so marks staff only in `plan`, as "Staff" when the account has no paid plan. A super user is staff too.
+export const staff = () => superuser() || saved()?.account.plan === "Staff";
 // A super user sets the Grok voice of the calls of each account.
 export const setVoice = (voice: string) => api("account", { voice });
 // A new email changes only when the user opens the link that yonder.so sends to it.
@@ -139,7 +141,8 @@ export async function giveSync(get: (path: string, init?: RequestInit) => Promis
 }
 export const dropSync = (get: (path: string, init?: RequestInit) => Promise<Response>) =>
   get("/sync", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: null }) }).catch(() => {});
-// A text as MP3 in a Grok voice, with the xAI key of yonder.so, as the /speak of the bridge gives. Only for staff.
+// A text as MP3 in a Grok voice, with the xAI key of yonder.so, as the /speak of the bridge gives. yonder.so accepts it
+// only from staff, so call it only when `staff()`, else the text goes to yonder.so for nothing.
 export const speech = (text: string, voice: string) =>
   fetch(`${SITE}/api/app/speak`, { method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${saved()?.token}` }, body: JSON.stringify({ text, voice }) });
 // A report of the Feedback section of the settings: the message, a screenshot as a data URL, and one past call as

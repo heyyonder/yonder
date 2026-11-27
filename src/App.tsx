@@ -38,7 +38,7 @@ import { Approval, AppIcon, ArtifactCard, IconPicker, Picker, ArtifactViewer, As
 import { PairPhone, Welcome } from "./PairPhone";
 import { SignIn } from "./SignIn";
 import { FolderPicker } from "./FolderPicker";
-import { dropSync, giveSync, giveTunnel, onAccount, refreshAccount, saved, signOut, SITE, speech } from "./account";
+import { dropSync, giveSync, giveTunnel, onAccount, refreshAccount, saved, signOut, SITE, speech, staff } from "./account";
 import { ACCENTS, accentPicks, applyAccent, applyFonts, Dropdown, type Keys, DEFAULT_KEYS, KEY_SETTINGS, Settings, applyShortcuts, hit } from "./Settings";
 import { syncPhoneConfig } from "./phone-config";
 import { copy, DEFAULT as DEFAULT_SCREEN, loadLook, nameOf as screenName, onLook, onNotice, pickScreen, shown as shownLook, tabsOf, tabTitle, themed, undoable, undoScreen, useLook } from "./look";
@@ -4754,7 +4754,7 @@ type Command = { name: string; description: string; terminal?: boolean };
 // bridge (`spoken`), in the Grok voice of the account (/speak). The sound stays until the brief changes, so a replay
 // starts at once. An older bridge has no brief, so the points speak.
 // A computer with no XAI_API_KEY refuses, and then a staff account speaks with the key of yonder.so (speech). Another
-// account gets the error of the bridge. So a staff account needs no key on each computer.
+// account gets the error of the bridge, and its text never goes to yonder.so. So a staff account needs no key on each computer.
 // `direct`: the reply of Walkie-talkie, in which the agent answers as "I" (`walkie`), or the brief when it has none.
 const briefs = new Map<string, { spoken: string; sound: Promise<AudioBuffer> }>();
 async function briefOf(link: Link, id: string, direct = false) {
@@ -4767,7 +4767,7 @@ async function briefOf(link: Link, id: string, direct = false) {
   const sound = link
     .fetch("/speak", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text: spoken, voice }) })
     .then(async (r) => {
-      if (!r.ok && saved()) {
+      if (!r.ok && staff()) {
         const site = await speech(spoken, voice).catch(() => r);
         if (site.status !== 403) r = site;
       }

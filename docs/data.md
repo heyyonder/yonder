@@ -36,7 +36,7 @@ this document in the same commit.
 | Computer name, relay key | yonder.so, public DNS | after sign-in | on after sign-in |
 | Feedback, screenshot, call transcript | yonder.so | when the user sends feedback | user choice |
 | Call audio, prompts, tool results | xAI | each voice call | on |
-| Agent summaries for "Listen" | xAI, or yonder.so | when the user listens | user choice |
+| Agent summaries for "Listen" | xAI, or yonder.so for staff | when the user listens | user choice |
 | Location | OpenStreetMap, xAI | when the user asks | user choice |
 | Previewed dev sites | Cloudflare | when the user opens a preview | user choice |
 | Page visits, signed-in user | DataFast, OpenAnalytics | each page of yonder.so | on |
@@ -158,9 +158,11 @@ votes and the ideas, and cancels the subscription. It keeps:
 
 ## Speech and location
 
-- **Listen** sends the text of an agent summary to xAI text to speech. With
-  no key of your own, the app sends the text to yonder.so, which accepts it
-  only for staff.
+- **Listen** sends the text of an agent summary to xAI text to speech, with
+  the key of the computer. With no key on the computer, a staff account of
+  yonder.so sends the text to yonder.so, which speaks it with its own xAI
+  key. Another account sends nothing to yonder.so and shows the error of the
+  computer (`briefOf` in `src/App.tsx`).
 - **Dictation** stays on the device on the Mac. On the iPhone it stays on
   the device when the phone supports it, else it goes to Apple. On Android
   it can go to Google. Linux and the walkie-talkie use local models.

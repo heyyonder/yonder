@@ -1620,7 +1620,8 @@
   `XAI_API_KEY`, a staff account of yonder.so speaks the brief with the
   xAI key of the site (`POST /api/app/speak`), so staff need no key on
   each computer. Another account
-  shows the error of `/speak`. Listen gives a quick review of the done
+  shows the error of `/speak`, and its text never goes to yonder.so
+  (`staff` in `src/account.ts`: a super user, or the plan "Staff"). Listen gives a quick review of the done
   agents in the app, with no voice call, and with a voice reply only
   when the user wants one.
   The row and the tabs float over the content, and the content runs
