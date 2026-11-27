@@ -300,13 +300,16 @@ The rules for a rebuild and for `install-app` are in `CLAUDE.md`.
 - `bun run release-app` (`src-tauri/release.ts`) makes the copy for other
   Macs. It signs the app with the Developer ID certificate, and Tauri sends
   it to the notary service of Apple and staples the ticket. The script then
-  signs, notarizes and staples the DMG, and puts it on
-  `https://download.yonder.so/Yonder.dmg` and `Yonder-<version>.dmg`, in
-  the R2 bucket `yonder-downloads` of Cloudflare. It does not change
+  signs, notarizes and staples the DMG, and puts it on the GitHub release
+  `v<version>` of `heyyonder/yonder` as `Yonder-<version>.dmg`
+  (`github-release.ts`). `https://download.yonder.so/Yonder.dmg` sends
+  there (see "Update server"). It does not change
   `/Applications/Yonder.app` or `install-app`, because a new signature
   makes macOS ask for each permission again. The values for the signature
-  and the notary are in `~/.config/yonder/release.env`, and the S3 keys of
-  the bucket are in `~/.config/yonder/r2.env`.
+  and the notary are in `~/.config/yonder/release.env`. `GH_TOKEN` must
+  allow a write to the contents of `heyyonder/yonder`. The S3 keys of the
+  R2 bucket `yonder-downloads`, which keeps the state of the update
+  server, are in `~/.config/yonder/r2.env`.
 - `dmgbuild` (`uvx dmgbuild`) makes the DMG with `src-tauri/dmg/settings.py`.
   It writes the `.DS_Store` of the window itself, because the DMG of Tauri
   needs Finder, and Finder fails in a background job. The
@@ -329,13 +332,9 @@ The rules for a rebuild and for `install-app` are in `CLAUDE.md`.
   from `/Applications`. "Not Now" asks again at the next start. The app
   of `install-app` never asks. Finder cannot hide the bars of the DMG
   window, so this question is the fallback for a skipped drag.
-- `Yonder.dmg` and `latest.json` carry `Cache-Control: no-cache`, and the
-  Browser Cache TTL of the zone yonder.so is "respect existing headers"
-  (`cf setting yonder.so browser_cache_ttl 0`). Else Cloudflare tells
-  browsers to keep each file for 4 hours, and a browser gives the user an
-  old DMG after a release. Bun's S3
-  client cannot set the header, so `release.ts` copies the two objects
-  onto themselves with the `aws` CLI.
+- The redirects of download.yonder.so and `latest.json` carry
+  `Cache-Control: no-store`, so a browser never gives the user an old DMG
+  after a release, and a release needs no purge of the cache.
 - People can download the Mac app from yonder.so with nothing in
   between. The first public copy is version 1.758.0. The Mac button, the
   download page and the footer of

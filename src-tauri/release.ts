@@ -1,6 +1,7 @@
 // Builds the Mac app for other Macs: Developer ID signature, notarization and a DMG.
-// Then it puts the DMG on https://download.yonder.so/Yonder.dmg, the link on yonder.so, and the update on
-// https://download.yonder.so/latest.json, which each copy that runs reads each hour and installs (main.rs).
+// Then it puts the DMG and the update on the GitHub release of the version (github-release.ts). The link on yonder.so,
+// https://download.yonder.so/Yonder.dmg, and https://download.yonder.so/latest.json, which each copy that runs reads
+// each hour and installs (main.rs), come from the update server (updates/worker.ts).
 // It does not touch /Applications/Yonder.app. `install-app` keeps the Apple Development
 // signature, because a new signature makes macOS ask for each permission again.
 //
@@ -13,8 +14,8 @@
 //                           The release unlocks it, so codesign never waits for a click on "Always Allow".
 //   TAURI_SIGNING_PRIVATE_KEY  the key of the updates (`tauri signer generate`), and TAURI_SIGNING_PRIVATE_KEY_PASSWORD.
 //                           Its public key is in tauri.conf.json. Keep a copy: without it, no copy can update again.
-//   CF_ZONE_ID, CF_PURGE_TOKEN  the zone yonder.so and a Cloudflare API token with the permission "Zone: Cache Purge".
-// ~/.config/yonder/r2.env holds the S3 credentials of the R2 bucket (an R2 API token of Cloudflare).
+// ~/.config/yonder/r2.env holds the S3 credentials of the R2 bucket of the update server (an R2 API token of Cloudflare).
+// GH_TOKEN must allow a write to the contents of heyyonder/yonder (github-release.ts).
 // Run it with `bun run release-app`. Add `--no-upload` to keep the DMG local.
 import { $ } from "bun";
 import { readFileSync } from "node:fs";
@@ -101,37 +102,14 @@ await $`spctl --assess --type open --context context:primary-signature -vv ${dmg
 if (process.argv.includes("--no-upload")) {
   console.log(dmg);
 } else {
-  await (await import("../github-release")).upload(version, [[dmg, `Yonder-${version}.dmg`], [`${app}.tar.gz`, `Yonder-${version}.app.tar.gz`]]);
-  const r2 = env("r2.env");
-  const s3 = new Bun.S3Client({ bucket: r2.R2_BUCKET, endpoint: r2.R2_ENDPOINT_URL, accessKeyId: r2.R2_ACCESS_KEY_ID, secretAccessKey: r2.R2_SECRET_ACCESS_KEY, retry: 10 }); // R2 can give 502 and 504 errors past the 3 retries of Bun.
-  const type = "application/x-apple-diskimage";
-  // Each version stays at its own name, and Yonder.dmg is the newest.
-  await s3.write(`Yonder-${version}.dmg`, Bun.file(dmg), { type });
-  await s3.write("Yonder.dmg", Bun.file(dmg), { type, contentDisposition: 'attachment; filename="Yonder.dmg"' });
-  // latest.json goes after the archive that it names, so that a copy never reads a version that is not there yet.
+  // Each version has its own release on GitHub. download.yonder.so sends Yonder.dmg to the newest DMG, and makes
+  // latest.json from the update server (updates/worker.ts).
   const archive = `${app}.tar.gz`;
-  await s3.write(`Yonder-${version}.app.tar.gz`, Bun.file(archive), { type: "application/gzip" });
-  const url = `https://download.yonder.so/Yonder-${version}.app.tar.gz`;
-  // The one Universal archive is the update for both chips.
-  const update = { signature: readFileSync(`${archive}.sig`, "utf8"), url };
-  const latest = { version, pub_date: new Date().toISOString(), platforms: { "darwin-aarch64": update, "darwin-x86_64": update } };
-  await s3.write("latest.json", JSON.stringify(latest), { type: "application/json" });
+  await (await import("../github-release")).upload(version, [[dmg, `Yonder-${version}.dmg`], [archive, `Yonder-${version}.app.tar.gz`]]);
   // The update server (updates/state.ts) gives this version to the copies of the staging channel, with its signature.
+  // It goes after the upload, so that a copy never reads a version that is not there yet.
   const { register, registerMac } = await import("../updates/state");
-  await registerMac(version, update.signature);
+  await registerMac(version, readFileSync(`${archive}.sig`, "utf8"));
   await register("mac", version);
-  // Browsers must ask again for the two names that change. Without "no-cache", Chrome gives the old Yonder.dmg from
-  // its cache. Bun's S3 client sets no Cache-Control, so the aws CLI copies each object onto itself.
-  const aws = { ...process.env, AWS_ACCESS_KEY_ID: r2.R2_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY: r2.R2_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION: "auto" };
-  for (const [key, keyType, disposition] of [["Yonder.dmg", type, 'attachment; filename="Yonder.dmg"'], ["latest.json", "application/json", "inline"]]) {
-    await $`aws s3api copy-object --endpoint-url ${r2.R2_ENDPOINT_URL} --bucket ${r2.R2_BUCKET} --key ${key} --copy-source ${`${r2.R2_BUCKET}/${key}`} --metadata-directive REPLACE --content-type ${keyType} --content-disposition ${disposition} --cache-control no-cache`.env(aws).quiet();
-  }
-  // The edge of Cloudflare keeps Yonder.dmg for hours. The purge gives the next visitor this version.
-  const purge = await fetch(`https://api.cloudflare.com/client/v4/zones/${apple.CF_ZONE_ID}/purge_cache`, {
-    method: "POST",
-    headers: { authorization: `Bearer ${apple.CF_PURGE_TOKEN}`, "content-type": "application/json" },
-    body: JSON.stringify({ files: ["https://download.yonder.so/Yonder.dmg", "https://download.yonder.so/latest.json"] }),
-  }).then((r) => r.json(), () => undefined);
-  if (!purge?.success) console.warn("The purge of the cache failed, so Yonder.dmg can stay old for some hours.");
   console.log(`https://download.yonder.so/Yonder.dmg and latest.json are version ${version}`);
 }
