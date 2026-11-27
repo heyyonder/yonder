@@ -35,6 +35,7 @@ if (!process.argv.includes("--no-upload")) {
         .filter((line) => /^[A-Z0-9_]+=/.test(line))
         .map((line) => [line.slice(0, line.indexOf("=")), line.slice(line.indexOf("=") + 1).replace(/^"(.*)"$/, "$1")]),
     );
+  await (await import("../github-release")).upload(version, [[zip, `yonder-windows-x64-${version}.zip`], [join(out, "install.ps1"), "install.ps1"]]);
   const r2 = env("r2.env");
   const s3 = new Bun.S3Client({ bucket: r2.R2_BUCKET, endpoint: r2.R2_ENDPOINT_URL, accessKeyId: r2.R2_ACCESS_KEY_ID, secretAccessKey: r2.R2_SECRET_ACCESS_KEY, retry: 10 }); // R2 can give 502 and 504 errors past the 3 retries of Bun.
   await s3.write(`yonder-windows-x64-${version}.zip`, Bun.file(zip), { type: "application/zip" });

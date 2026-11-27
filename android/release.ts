@@ -35,6 +35,7 @@ await $`${tools}/apksigner verify ${apk}`.env({ ...process.env, JAVA_HOME: java 
 if (process.argv.includes("--no-upload")) {
   console.log(apk);
 } else {
+  await (await import("../github-release")).upload(version, [[apk, `Yonder-${version}.apk`]]);
   const r2 = env("r2.env");
   const cf = env("release.env");
   const s3 = new Bun.S3Client({ bucket: r2.R2_BUCKET, endpoint: r2.R2_ENDPOINT_URL, accessKeyId: r2.R2_ACCESS_KEY_ID, secretAccessKey: r2.R2_SECRET_ACCESS_KEY, retry: 10 }); // R2 can give 502 and 504 errors past the 3 retries of Bun.

@@ -101,6 +101,7 @@ await $`spctl --assess --type open --context context:primary-signature -vv ${dmg
 if (process.argv.includes("--no-upload")) {
   console.log(dmg);
 } else {
+  await (await import("../github-release")).upload(version, [[dmg, `Yonder-${version}.dmg`], [`${app}.tar.gz`, `Yonder-${version}.app.tar.gz`]]);
   const r2 = env("r2.env");
   const s3 = new Bun.S3Client({ bucket: r2.R2_BUCKET, endpoint: r2.R2_ENDPOINT_URL, accessKeyId: r2.R2_ACCESS_KEY_ID, secretAccessKey: r2.R2_SECRET_ACCESS_KEY, retry: 10 }); // R2 can give 502 and 504 errors past the 3 retries of Bun.
   const type = "application/x-apple-diskimage";

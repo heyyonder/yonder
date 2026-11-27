@@ -4,7 +4,8 @@
 //   1. The version must be a released staging version: its tag v<version> exists (the tag job of release.yml).
 //   2. `bun run health <version>` must pass (health.ts, Sentry).
 //   3. The update server: the production channel of mac, linux and windows gets the version for 10% of the installs.
-//      Widen it later with `bun run rollout production all 50`, then 100.
+//      Widen it later with `bun run rollout production all 50`, then 100. The release v<version> of heyyonder/yonder
+//      becomes a full release (github-release.ts), so releases/latest on GitHub is this version.
 //   4. The App Store: the editable App Store version gets the version of the newest TestFlight build at or under the
 //      version, the build, the phased release of 7 days, and a submission for review. An approved version that waits for
 //      its release (PENDING_DEVELOPER_RELEASE) is released first. The release after the next approval
@@ -78,6 +79,9 @@ async function updateServer() {
     if (dry) console.log(`  would set production ${p} to ${version} for ${START}%`);
     else await register(p, version, "production", START);
   }
+  const { REPO } = await import("./github-release");
+  if (dry) console.log(`  would make the release v${version} of ${REPO} a full release`);
+  else execFileSync("gh", ["release", "edit", `v${version}`, "--repo", REPO, "--prerelease=false", "--latest"], { stdio: "inherit" });
 }
 
 async function appStore() {
