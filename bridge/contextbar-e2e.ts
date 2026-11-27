@@ -27,9 +27,9 @@ const HOME = join(TMP, "home");
 const PORT = free();
 const CONFIG = join(HOME, ".config", `yonder-${PORT}`);
 const PROJECT = join(TMP, "landing");
-mkdirSync(join(CONFIG, "ui", "square-pop"), { recursive: true });
+mkdirSync(join(CONFIG, "themes", "square-pop"), { recursive: true });
 mkdirSync(PROJECT, { recursive: true });
-cpSync(join(import.meta.dir, "fixtures", "square-pop.json"), join(CONFIG, "ui", "square-pop", "screen.json"));
+cpSync(join(import.meta.dir, "fixtures", "square-pop.json"), join(CONFIG, "themes", "square-pop", "screen.json"));
 
 // Agent 7 used 316k of the 1M of Opus.
 const SESSION = "00000000-0000-4000-8000-000000000007";

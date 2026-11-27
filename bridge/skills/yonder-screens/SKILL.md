@@ -1,6 +1,6 @@
 ---
 name: yonder-screens
-description: Build or change a screen of the Yonder app on the phone and the Mac - a theme, a style, the colors, the accent, the light and dark look, or a whole own front end in ~/.config/yonder/ui/<name>/. Use when a task names a Yonder screen, theme, style, layout or skin, when the working folder is under ~/.config/yonder/ui/, or when the customize tool of Yonder sent the task. Covers the folder, the window.yonder API, the theme tokens, the parts that each screen must have, the check, the preview, the rollback, fork and rename.
+description: Build or change a screen of the Yonder app on the phone and the Mac - a theme, a style, the colors, the accent, the light and dark look, or a whole own front end in ~/.config/yonder/themes/<name>/. Use when a task names a Yonder screen, theme, style, layout or skin, when the working folder is under ~/.config/yonder/themes/ (or its old link ui/), or when the customize tool of Yonder sent the task. Covers the folder, the window.yonder API, the theme tokens, the parts that each screen must have, the check, the preview, the rollback, fork and rename.
 ---
 
 # Yonder screens
@@ -31,7 +31,7 @@ an own screen only when the user wants another layout.
 
 ## The folder
 
-Each screen of the user is a folder: `~/.config/yonder/ui/<name>/`. The
+Each screen of the user is a folder: `~/.config/yonder/themes/<name>/`. The
 name has `a` to `z`, `0` to `9` and `-`.
 
 | File | What it is |

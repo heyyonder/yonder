@@ -541,17 +541,17 @@ flowchart TD
   own --> o2["Reaches Yonder only through<br/>the window.yonder SDK"]
 ```
 
-- **The built-in themes** are in `src/ui/`: `<name>.json` for the style,
-  and `<name>.html` for an own screen. Their pictures are in
-  [`docs/themes/`](themes/).
-- **Your own themes** are in `~/.config/yonder/ui/<name>/`, with one file
+- **The built-in themes** are in [`themes/`](../themes/), one folder
+  each: `theme.json` for the style, `page.html` for an own screen, and
+  the pictures in `shots/`.
+- **Your own themes** are in `~/.config/yonder/themes/<name>/`, with one file
   for each version. Ask an agent to "make me a screen that…", and it
   builds the theme on your computer. The phone gets each new version in
   seconds.
 - **The SDK** of an own screen is in [`docs/screen-api.md`](screen-api.md).
   The design is in [`docs/ui-themes.md`](ui-themes.md).
-- **To share a theme**, add it to `src/ui/` in a pull request.
-  [`docs/themes/README.md`](themes/README.md) tells how.
+- **To share a theme**, add it to `themes/` in a pull request.
+  [`themes/README.md`](../themes/README.md) tells how.
 
 ## Plugins and mods
 
@@ -632,7 +632,7 @@ second bridge for a test, with `YONDER_PORT=7799`, uses
 | `phone.json` | The settings of the phone, such as the theme and the fonts. The phone syncs it. |
 | `state.json` | The agents, the stars, the added folders and the schedules. |
 | `relay.json` | The private key and the pairings of the relay link (mode 600). |
-| `ui/<name>/` | Your own themes, one file for each version. |
+| `themes/<name>/` | Your own themes, one file for each version. `ui/` is a link to it, the old name. |
 | `mod/` | Yonder's own mod, written again at each start. |
 | `runs/` | The output of each turn of a CLI that runs one process for each turn. |
 | `mcp-default.json` | Your MCP servers, for the profiles with a separate account. Only you can read it. |

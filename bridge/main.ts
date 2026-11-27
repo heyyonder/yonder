@@ -39,7 +39,7 @@ import { acpHost } from "./acp";
 import { designPrompt, eventPrompt, fullWake, nextRun, outputLines, remindAt, retryOf, signed, timingText, type Timing } from "./schedule";
 import { keepOpen } from "./keep-open";
 import { handoffText } from "./handoff";
-import { check as checkScreen, DEFAULT as DEFAULT_SCREEN, fork as forkScreen, refreshRules, importScreen, lastError, list as listScreens, rename as renameScreen, markBad, remove as removeScreen, read as readScreen, SAMPLES as SCREEN_SAMPLES, starter, take as takeScreen, tryPage, versions as screenVersions, watch as watchScreens, type Look } from "./ui";
+import { check as checkScreen, DEFAULT as DEFAULT_SCREEN, fork as forkScreen, refreshRules, importScreen, lastError, list as listScreens, rename as renameScreen, markBad, remove as removeScreen, read as readScreen, SAMPLES as SCREEN_SAMPLES, screensRoot, starter, take as takeScreen, tryPage, versions as screenVersions, watch as watchScreens, type Look } from "./ui";
 import { syncer } from "./sync";
 import * as People from "./people";
 import { check as checkLink, parse as parseLink, prune as pruneNonces } from "./link";
@@ -469,8 +469,8 @@ const clamp = <T extends string>(list: readonly T[], [lo, hi]: T[], value: strin
 // The keys of SETTINGS stay `state.preview` and so on in the code: accessors that are not enumerable read and write
 // config.json, so they are not in state.json.
 const CONFIG_FILE = join(CONFIG, "config.json");
-// The screens of the user (bridge/ui.ts), and the screen in use: `ui` in phone.json, which the phones sync.
-const SCREENS = join(CONFIG, "ui");
+// The screens of the user in themes/ (bridge/ui.ts), and the screen in use: `ui` in phone.json, which the phones sync.
+const SCREENS = screensRoot(CONFIG);
 installSkill(HOME);
 // Yonder's own mod (bridge/mod.ts): each Claude Code worker loads it, and it posts what the mods of the agent show to
 // /mods, by session ID, with the time of the post. The mod posts each 30 seconds, so an older drawing is of a session

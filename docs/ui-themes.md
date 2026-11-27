@@ -186,11 +186,10 @@ style for its tokens.
 ## Where it lives
 
 ```
-src/ui/                          The samples. They ship in the screen bundle, so the store app has them.
-  yonder.json  terminal.json  omarchy.json  playful.json  big.json
-  dashboard.json  dashboard.html
-  SDK.md                         The SDK, for the agents that build a screen.
-~/.config/yonder/ui/<name>/      Each screen of the user, one folder for each.
+themes/<name>/                   The samples. They ship in the screen bundle, so the store app has them.
+  theme.json  page.html  shots/  The style, the page of an own screen, and the pictures (themes/README.md).
+themes/index.ts                  The list of the samples, for the screen and the bridge.
+~/.config/yonder/themes/<name>/  Each screen of the user, one folder for each. ui/ is a link to themes/.
   1.json  2.json  3.json         One file for each version. A version never changes.
   3.html                         The page of version 3 of an own screen.
   CLAUDE.md                      The rules for the agents that change this screen.
@@ -198,6 +197,12 @@ src/ui/                          The samples. They ship in the screen bundle, so
 ~/.config/yonder/phone.json      "ui": "my-terminal" (the newest good version) or "my-terminal@2" (one version).
 ```
 
+- The screens of the user were in `~/.config/yonder/ui/` before. At
+  start, the bridge renames `ui/` to `themes/` when only `ui/` is
+  there, and makes `ui/` a link to `themes/` (`screensRoot` in
+  `bridge/ui.ts`). So an agent in the old path keeps working. The key
+  `ui` of `phone.json` and the route `/ui` keep their names, because
+  the phone apps in the stores use them.
 - The `ui` key goes into `KEYS` of `src/phone-config.ts`. So the phone
   gets a change in about 5 seconds, through the version of `phone.json`
   in `/front`.
@@ -229,7 +234,7 @@ and `set` for the tabs and the sections of the Canvas.
   screen comes back after 30 seconds. A style goes into the running page
   with no reload. An own screen loads in its frame over the host.
 - **Fork.** Fork copies a sample or a screen into
-  `~/.config/yonder/ui/<name>/1.json`, with `from`. Only a fork can
+  `~/.config/yonder/themes/<name>/1.json`, with `from`. Only a fork can
   change: a sample never changes, so a Yonder update cannot overwrite
   the work of a user. An agent can bring the changes of a newer sample
   into a fork when the user asks.
@@ -247,7 +252,7 @@ and `set` for the tabs and the sections of the Canvas.
 1. The user taps "Build your own", or says "Build me a screen with only
    one chat."
 2. Yonder starts an agent, "Screen builder", in a new folder
-   `~/.config/yonder/ui/<name>/`, and opens its chat. The folder starts
+   `~/.config/yonder/themes/<name>/`, and opens its chat. The folder starts
    with `starter/` (the sample in use, else Dashboard) and a `CLAUDE.md`
    with the rules, the values of a style and the SDK.
 3. The agent writes version 1. It tests a page at 402 px in headless
@@ -326,7 +331,7 @@ Built over the air, with no native build:
   (`data-sharp`, `data-glass`, `data-density`, `data-talk`), which
   `src/app.css` reads. `copy`, `tabsOf` and `tabTitle` give the words
   and the tabs to `src/App.tsx`.
-- The five samples in `src/ui/`, with the page of Dashboard. There is no
+- The samples in `themes/`, with the pages of Dashboard, Duet and Grok Bot. There is no
   Chat sample.
 - The Screen settings in Settings › Appearance (`src/Looks.tsx`): the
   samples, Mine with the versions, Make X mine, Back to the default
@@ -368,7 +373,7 @@ No native build. It goes over the air.
 - The style engine in the host: the tokens, `font`, `density`, `glass`,
   `talk` and `copy` on the default screen, and the colors and shapes as
   props for the native kit of version 5.
-- `src/ui/` with the four style samples.
+- `themes/` with the style samples.
 - `ui` in `KEYS`, `/ui` in the bridge and in `PATHS` of
   `bridge/relay.ts`, and `list`, `use`, `fork` and `versions` on
   `customize`.

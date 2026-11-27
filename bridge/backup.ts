@@ -75,6 +75,7 @@ export type Setup = {
   phone: Record<string, any>;
   state: Partial<Record<(typeof STATE_KEYS)[number], any>>;
   // The files by their path in the config folder, as base64: talk.md, settings.json, ui/... and, with keys, KEY_FILES.
+  // ui/ is the link to themes/ (screensRoot in bridge/ui.ts). The files keep the name ui/, so an older Yonder imports them.
   files: Record<string, string>;
 };
 

@@ -15,6 +15,6 @@ A theme is one of two kinds:
 Tell an agent what you want: "make me a screen with big buttons and a
 dark terminal look". The agent builds it on your computer, and the phone
 gets each new version in seconds. Your themes are in
-`~/.config/yonder/ui/<name>/`.
+`~/.config/yonder/themes/<name>/`.
 
-To share a theme with everyone, read [docs/themes/README.md](../themes/README.md).
+To share a theme with everyone, read [themes/README.md](../../themes/README.md).

@@ -3,7 +3,7 @@
 // rollback is only a pick of an older number. state.json keeps the note, the agent and the bad mark of each version.
 // The phone reads them through /ui, and the agents and the voice through the customize tool. The samples are the built-in
 // themes of themes/, so the bridge and the screen have the same ones.
-import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, lstatSync, mkdirSync, readdirSync, readFileSync, realpathSync, renameSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
 import { dirname, extname, join, resolve, sep } from "node:path";
 import { THEMES } from "../themes";
 import { lintScreen } from "./screen-lint";
@@ -49,6 +49,30 @@ const numbers = (dir: string) =>
         .map(Number)
         .sort((a, b) => b - a)
     : [];
+
+// The folder of the screens of the user in the config folder: themes/. It was ui/ before, so at start the bridge renames
+// ui/ to themes/ when only ui/ is there, and makes ui/ a link to themes/, so an agent in the old path keeps working.
+// The key `ui` of phone.json and the route /ui stay, because the phone apps in the stores use them.
+export function screensRoot(config: string) {
+  const root = join(config, "themes");
+  const old = join(config, "ui");
+  const there = (p: string) => {
+    try {
+      return !!lstatSync(p);
+    } catch {
+      return false;
+    }
+  };
+  try {
+    if (there(old) && !lstatSync(old).isSymbolicLink() && !there(root)) renameSync(old, root);
+    mkdirSync(root, { recursive: true });
+    // A junction on Windows, which needs no rights of an administrator. The other systems ignore the type.
+    if (!there(old)) symlinkSync(root, old, "junction");
+  } catch (e) {
+    console.error(`The folder of the themes was not moved: ${(e as Error).message}`);
+  }
+  return root;
+}
 
 export function versions(root: string, name: string): Version[] {
   const dir = dirOf(root, name);

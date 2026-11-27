@@ -28,7 +28,7 @@ const assert = (ok: unknown, what: string) => {
 const HOME = join(TMP, "home");
 const PORT = free();
 const CONFIG = join(HOME, ".config", `yonder-${PORT}`);
-const UI = join(CONFIG, "ui");
+const UI = join(CONFIG, "themes");
 mkdirSync(CONFIG, { recursive: true });
 const MARK = crypto.randomUUID();
 process.env.YONDER_RELAY_MARK = MARK; // Before relay.ts loads.
@@ -319,7 +319,7 @@ try {
   await Bun.sleep(400);
   await shot("settings-themes.png");
   await customize({ action: "delete", screen: "big-demo" });
-  assert(!existsSync(join(CONFIG, "ui", "big-demo")), "customize delete takes the folder of a theme away");
+  assert(!existsSync(join(UI, "big-demo")), "customize delete takes the folder of a theme away");
 
   // 7. A tap on a style shows it live with the bar "Keep Dashboard?" (src/Looks.tsx), with no line under the bar. Back
   // goes back. The bar shows over a light page (Dashboard) and a dark one (Terminal).

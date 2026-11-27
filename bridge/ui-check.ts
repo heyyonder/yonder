@@ -2,11 +2,11 @@
 // rules of Build your own, and the test page. Run it with `bun bridge/ui-check.ts`.
 import { strict as assert } from "node:assert";
 import { randomBytes } from "node:crypto";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, utimesSync, writeFileSync } from "node:fs";
+import { existsSync, lstatSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, utimesSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { lintScreen } from "./screen-lint";
-import { fork, importScreen, rename, list, markBad, publish, read, SAMPLES, save, starter, tryPage, versions } from "./ui";
+import { fork, importScreen, rename, list, markBad, publish, read, SAMPLES, save, screensRoot, starter, tryPage, versions } from "./ui";
 
 const root = mkdtempSync(join(tmpdir(), "yonder-ui-"));
 try {
@@ -98,6 +98,19 @@ try {
   const p = fork(root, "playful");
   await rename(root, p.name, "Warm one");
   assert.deepEqual([read(root, p.name).look.name, read(root, p.name).n], ["Warm one", 2]);
+  // The move of the folder of the screens: ui/ becomes themes/, ui/ is a link to it, and a second start changes nothing.
+  const config = mkdtempSync(join(tmpdir(), "yonder-config-"));
+  mkdirSync(join(config, "ui", "mine"), { recursive: true });
+  writeFileSync(join(config, "ui", "mine", "1.json"), "{}");
+  assert.equal(screensRoot(config), join(config, "themes"));
+  assert.ok(lstatSync(join(config, "ui")).isSymbolicLink() && existsSync(join(config, "themes", "mine", "1.json")) && existsSync(join(config, "ui", "mine", "1.json")));
+  assert.equal(screensRoot(config), join(config, "themes"));
+  assert.deepEqual(readdirSync(join(config, "themes")), ["mine"]);
+  const fresh = mkdtempSync(join(tmpdir(), "yonder-config-"));
+  screensRoot(fresh);
+  assert.ok(statSync(join(fresh, "themes")).isDirectory() && lstatSync(join(fresh, "ui")).isSymbolicLink());
+  rmSync(config, { recursive: true, force: true });
+  rmSync(fresh, { recursive: true, force: true });
   console.log("ui-check: all good");
 } finally {
   rmSync(root, { recursive: true, force: true });

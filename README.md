@@ -26,8 +26,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/themes/yonder/agents-dark.webp">
-    <img src="docs/themes/yonder/agents-light.webp" width="320" alt="The list of agents in the Yonder phone app">
+    <source media="(prefers-color-scheme: dark)" srcset="themes/yonder/shots/agents-dark.webp">
+    <img src="themes/yonder/shots/agents-light.webp" width="320" alt="The list of agents in the Yonder phone app">
   </picture>
 </p>
 
@@ -71,9 +71,9 @@ can read it.
 
 <table>
   <tr>
-    <td align="center"><img src="docs/themes/yonder/chat-light.webp" width="220" alt="A chat with an agent"><br><sub>A chat with one agent</sub></td>
-    <td align="center"><img src="docs/themes/yonder/approval-light.webp" width="220" alt="An approval from an agent"><br><sub>An approval, from your pocket</sub></td>
-    <td align="center"><img src="docs/themes/dashboard/agents-light.webp" width="220" alt="The list of agents in the Dashboard theme"><br><sub>The same agents, in another theme</sub></td>
+    <td align="center"><img src="themes/yonder/shots/chat-light.webp" width="220" alt="A chat with an agent"><br><sub>A chat with one agent</sub></td>
+    <td align="center"><img src="themes/yonder/shots/approval-light.webp" width="220" alt="An approval from an agent"><br><sub>An approval, from your pocket</sub></td>
+    <td align="center"><img src="themes/dashboard/shots/agents-light.webp" width="220" alt="The list of agents in the Dashboard theme"><br><sub>The same agents, in another theme</sub></td>
   </tr>
 </table>
 
@@ -214,7 +214,7 @@ provider that you choose, or with your own system.
 - [Voice](docs/voice/README.md): the optional voice module, with Grok,
   local speech or your own system.
 - [Run your own relay](https://github.com/vladartym/yonder-relay): keep your messages off our server.
-- [Themes](docs/themes/README.md) and [plugins](docs/guide.md#plugins-and-mods): make Yonder
+- [Themes](themes/README.md) and [plugins](docs/guide.md#plugins-and-mods): make Yonder
   yours.
 
 ## Contributing

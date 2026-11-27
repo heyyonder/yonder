@@ -58,8 +58,8 @@ GitHub runs the same checks (`.github/workflows/check.yml`) on each push to `mai
 
 ## Add a theme or a plugin
 
-- A theme is a style in `src/ui/<name>.json`, and an own screen adds
-  `src/ui/<name>.html`. Read [docs/themes/README.md](docs/themes/README.md).
+- A theme is a folder in `themes/<name>/`: a style in `theme.json`, and
+  an own screen adds `page.html`. Read [themes/README.md](themes/README.md).
 - A plugin is a Claude Code plugin. Read
   [Plugins and mods](docs/guide.md#plugins-and-mods).
 - A voice provider is one entry in the voice code. Read
