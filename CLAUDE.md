@@ -41,10 +41,10 @@ Liora (`liora`).
 - New worktrees start from the local `main` (`worktree.baseRef` is `head`
   in `.claude/settings.json`), because the commits on `main` are not
   pushed.
-- `docs/wiki.md` is the wiki of Yonder. Grok reads it with this file
-  through the `about_yonder` tool when the user asks about Yonder. So when
-  a change adds or changes what Yonder does, update the wiki in the same
-  commit.
+- `docs/wiki/` is the wiki of Yonder, one file for each part. Grok reads
+  a part through the `about_yonder` tool when the user asks about Yonder.
+  So when a change adds or changes what Yonder does, update the wiki in
+  the same commit.
 - A comment tells what the code does and why, never who asked or when.
   Git keeps when each change came. The same rule applies to the commit
   messages and to the wiki: they tell what and why, with no dates of
@@ -94,7 +94,8 @@ acts the same.
   and each session uses credits. A failed run leaves its sessions in the
   list of agents. The release gate of
   `release.yml` runs it before each staging release, with the upgrade
-  test (`bun run check-upgrade`). See "Release gates" in the wiki.
+  test (`bun run check-upgrade`). See "Release gates" in
+  `docs/wiki/install.md`.
 - A check or a script for pictures starts Chrome for Testing (`CHROME` in
   `bridge/test-chrome.ts`), not `/Applications/Google Chrome.app`, and
   stops it with `closeChrome`. After SIGTERM or SIGKILL, Google Chrome
@@ -113,7 +114,7 @@ acts the same.
   branch (`.github/workflows/check.yml`, also called by `release.yml`).
 - A push to the `staging` branch of `heyyonder/yonder` starts a release
   for the testers. Only the maintainers push there. See "Release gates"
-  and "Production" in the wiki.
+  and "Production" in `docs/wiki/install.md`.
 
 ## Tools for Apple and Tauri work
 
@@ -155,7 +156,7 @@ acts the same.
 model range, the permission mode and `defaultFolder`.
 `~/.config/yonder/phone.json` holds the settings of the phone, such as the
 theme and the fonts. You or the user can edit both by hand, with no
-restart. The keys and their values are in "Projects" in the wiki.
+restart. The keys and their values are in `docs/wiki/projects.md`.
 
 ## Architecture
 
@@ -174,15 +175,16 @@ Workers ── claude --bg, one background session for each task, in a project f
 
 ## The wiki
 
-`docs/wiki.md` tells how Yonder works now, and why: what each part does,
+`docs/wiki/` tells how Yonder works now, and why: what each part does,
 how it works, and each bug that a fix prevents. Git keeps who asked for a
 change and when, so the wiki does not. The wiki is large, so it is not in
 this file. Claude Code loads this file into each agent, and the wiki in
 this file costs each agent many tokens on each turn.
 
-Before you change a part of Yonder, read its section of the wiki. Search
+The wiki has one file for each part, and `docs/wiki/index.md` lists the
+parts with one line each. A new part needs a line in the index, because
+`about_yonder` takes the topics from it.
+
+Before you change a part of Yonder, read its file in the wiki. Search
 it with `grep -n` for the names that you change, and read only those
-parts. The sections are: Install the app, Architecture (Voice agent,
-Bridge, Workers), Mac app, Talking to Yonder, Projects, Phone, Yonder
-Preview, Omarchy, Windows, Related tasks outside this repository, and Open
-questions.
+sections.

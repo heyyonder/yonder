@@ -36,7 +36,7 @@ how to use the app, read the [user docs](https://yonder.so/docs/).
 
 ## Reference
 
-- [The wiki](wiki.md): how each part works now, and why. The voice
+- [The wiki](wiki/index.md): how each part works now, and why. The voice
   agent reads it through the `about_yonder` tool.
 - [Run your own relay](https://github.com/vladartym/yonder-relay)
 - [Themes](themes/README.md) and [plugins](guide.md#plugins-and-mods)

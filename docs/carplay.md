@@ -2,7 +2,7 @@
 
 This doc tells how difficult it is to put Yonder in CarPlay, and the car
 mode below. The sources are at the end. The first build is done, and it
-waits for the entitlement of Apple. See "CarPlay" in `docs/wiki.md`.
+waits for the entitlement of Apple. See `docs/wiki/carplay.md`.
 
 ## The answer
 

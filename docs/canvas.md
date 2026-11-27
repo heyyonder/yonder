@@ -1,8 +1,8 @@
 # Yonder Canvas
 
-Status: built as the Canvas tab (the "Apps" section of
-`docs/wiki.md`). Phase 1 is built: the Canvas tab, the artifacts
-and the approvals. "Canvas" in `wiki.md` tells how it works. Phases 2
+Status: built as the Canvas tab (the "Apps" part of the wiki,
+`docs/wiki/apps.md`). Phase 1 is built: the Canvas tab, the artifacts
+and the approvals. `docs/wiki/apps.md` tells how it works. Phases 2
 to 4 are a proposal.
 
 ## The idea
@@ -231,7 +231,7 @@ How the artifact gets to the device of the call:
 ### Why artifacts do not use the tunnel
 
 Artifacts must be end-to-end encrypted. The tunnel is Cloudflare Tunnel. Cloudflare ends the TLS,
-so Cloudflare can read each page ("Yonder Preview" in `wiki.md`). The
+so Cloudflare can read each page (`docs/wiki/preview.md`). The
 relay link of Yonder is end to end: the relay cannot read it. So
 artifacts go through the relay link, and sites keep the tunnel. There are two more gains: an artifact needs no
 tunnel, and it shows also when the Tunnel is off.

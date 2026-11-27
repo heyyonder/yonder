@@ -5,7 +5,7 @@
 Research, and design B is built. The Claude model in the Voice settings
 is design B with no voice model: the speech model of Apple hears,
 `yonder-dictate` makes the text, the brain decides, and ElevenLabs speaks. "Claude" under "Voice agent (Grok)" in
-`docs/wiki.md` tells how it works.
+`docs/wiki/voice-agent.md` tells how it works.
 
 This is another way to talk to the agents. A local Claude Code session
 makes the tool calls of the bridge (the brain), and the voice only talks

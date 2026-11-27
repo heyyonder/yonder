@@ -2,7 +2,7 @@
 
 This is the plan of the Apple Watch app. Phases 1 and 2
 are built, but nobody has run them on a watch yet. See "Apple Watch" in
-`docs/wiki.md`. The sources are at the end.
+`docs/wiki/watch.md`. The sources are at the end.
 
 ## The answer
 

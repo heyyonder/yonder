@@ -2,7 +2,7 @@
 
 ## Status
 
-Built. This document is the plan, checked against the code. "People" in `docs/wiki.md` tells how it works
+Built. This document is the plan, checked against the code. "People" in `docs/wiki/workers.md` tells how it works
 now. `bun run check-people` checks it.
 
 ## The goal
@@ -157,7 +157,7 @@ usually want to share memory.
 ## Build order
 
 Each step is one commit that works alone. Each commit that changes what
-Yonder does updates `docs/wiki.md` in the same commit.
+Yonder does updates `docs/wiki/workers.md` in the same commit.
 
 1. `people` in `config.json`, its check, the pairing that writes it, and
    `deviceOf()` → person. The "People" section of the wiki gives the format

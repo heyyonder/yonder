@@ -730,7 +730,7 @@ source.
 > `check-bridge` for a normal change.
 
 More setup for the phones is in [`docs/mobile.md`](mobile.md). The
-wiki in [`docs/wiki.md`](wiki.md) tells how each part works, and
+wiki in [`docs/wiki/`](wiki/index.md) tells how each part works, and
 why. The voice agent reads it through `about_yonder`, so update the wiki in
 the same commit as a change to what Yonder does.
 

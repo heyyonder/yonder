@@ -2,7 +2,7 @@
 
 The research and the plan: how to build Yonder for Omarchy, so that
 people can control the agents on an Omarchy computer from the phone.
-Steps 1 and 2 are built: "Omarchy" in `docs/wiki.md` tells how they
+Steps 1 and 2 are built: "Omarchy" in `docs/wiki/omarchy.md` tells how they
 work. Nobody has run them on a real Omarchy computer, and the release is
 not on download.yonder.so yet (`bun run release-omarchy`). The sources
 are at the end.
@@ -390,7 +390,7 @@ with an own `XAI_API_KEY` in `.env`.
   `loginctl enable-linger` to start after a restart. On a server with no
   desktop, the installer turns linger on. In an Ubuntu 24.04 container
   with systemd, the bridge then started at boot with no login (see
-  "Linux server" in `docs/wiki.md`). Real workers after a logout are not
+  "Linux server" in `docs/wiki/omarchy.md`). Real workers after a logout are not
   checked yet.
 - A user who switches the Claude account in Omarchy expects new agents
   to use it. The service pins the Main account. To follow the switch,

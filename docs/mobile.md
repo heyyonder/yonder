@@ -191,8 +191,8 @@ project and the counts with words. The Lock Screen shows the same.
 - To see it in the simulator without a call, change the condition of
   `island` in `src/App.tsx` to `true` for one build, then go to the home
   screen (`axe button home`). Do not commit that change. The phone runs the
-  front end of the bridge when its build is newer (see "Install the app" in
-  `docs/wiki.md`), so give the test build a higher number: make a temporary
+  front end of the bridge when its build is newer (see
+  `docs/wiki/install.md`), so give the test build a higher number: make a temporary
   commit with the change, build, and then remove the commit.
 
 ### Hand edits in `ios/gen/apple`
@@ -472,7 +472,7 @@ The screenshots of each store are in `ios/store/` and `android/store/`.
   Both stores need it.
 
 - The phone sells nothing: Yonder is free, with no paid plan. See
-  "Subscriptions in the app" in `docs/wiki.md`.
+  "Subscriptions" in `docs/wiki/phone.md`.
 
 ### Hand steps
 

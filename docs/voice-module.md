@@ -476,7 +476,7 @@ The checks:
 ## Docs to update with the code
 
 - `docs/voice/` (the user guides): each step that changes a guide.
-- `docs/wiki.md`: "Voice agent (Grok)", the keys of `config.json` in
-  "Projects", and the removal of the plans.
+- `docs/wiki/`: "Voice agent (Grok)" in `voice-agent.md`, the keys of
+  `config.json` in `projects.md`, and the removal of the plans.
 - `README.md`: the setup with your own key, and `voiceProvider: "off"`.
 - `CONTRIBUTING.md`: how to add a provider in one pull request.

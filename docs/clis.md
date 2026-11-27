@@ -5,7 +5,7 @@
 Phases 1 and 2 are built:
 Codex, Antigravity, OpenCode, Cursor, Grok Build and Copilot run Yonder
 agents, next to Claude Code. "Agents in other CLIs" under Workers in
-`docs/wiki.md` tells how they work now. These parts differ from the plan
+`docs/wiki/workers.md` tells how they work now. These parts differ from the plan
 below:
 
 - Each other CLI has a group of rows in the Agents tab, not a page of

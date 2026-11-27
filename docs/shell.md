@@ -105,7 +105,7 @@ the page control:
 
 ## Live delivery
 
-This part is built ("Live changes of the screen" in `docs/wiki.md`):
+This part is built ("Live changes of the screen" in `docs/wiki/install.md`):
 
 - The bridge builds the screen after each commit that changes it.
 - A new screen with only new CSS goes into the running page at once,
