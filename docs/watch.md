@@ -23,7 +23,7 @@ later). Apple calls this "low-level networking" (TN3135), and
 `URLSessionWebSocketTask` is part of it. Plain HTTPS with `URLSession` works
 at all times.
 
-The relay (`main.ts` of the relay repository, yonder-relay) has only WebSockets, and the realtime API of
+The relay (`relay/main.ts`) has only WebSockets, and the realtime API of
 xAI is a WebSocket too. So:
 
 - During a call, the watch connects to xAI and to the relay itself, as the

@@ -16,7 +16,7 @@ iPhone over the cable (set `IPHONE` to the ID of the iPhone). The Android app is
 
 | File | What it does |
 |---|---|
-| The relay repository (yonder-relay) | The relay: a WebSocket server in Bun (`main.ts`). It forwards frames and reads none of them. It is its own repository, cloned in the folder `relay` next to this app, so that users can read it and run their own. Its README tells how. |
+| `relay/` | The relay: a WebSocket server in Bun (`main.ts`). It forwards frames and reads none of them. Docker builds it from this folder only, so it imports nothing of the bridge. Its README tells how to run your own. |
 | `bridge/relay.ts` | The Mac side: the connection to the relay, the pairing, the requests of the phones, and the QR code. |
 | `src/link.ts` | The encryption for both sides, and the phone client: `pair()` and `linkFetch()`. |
 | `src/PairPhone.tsx` | File > Pair Phone in the Mac app: the QR code and the paired phones. |
@@ -27,11 +27,10 @@ iPhone over the cable (set `IPHONE` to the ID of the iPhone). The Android app is
 
 - `bun run check-relay` passes 34 checks with the relay in the process. It
   passes 27 checks against the live relay: the check cannot see the frames
-  in the container or stop it. The GitHub workflow checks out the public
-  relay repository and runs the relay in the process.
-- `roomOf` is in `bridge/relay.ts` and in `main.ts` of the relay. Both make
-  the same hash of the token. If they differ, the phone cannot find the Mac,
-  and `check-relay` fails.
+  in the container or stop it. The check imports `relay/main.ts` and runs
+  the relay in the process.
+- `roomOf` and `connectorOf` are in `relay/main.ts`, and `bridge/relay.ts`
+  imports them, so the bridge and the relay make the same hash of the token.
 - A fake phone also used the real bridge through a local relay: the MCP
   client of the app, with `linkFetch` as its `fetch`, listed the 22 tools and
   called `list_projects`.
@@ -498,14 +497,15 @@ The screenshots of each store are in `ios/store/` and `android/store/`.
 ## The live relay
 
 The relay runs at `wss://relay.yonder.so`. It runs the public code of the
-relay repository (yonder-relay): `main.ts` of the relay does the 15 seconds
+`relay/` of this repository: `main.ts` does the 15 seconds
 rule, `/privacy` and the statistics.
 
 - An older relay name goes to the same relay. A phone keeps the relay
   address of its pairing, so a phone that paired with the older name still
   connects. New QR codes use `relay.yonder.so`.
-- A deploy takes only a pushed commit of the relay repository, so the live
-  relay is always a commit that people can read. The deploy closes the
+- `deploy-relay.yml` deploys each push to `main` that changes `relay/main.ts`,
+  `relay/Dockerfile` or `relay/privacy.html`, so the live relay is always a
+  commit that people can read. The deploy closes the
   sockets, and the bridge connects again after a few seconds.
 - The live relay has no `ROOMS`, so each Mac that downloads Yonder can
   connect. With `ROOMS`, only the rooms in the list can connect, and a
@@ -517,9 +517,8 @@ rule, `/privacy` and the statistics.
 
 ## Set up the relay on another server
 
-The README of the relay repository (yonder-relay) is the guide for users. A clone of the
-repository, a `.env` with `DOMAIN`, and `docker compose up -d --build` start
-the relay with Caddy for HTTPS. Then:
+`relay/README.md` is the guide for users. A clone of the repository, a `.env` with `DOMAIN`, and `docker compose up -d --build` start
+the relay with Caddy for HTTPS, from the `relay` folder. Then:
 
 1. On the Mac, click File > Pair Phone, open the Relay tab, put
    `wss://relay.example.com` in the field, and click Save. Or put

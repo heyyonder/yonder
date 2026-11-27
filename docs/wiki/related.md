@@ -8,8 +8,7 @@ and how the app talks to them.
   `landing/`, with no repository of its own. The bridge pins the project
   that holds `ROOT`, so the agents of `app/` and `landing/` show under
   one project, the workspace folder.
-- The relay runs at `relay.yonder.so` (see the relay repository,
-  yonder-relay).
+- The relay runs at `relay.yonder.so`. Its code is in `relay/`.
 - Accounts (the yonder.so backend): sign-up with an email. Yonder is
   free. A signed-in account gets the settings backup and the preview
   tunnels. The account page (`/account/`, linked from the footer) shows

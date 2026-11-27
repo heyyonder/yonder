@@ -9,6 +9,7 @@ import { join } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { linkFetch, pair } from "../src/link";
+import { serveRelay } from "../relay/main";
 
 function assert(ok: unknown, what: string) {
   if (!ok) throw new Error(`FAIL: ${what}`);
@@ -25,10 +26,8 @@ const freePort = () => {
   return port;
 };
 
-// The relay of the phones, as in relay/check.ts: the relay repository (yonder-relay) next to the main checkout.
-const common = Bun.spawnSync(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"], { cwd: import.meta.dir }).stdout.toString().trim();
-const relayMain = join(process.env.RELAY_DIR ?? join(common, "../../relay"), "main.ts");
-const relay = existsSync(relayMain) ? (await import(relayMain)).serveRelay(0) : undefined;
+// The relay of the phones, as in relay/check.ts.
+const relay = serveRelay(0);
 
 const homes: string[] = [];
 const bridges: ReturnType<typeof Bun.spawn>[] = [];
@@ -143,7 +142,7 @@ try {
       assert((await tools.listTools()).tools.some((t) => t.name === "list_workers"), "the phone calls the tools (POST /mcp) through the relay");
       await tools.close();
       call.close();
-    } else console.log("skip: no relay at", relayMain);
+    }
 
     // A second start with the same home folder finds the port of its own bridge, and stops before it joins the relay.
     const second = start(dir, env);

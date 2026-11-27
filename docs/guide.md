@@ -491,13 +491,13 @@ and your computer checks the token of each request.
 ### Run your own relay
 
 Yonder uses the relay at `wss://relay.yonder.so` by default. The relay is
-one file, `main.ts` in the [relay repository](https://github.com/vladartym/yonder-relay), and it needs only Bun. Run your
+one file, [`relay/main.ts`](../relay/main.ts), and it needs only Bun. Run your
 own, and your messages do not go through our server.
 
 1. Get a server with Docker, a domain name that points to it, and the
    ports 80 and 443 open.
-2. Clone the [relay repository](https://github.com/vladartym/yonder-relay) on the server.
-3. Make a `.env` file next to `compose.yml` with `DOMAIN=relay.example.com`.
+2. Clone this repository on the server, and go to its `relay` folder.
+3. Make a `.env` file next to `relay/compose.yml` with `DOMAIN=relay.example.com`.
 4. Start the relay: `docker compose up -d --build`. Caddy gets the HTTPS
    certificate.
 5. In Yonder on your computer, open Settings › Pair a phone › Relay.
@@ -505,7 +505,7 @@ own, and your messages do not go through our server.
    `YONDER_RELAY` in `~/.config/yonder/.env`.
 7. Pair your phone again. The new QR code holds the address of the relay.
 
-The [relay README](https://github.com/vladartym/yonder-relay) tells what the relay sees, and how to
+The [relay README](../relay/README.md) tells what the relay sees, and how to
 allow only your own computers with `ROOMS`.
 
 ## Voice calls
@@ -851,7 +851,7 @@ pie showData title Lines of source code by part
 | `bridge/` | The bridge. `main.ts` is the MCP server and the agents, `clis.ts` the other CLIs, `acp-host.ts` the ACP host, `relay.ts` the relay link, `mod.ts` writes Yonder's mod. |
 | `themes/` | The built-in themes, one folder each, and the list `index.ts`. |
 | `plugins/` | Yonder's own mod, a Claude Code plugin. |
-| `relay/` | The check of the relay. The relay itself is in its [own repository](https://github.com/vladartym/yonder-relay). |
+| `relay/` | The relay (`main.ts`), its Docker files, its README and its check. |
 | `src-tauri/` | The Mac app (Tauri), with the notch, the keys and the menu bar. |
 | `ios/`, `android/` | The phone apps (Tauri mobile), with the widgets, the share sheet, CarPlay and the watch. |
 | `omarchy/`, `windows/` | The installers and the `yonder` command for Linux and Windows. |

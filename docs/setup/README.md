@@ -9,4 +9,4 @@ phone with it.
 | [Windows](windows.md) | [Android](android.md) |
 | [Linux desktop or server](linux.md) | |
 
-After the setup, you can also [run your own relay](https://github.com/vladartym/yonder-relay).
+After the setup, you can also [run your own relay](../../relay/README.md).

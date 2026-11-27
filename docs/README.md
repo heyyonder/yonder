@@ -38,6 +38,6 @@ how to use the app, read the [user docs](https://yonder.so/docs/).
 
 - [The wiki](wiki/index.md): how each part works now, and why. The voice
   agent reads it through the `about_yonder` tool.
-- [Run your own relay](https://github.com/vladartym/yonder-relay)
+- [Run your own relay](../relay/README.md)
 - [Themes](../themes/README.md) and [plugins](../plugins/README.md)
 - [Security](../SECURITY.md) and the [trademark](../TRADEMARK.md)

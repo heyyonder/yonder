@@ -39,7 +39,6 @@
     "health": "bun health.ts",
     "promote": "bun promote.ts",
     "check-clis": "bun bridge/clis-check.ts",
-    "deploy-relay": "sh relay/deploy.sh",
     "check-preview": "bun bridge/preview.ts && bun bridge/preview-check.ts",
     "setup-tunnel": "bun bridge/setup-tunnel.ts"
   },

@@ -315,7 +315,7 @@ Claude can then use the tools of Yonder, such as `start_worker` and
     `https://mcp.yonder.so/<id>`, and that of `.../<id>/mcp` ends in
     `/mcp`. The client of the MCP SDK checks that the resource matches
     its address, and `bun bridge/remote.ts` runs it for both.
-  - The relay (the relay repository, yonder-relay) passes each request of
+  - The relay (`relay/main.ts`) passes each request of
     `/<id>/...`, and each OAuth discovery path with the id after the
     kind (`/.well-known/oauth-protected-resource/<id>/mcp`,
     `/.well-known/oauth-authorization-server/<id>`), to the bridge, as one

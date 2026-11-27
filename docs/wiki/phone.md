@@ -89,7 +89,7 @@
   `package.json`.
 - The relay forwards encrypted frames between the bridge and the phones. It
   cannot read them. The live relay is `wss://relay.yonder.so`: the code of
-  the relay repository (yonder-relay). `ROOMS` in the `.env` of the relay can limit the Macs that connect.
+  `relay/`. `ROOMS` in the `.env` of the relay can limit the Macs that connect.
   "The live relay" in `docs/mobile.md` gives the details.
 - An older relay name goes to the same relay on the server as
   `relay.yonder.so`. A phone keeps the relay address of its pairing, so
@@ -282,11 +282,11 @@
   again after a change, and the dialog makes a new code. The phone
   cannot change the relay, because `/relay` is not in `PATHS`.
 - A user can run an own relay, so that no connection of the phone goes
-  through our server. The relay code is in its own public
-  repository, the relay repository (yonder-relay), with the MIT license. Its README
+  through our server. The relay code is in `relay/` of the public
+  repository, with the MIT license. Its README
   tells how to start it with Docker and Caddy, and what the relay sees
   and why. Then the user puts the `wss://` address in the Relay tab. The
-  live relay runs the pushed code of that repository, so the code that
+  live relay runs the code of `main` (`deploy-relay.yml`), so the code that
   people can read is the code that runs.
 - The local network: a phone on the same network as the
   Mac reaches the bridge with no relay, so no frame leaves the network.

@@ -10,6 +10,7 @@ import qrcode from "qrcode-generator";
 import { b64, channel, linkFetch, newKeys, pack, rawKey, unb64, unpack, type Channel } from "../src/link";
 import { DEFAULT_PORT } from "./peer";
 import { apns } from "./push";
+import { connectorOf, roomOf } from "../relay/main";
 
 const ECDH = { name: "ECDH", namedCurve: "P-256" } as const;
 
@@ -28,12 +29,9 @@ export function computerName(dir: string) {
   }
 }
 
-// The room of the Mac on the relay: a hash of its secret token. The relay (roomOf in main.ts of the relay repository,
-// yonder-relay) makes the same hash from the token, so the two must stay the same. `bun run check-relay` fails when they differ.
-export async function roomOf(token: string) {
-  const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token)));
-  return btoa(String.fromCharCode(...hash.subarray(0, 16))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
+// The room of the Mac on the relay (a hash of its secret token), and the id of its Claude connector in the address
+// https://mcp.yonder.so/<id>. The relay makes them from the token, so the bridge uses the same functions.
+export { connectorOf, roomOf };
 const LOCAL = "http://127.0.0.1:7787";
 // The bridge paths that a phone can use. A phone cannot pair more phones or record the screen of the Mac.
 // A path that is not in this list does nothing on the phone, so a new path of the phone must come here too.
@@ -131,10 +129,6 @@ function lanUrls(port: number) {
   const ips = Object.values(networkInterfaces()).flatMap((list) => (list ?? []).filter((a) => a.family === "IPv4" && !a.internal && nearby(a.address)).map((a) => a.address));
   return [...(localName ? [localName] : []), ...ips].map((host) => `ws://${host}:${port}`);
 }
-
-// The id of the Claude connector of this Mac on the relay, in its address https://mcp.yonder.so/<id>. The relay
-// (connectorOf in main.ts of the relay repository, yonder-relay) makes the same hash, so the two must stay the same.
-export const connectorOf = (token: string) => roomOf(`connector:${token}`);
 
 // `handle` runs the request of a phone on the bridge. The bridge passes fetch, so the Host and Origin checks stay.
 // `info`: the app version and the kind of computer, which the relay passes to the backstage.

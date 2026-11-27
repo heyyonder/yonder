@@ -53,15 +53,8 @@ jobs:
         run: bun run check-skill
       - name: Update server rules
         run: bun run check-updates
-      # The code of the relay is its own public repository. The check runs it in the process.
-      - uses: actions/checkout@v4
-        with:
-          repository: vladartym/yonder-relay
-          path: yonder-relay
       - name: Phone relay
         run: bun run check-relay
-        env:
-          RELAY_DIR: ${{ github.workspace }}/yonder-relay
       - name: Bridge start
         run: bun run check-bridge
       - name: Workspaces
@@ -71,5 +64,3 @@ jobs:
       # The port and the token of the bridge, and the check of the OS user (bridge/peer.ts): /proc/net/tcp on Linux.
       - name: Bridge port and token
         run: bun run check-port
-        env:
-          RELAY_DIR: ${{ github.workspace }}/yonder-relay

@@ -1,20 +1,15 @@
 // End-to-end check of the phone relay: `bun run check-relay`. It needs no running bridge and starts no workers.
 // It runs the relay in this process, the Mac side (connectRelay) with a fake bridge, and a fake phone (src/link.ts).
-// The relay is the relay repository (yonder-relay), cloned in the folder `relay` next to this app. RELAY_DIR selects
-// another folder. With RELAY_URL=ws://..., the check uses that relay instead, for example wss://relay.yonder.so.
-import { existsSync, mkdtempSync, readFileSync, statSync } from "node:fs";
+// The relay is main.ts of this folder. With RELAY_URL=ws://..., the check uses that relay instead, for example
+// wss://relay.yonder.so.
+import { mkdtempSync, readFileSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { connectorOf, connectRelay, deviceId, qrCode, qrText, roomOf } from "../bridge/relay";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+import { serveRelay } from "./main";
 import { b64, channel, guard, guardedPost, linkFetch, newKeys, pair, rawKey, unb64, type Pairing } from "../src/link";
-
-// The folder `relay` next to the main checkout of the app, also from a worktree in .claude/worktrees.
-const common = Bun.spawnSync(["git", "rev-parse", "--path-format=absolute", "--git-common-dir"], { cwd: import.meta.dir }).stdout.toString().trim();
-const main = join(process.env.RELAY_DIR ?? join(common, "../../relay"), "main.ts");
-if (!process.env.RELAY_URL && !existsSync(main)) throw new Error(`No relay at ${main}. Clone github.com/vladartym/yonder-relay there, or set RELAY_DIR or RELAY_URL.`);
-const { serveRelay } = process.env.RELAY_URL ? {} : await import(main);
 
 function assert(ok: unknown, what: string) {
   if (!ok) throw new Error(`FAIL: ${what}`);
@@ -81,7 +76,7 @@ rogue.onmessage = (m) => {
   const headers = { "Set-Cookie": "probe=1; Domain=yonder.so", "Clear-Site-Data": '"cookies"', "Content-Security-Policy": "script-src *", "content-type": "text/html" };
   rogue.send(JSON.stringify({ http: JSON.parse(String(m.data)).http, status: 200, headers, body: "<script>alert(1)</script>" }));
 };
-await new Promise((r) => (rogue.onopen = r));
+await new Promise((r, fail) => ((rogue.onopen = r), (rogue.onerror = () => fail(new Error("FAIL: a bridge with its token in the header connects")))));
 const page = await fetch(`${web}/${await connectorOf(rogueToken)}/x`);
 const csp = "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'";
 assert(!page.headers.get("set-cookie")?.includes("probe") && !page.headers.has("clear-site-data") && page.headers.get("content-security-policy") === csp, "the connector of a stranger sets no cookie, clears none, and runs no script");

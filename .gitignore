@@ -13,8 +13,6 @@ windows/out
 /.claude/skills/review-calls
 /ios/store/listing.md
 /android/store/listing.md
-/relay/deploy.sh
-/relay/compose.yml
 /.github/workflows/release.yml
 /.github/workflows/promote.yml
 /docs/open-source.md
