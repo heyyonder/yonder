@@ -38,7 +38,9 @@ export default defineConfig({
       enforce: "pre",
       transform(code, id) {
         if (id.includes("/node_modules/") || !code.includes("type: \"text\"")) return;
-        return code.replace(/(from\s+"[^"?]+)("\s+)with\s*\{\s*type:\s*"text"\s*\}/g, "$1?raw$2");
+        const raw = code.replace(/(from\s+"[^"?]+)("\s+)with\s*\{\s*type:\s*"text"\s*\}/g, "$1?raw$2");
+        // The lines stay the same, so the source map of the file stays close enough for Sentry.
+        if (raw !== code) return { code: raw, map: null };
       },
     },
     // The bridge reads the build of dist/ from build.txt, so that the apps load a new front end (src/front.ts).

@@ -7089,7 +7089,7 @@ const spawnBuild = (install: boolean, log: string) =>
 // the same as HEAD: else the phones would get edits that are not done. The commit of each build is dist/commit.txt.
 // Only the bridge on port 7787 builds: a check on another port (bun run check-bridge) must not build the same dist/.
 // shortcut: reads HEAD every 3 seconds; watch .git/refs if that ever costs.
-const FRONT = ["src", "public", "index.html", "vite.config.ts", "version.ts", "channel.json", "package.json", "bun.lock", "bridge/talk.md", "bridge/settings"];
+const FRONT = ["src", "themes", "public", "index.html", "vite.config.ts", "version.ts", "channel.json", "package.json", "bun.lock", "bridge/talk.md", "bridge/settings"];
 const FRONT_LOG = join(CONFIG, "front-build.log");
 let frontBuild: ReturnType<typeof Bun.spawn> | undefined;
 const git = (...args: string[]) => Bun.spawnSync(["git", ...args], { cwd: ROOT });
