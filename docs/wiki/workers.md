@@ -552,10 +552,17 @@
   terminal: a band above the prompt, a pane, a status line, or a toast. A worker
   runs in a terminal that no one sees, so Yonder shows its mods in the
   app.
-- The bridge writes Yonder's own mod into `~/.config/yonder/mod/` at each
-  start (`bridge/mod.ts`, the module is `bridge/mod-register.js`), and
+- Yonder's own mod is the plugin in `plugins/yonder/`. The bridge writes
+  it into `~/.config/yonder/mod/` at each start (`bridge/mod.ts`, with
+  text imports of the files, so the compiled bridge contains them), and
   each Claude Code worker loads it with `--plugin-dir`. A resume with no
   options keeps it.
+- The plugins of the user are in `~/.config/yonder/plugins/<name>/`.
+  The bridge makes the folder at start, and each Claude Code worker gets
+  it with a second `--plugin-dir`, after the one of the mod. Claude Code
+  loads each child of a folder of plugins, and an empty folder loads
+  nothing with no error. Codex, OpenCode and the ACP agents do not load
+  plugins (`plugins/README.md`).
 - The mod draws nothing itself. It hooks `ui.render` of `AbovePrompt` and
   `Pane`, gives on the tree that the other mods drew, and keeps a copy. It
   also keeps the `ui.status` line of each mod, and each `ui.toast` of the

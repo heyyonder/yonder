@@ -11,7 +11,7 @@ of the user's own that an agent builds. The design and its gaps are in
   screen, and a new screen starts from the Dashboard. A tap
   shows the sample live, on the real agents, with "Keep Terminal?", Back
   and Keep. With no answer, the screen goes back after 30 seconds.
-- Omarchy (`src/ui/omarchy.json`) is the look of omarchy.org: mono type,
+- Omarchy (`themes/omarchy/theme.json`) is the look of omarchy.org: mono type,
   square corners, flat boxes with a line, and no bubbles. The dark look
   is Tokyo Night, the default theme of Omarchy, with the green of the
   site as the accent. The light look is Catppuccin Latte, a light theme
@@ -30,7 +30,7 @@ of the user's own that an agent builds. The design and its gaps are in
   styles keep the buttons of the title bar 6 px from the round corner of
   the window. The window on Omarchy and on Windows has the gutter at both
   sides.
-- A style is data, in `src/ui/<name>.json`: the color tokens for the
+- A style is data, in `themes/<name>/theme.json`: the color tokens for the
   light and the dark look, the font, sharp corners (`radius: 0`), the
   density, the glass, the talk layout (`big`: a round call button and a
   call that fills the screen), the tabs and some words. `src/look.ts`
@@ -113,7 +113,7 @@ of the user's own that an agent builds. The design and its gaps are in
   puts it under its tab bar, and `y-page` of
   the kit under the page. Else the tab bar of the Dashboard stops 34 px
   over the edge, and the glass bar of the default screen shows under it.
-- Duet and Grok Bot (`src/ui/duet.html`, `src/ui/grok-bot.html`)
+- Duet and Grok Bot (`themes/duet/page.html`, `themes/grok-bot/page.html`)
   are own screens that give each agent a picture. Duet has
   the look of Claude Duet: warm paper, a serif title, and a pixel
   creature with a shell color, a hat, eyewear and an extra. Grok Bot has
@@ -157,14 +157,29 @@ of the user's own that an agent builds. The design and its gaps are in
   newest good version) or `my-chat@2`. `customize` writes a screen of
   the user with its version, so each new version changes the file and
   reaches the phone. The screens of the user are
-  folders in `~/.config/yonder/ui/<name>/`, with one file for each
+  folders in `~/.config/yonder/themes/<name>/`, with one file for each
   version (`<n>.json`, and `<n>.html` for a page). A version never
   changes (`bridge/ui.ts`, the route `/ui`).
+- The folder of the screens of the user was `ui/` before. At start, the
+  bridge renames `ui/` to `themes/` when only `ui/` is there, and makes
+  `ui/` a link to `themes/` (`screensRoot` in `bridge/ui.ts`), so an
+  agent or a worker in the old path keeps working. The key `ui` of
+  phone.json, the route `/ui` and the `ui/` paths of an export keep
+  their names, because the phone apps in the stores and older bridges
+  use them.
+- The built-in themes are folders in `themes/<name>/`: `theme.json`,
+  `page.html` for an own screen, and the gallery pictures in `shots/`.
+  `themes/index.ts` is the one list for the screen and the bridge. A
+  page is a text import of Bun (`with { type: "text" }`), so the
+  compiled bridge contains it. The plugin `text-imports` of
+  `vite.config.ts` reads the same import as `?raw` for the screen.
+  `themes/` is an input of the build of the screen (`FRONT` in
+  `bridge/main.ts`), so a change of a theme reaches the phones.
 - The screens folder: a folder in
-  `~/.config/yonder/ui/` with a `screen.json` is the source of its
+  `~/.config/yonder/themes/` with a `screen.json` is the source of its
   versions. The user can drop a theme or a whole
   front end into it, and the phone gets it over the air. Each 3 seconds the
-  bridge looks for a change in the `ui/` folder of its own config
+  bridge looks for a change in the `themes/` folder of its own config
   folder. It runs `bun run build` when
   `package.json` has a build script (log in `build.log`), puts each
   local script, style sheet, picture and font into the page, and saves
@@ -194,7 +209,7 @@ of the user's own that an agent builds. The design and its gaps are in
   chat and an approval. A stand-in for Claude Code lists the running
   agents and starts nothing, so the check uses no credits. It takes
   three pictures of each sample in the light and the dark look (the
-  agents, an approval and a chat) into `docs/themes/<theme>/`, for a
+  agents, an approval and a chat) into `themes/<theme>/shots/`, for a
   theme gallery: each theme shows the same data. Then it checks Duet
   and Grok Bot on an iPhone 17 Pro, an iPhone 17 and an iPhone SE: the
   page never scrolls, the edit sheet fits, the bubbles sit on their
