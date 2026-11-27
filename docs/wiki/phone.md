@@ -96,6 +96,9 @@
   The relay still reads `?token=` from an older bridge. For another relay,
   the bridge also puts the token in the URL, because an older relay reads
   only the URL.
+- Cloudflare reaches the server of `relay.yonder.so` over HTTPS, with the
+  SSL mode Full (strict) and an Origin CA certificate, so the token and
+  the frames never cross plain HTTP.
 - An older relay name goes to the same relay on the server as
   `relay.yonder.so`. A phone keeps the relay address of its pairing, so
   without the old name each phone of an old pairing must pair again. New

@@ -616,7 +616,8 @@ The rules for a rebuild and for `install-app` are in `CLAUDE.md`.
     sends a version there.
   - A push of a version that is out already (the version of
     `latest.json`) builds no computer app again. "Run workflow" builds
-    them each time. `deploy-relay` is not in the workflow.
+    them each time. The relay deploys by its own workflow,
+    `deploy-relay.yml`, on a push to `main` that changes it.
   - After a release that uploaded with no failed build, the `tag` job
     tags its commit `v<version>`, and `ios-<version>` or
     `android-<version>` for a phone app that built. Only the workflow
