@@ -326,7 +326,7 @@ type Ask = {
   seals?: Record<string, string>;
 };
 type Avatar = { shape: string; color: string };
-// A workspace, the one group of agents (config.json `workspaces`, docs/wiki.md "Workspaces"). The code keeps the old
+// A workspace, the one group of agents (config.json `workspaces`, docs/wiki/workspaces.md). The code keeps the old
 // name Project. `path` is its folder, or, with `home` false, the folder where its new agents start (noFolder).
 // `id` is missing for a folder that is no workspace: a scanned folder or a path that a call gives.
 type Project = { id?: string; name: string; path: string; starred: boolean; pinned?: boolean; home?: false; description?: string; profile?: string };
@@ -658,7 +658,7 @@ function people(): People.Person[] {
   if (v === undefined) return (goodPeople = []);
   if (!People.ok(v)) {
     const text = JSON.stringify(v);
-    if (text !== badPeople) console.error(`The people of ${CONFIG_FILE} are not valid (docs/wiki.md, People), so the last good people apply: ${text.slice(0, 300)}`);
+    if (text !== badPeople) console.error(`The people of ${CONFIG_FILE} are not valid (docs/wiki/workers.md, People), so the last good people apply: ${text.slice(0, 300)}`);
     badPeople = text;
     return goodPeople;
   }
@@ -697,7 +697,7 @@ const readPhone = (): Record<string, unknown> => readSafe(PHONE_FILE, console.er
 // already is marked as onboarded at each start.
 if (!readPhone().onboarded && (existsSync(PHONE_FILE) || state.workers.length)) editJson(PHONE_FILE, (c) => void (c.onboarded = "on"));
 // Full Disk Access of the bridge, for the folder step of the first run: the bridge and the agents in spare hosts have
-// the grant of Yonder.app (the "Full Disk Access" bullet under Bridge in docs/wiki.md). Without it, macOS refuses to
+// the grant of Yonder.app (the "Full Disk Access" bullet in docs/wiki/bridge.md). Without it, macOS refuses to
 // list ~/Library/Safari, which each Mac has. (macOS 27 has no TCC database in the Library of the user.) null on Linux and
 // Windows, which have no such step.
 const diskAccess = () => {
@@ -709,7 +709,7 @@ const diskAccess = () => {
     return (e as NodeJS.ErrnoException).code === "ENOENT" ? null : false;
   }
 };
-// The export and the import of the setup (bridge/backup.ts, docs/wiki.md "Backup"): Export and Import in the General
+// The export and the import of the setup (bridge/backup.ts, docs/wiki/projects.md "Backup"): Export and Import in the General
 // settings, the tools export_config and import_config, and POST /setup-export and /setup-import. A user
 // without a Yonder account keeps the setup, and an agent can apply an export with no clicks.
 const setupNow = () => ({ config: config(), phone: readPhone(), state: state as Record<string, any> });
@@ -4627,7 +4627,7 @@ async function inTerminal(cwd: string, argv: string[], title: string) {
 let last: { tool: string; to: Status | ""; before: { w: Worker; was: Worker }[] } | undefined;
 // The MCP annotations of the tools (server() below). With no annotations, MCP takes each tool as one that deletes. Else
 // the Claude app gives "approval timed out after 30s; not executed" for build_app and message_worker, most
-// likely from its own ask before such a tool (docs/wiki.md, "Yonder in the Claude app"). So each tool says what it does.
+// likely from its own ask before such a tool (docs/wiki/preview.md, "Yonder in the Claude app"). So each tool says what it does.
 const READ_ONLY = new Set(["list_workspaces", "list_folders", "list_workers", "review_workers", "get_worker", "read_file", "list_secrets", "about_yonder",
   "workspace_overview", "get_usage", "get_location"]);
 const DESTRUCTIVE = new Set(["remove_workspace", "close_worker", "remove_worker", "remove_app", "use_secret"]);
@@ -4785,7 +4785,7 @@ function server(device = "", brain = "", caller = "", signal = new AbortControll
       return { content: [{ type: "text", text: r.text }], ...(r.error && { isError: true }) };
     },
   );
-  // The workspaces (config.json `workspaces`, docs/wiki.md "Workspaces"). Each tool takes a workspace by its name, its id,
+  // The workspaces (config.json `workspaces`, docs/wiki/workspaces.md). Each tool takes a workspace by its name, its id,
   // its key ("workspace:<id>") or its folder (findProject). The old project tools are old names in RENAMED.
   const workspaceOut = (p: Project) => {
     const agents = agentsIn(p.path);
@@ -4807,7 +4807,7 @@ function server(device = "", brain = "", caller = "", signal = new AbortControll
   };
   // A folder that is no workspace becomes one when the user acts on it, as a star or a profile of a project did.
   const asWorkspace = (p: Project) => (p.id ? p : addWorkspace({ name: p.name, folder: p.path }));
-  const CONFIG_NOTE = `The workspaces live in \`workspaces\` of ${toTilde(CONFIG_FILE)}, so an agent can also edit that file: docs/wiki.md "Workspaces" has the format.`;
+  const CONFIG_NOTE = `The workspaces live in \`workspaces\` of ${toTilde(CONFIG_FILE)}, so an agent can also edit that file: docs/wiki/workspaces.md has the format.`;
   mcp.registerTool(
     "list_workspaces",
     {
@@ -5241,7 +5241,7 @@ function server(device = "", brain = "", caller = "", signal = new AbortControll
         return info(r);
       }),
   );
-  // A push now, from an agent or a script (docs/wiki.md, "Notify"). It goes also while the user works on the Mac (no
+  // A push now, from an agent or a script (docs/wiki/workers.md, "Notify"). It goes also while the user works on the Mac (no
   // hereUntil), as a reminder does: the agent asked for it.
   mcp.registerTool(
     "notify",
@@ -7282,7 +7282,7 @@ ${state.agentNaming === "numbers" ? "" : `- Call each agent by the name before i
 - To stop or close an agent ("stop it", "close it", "done"), call close_worker with its number and NO done, also for a done agent: it moves to the Closed tab. To interrupt an agent and keep it open ("interrupt 3", "stop 3, wait"), call stop_worker. Only when the user says "mark it done" or "completed", call close_worker with done set to true. Close an agent only when the user asks for it.
 - When the user asks if an agent can close ("are we good to close 4?"), call get_worker for it, and give your advice in one or two sentences with the reason: it still runs, it waits on a question, or it finished. Close it only after a yes.
 - When you do more than one action in one answer, say each action with its agent number, such as "Closed 12 and started 3." NEVER leave out an action.
-- When the user asks about Yonder itself, call about_yonder. When the user asks what a workspace or a project is, call workspace_overview. Answer in one or two sentences.
+- When the user asks about Yonder itself, call about_yonder with the topic of the question. When the user asks what a workspace or a project is, call workspace_overview. Answer in one or two sentences.
 - If you are not sure which workspace the user means, use list_workspaces to search the list of workspaces. If it is still not clear, give start_worker an empty workspace: Yonder picks the workspace from the task, or the default folder of the user. Do not ask.
 - When the user asks a quick question about the world or the news, use web_search, or x_search for posts on X, and answer it yourself.
 - When the user asks to end the call ("end call", "hang up", "bye"), call end_call and say only a short goodbye.

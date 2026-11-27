@@ -59,7 +59,7 @@ the user asks for them in words.
    as "Music", needs a `description`. Give each workspace one sentence
    with `edit_workspace` and `description`. `star_workspace` puts the most
    used ones first. You can also edit `workspaces` in config.json: the
-   wiki of Yonder (`about_yonder`, "Workspaces") gives the format.
+   wiki of Yonder (`about_yonder` with the topic `workspaces`) gives the format.
 5. **The look.** Ask if the user wants another look. `customize` with
    `list` gives the screens, and `use` shows one. For an own look,
    `customize` with `change` and the words of the user. `set_theme`
