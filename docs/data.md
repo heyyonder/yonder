@@ -51,10 +51,13 @@ this document in the same commit.
 - **The screen** (Mac, iPhone, Android) sends errors only in release
   builds. It sends the error text, the build, the page address, the user
   agent, the locale and the time zone. It also sends breadcrumbs: clicks,
-  console lines and the addresses of requests. It sends no IP address and
-  no user ID (`src/main.tsx`).
+  console lines, and the method and status of each request. It removes the
+  address of each request from its breadcrumb, so no file path, install ID
+  or query string goes to Sentry. It sends no IP address and no user ID
+  (`src/main.tsx`).
 - **The Mac and iPhone apps** send Rust panics with the version, the OS
-  and the device, only from release builds. They remove the host name of
+  and the device, only from release builds. They record no request
+  breadcrumbs. They remove the host name of
   the computer (`server_name`) from each event (`start_sentry` in
   `src-tauri/src/main.rs` and `ios/src/lib.rs`).
 - **The Android app** sends crashes with the defaults of `sentry-android`,

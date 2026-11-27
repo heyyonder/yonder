@@ -27,6 +27,10 @@ if (__SENTRY_DSN__) Sentry.init({
   enabled: import.meta.env.PROD && (["", "7787"].includes(location.port) || "__TAURI_INTERNALS__" in window) && !navigator.webdriver,
   dsn: __SENTRY_DSN__,
   release: __BUILD_ID__,
+  // A request breadcrumb keeps only the method and the status. Its address can hold a local file path, the install ID
+  // or a query string.
+  beforeBreadcrumb: (b) =>
+    b.category === "fetch" || b.category === "xhr" ? { ...b, data: { method: b.data?.method, status_code: b.data?.status_code } } : b,
   ignoreErrors: [
     /^Add a voice key/, /^The user did not allow the location/, /^The Mac is offline/, /^Pair this phone/, /^The sound plays on/, /^Paired\. /,
     /Yonder did not hear you/, // The user said nothing (YONDER-R).

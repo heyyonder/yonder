@@ -885,6 +885,9 @@ These gates check each release before it uploads.
   folders, feedback) (`useReport` in `src/bridge.ts`), also an error
   that the app catches, such as a failed dictation. The steps of a dictation go with
   it as breadcrumbs (`src/dictate.ts`). They hold no words of the user.
+  A breadcrumb of a request keeps only the method and the status
+  (`beforeBreadcrumb` in `src/main.tsx`), because its address can hold a
+  local file path, the install ID or a query string.
   The toasts that tell a state of the user (no voice key on the
   computer, no location, the Mac is offline, the sound output
   of the Mac, "Paired.") do not go up (`ignoreErrors` in
