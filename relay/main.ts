@@ -1,7 +1,8 @@
 // The Yonder relay. It joins the bridge of Yonder on a computer and the Yonder app on a phone, and forwards their frames.
 // The phone and the bridge encrypt the frames end to end, so the relay cannot read or change them.
 // Yonder runs this relay at wss://relay.yonder.so. README.md tells how to run your own.
-//   /host?token=T  the bridge of a computer. Its room is a hash of its secret token.
+//   /host          the bridge of a computer, with its secret token in the header x-yonder-token (or ?token=T, from
+//                  an older bridge). Its room is a hash of the token.
 //   /phone?room=R  a phone. The relay gives each phone a number, so that more phones can use one computer.
 //   /privacy       the privacy policy of the phone app, for Google Play.
 //   /<id>/...      the Claude connector of a computer, such as https://tunnel.yonder.so/<id>/mcp, and the OAuth
@@ -107,7 +108,7 @@ export function serveRelay(port: number, { rooms, tap, silent = SILENT }: { room
       if (c) return forward(c[1] ?? c[2], req, url);
       const host = url.pathname === "/host";
       if (!host && url.pathname !== "/phone") return new Response("Yonder relay", { status: url.pathname === "/" ? 200 : 404 });
-      const token = url.searchParams.get("token") ?? "";
+      const token = req.headers.get("x-yonder-token") ?? url.searchParams.get("token") ?? "";
       const room = host ? (token.length >= 32 ? await roomOf(token) : "") : (url.searchParams.get("room") ?? "");
       if (!/^[\w-]{22}$/.test(room) || (host && rooms?.length && !rooms.includes(room))) return new Response("Forbidden", { status: 403 });
       const device = url.searchParams.get("device")?.slice(0, 32) || undefined;

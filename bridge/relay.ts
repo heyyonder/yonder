@@ -201,7 +201,11 @@ export function connectRelay(
 
   function open() {
     if (stopped) return;
-    const socket = new WebSocket(`${url}/host?${new URLSearchParams({ token: config!.token, ...info })}`);
+    // The token goes in a header, so that no log of a proxy keeps it. A relay older than the header reads it only from
+    // the URL. shortcut: relay.yonder.so reads the header, so the URL holds the token only for another relay; drop it in 2027.
+    const own = !/^wss:\/\/relay\.yonder\.so(\/|$)/.test(url);
+    const query = new URLSearchParams({ ...(own ? { token: config!.token } : {}), ...info });
+    const socket = new WebSocket(`${url}/host?${query}`, { headers: { "x-yonder-token": config!.token } } as never);
     socket.binaryType = "arraybuffer";
     ws = socket;
     // The relay answers each ping, and it shows the Mac as offline to the phones after 15 seconds with no ping.

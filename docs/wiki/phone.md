@@ -91,6 +91,11 @@
   cannot read them. The live relay is `wss://relay.yonder.so`: the code of
   `relay/`. `ROOMS` in the `.env` of the relay can limit the Macs that connect.
   "The live relay" in `docs/mobile.md` gives the details.
+- The bridge sends its secret token to the relay in the header
+  `x-yonder-token`, not in the URL, so that no log of a proxy keeps it.
+  The relay still reads `?token=` from an older bridge. For another relay,
+  the bridge also puts the token in the URL, because an older relay reads
+  only the URL.
 - An older relay name goes to the same relay on the server as
   `relay.yonder.so`. A phone keeps the relay address of its pairing, so
   without the old name each phone of an old pairing must pair again. New

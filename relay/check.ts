@@ -71,7 +71,8 @@ assert((await (await fetch(`${web}/.well-known/oauth-protected-resource/${id}/mc
 // Anyone can connect a bridge of their own, and its connector answers from the domain of the relay. So the relay removes
 // the cookies of each answer and blocks its scripts. Cloudflare can add a cookie of its own, so the check looks for "probe".
 const rogueToken = b64(crypto.getRandomValues(new Uint8Array(32)));
-const rogue = new WebSocket(`${url}/host?token=${encodeURIComponent(rogueToken)}`);
+// It sends its token only in the header, as the bridge does to our relay, so the relay must read the header.
+const rogue = new WebSocket(`${url}/host`, { headers: { "x-yonder-token": rogueToken } } as never);
 rogue.onmessage = (m) => {
   const headers = { "Set-Cookie": "probe=1; Domain=yonder.so", "Clear-Site-Data": '"cookies"', "Content-Security-Policy": "script-src *", "content-type": "text/html" };
   rogue.send(JSON.stringify({ http: JSON.parse(String(m.data)).http, status: 200, headers, body: "<script>alert(1)</script>" }));
