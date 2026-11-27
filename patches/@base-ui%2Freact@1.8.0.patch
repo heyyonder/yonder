@@ -1,0 +1,26 @@
+diff --git a/context-menu/trigger/ContextMenuTrigger.js b/context-menu/trigger/ContextMenuTrigger.js
+index 269c6d470b2d3e6ce7fc4a0e62355d5715763cd4..eb950fb763e9abc0dd12de2fd7da20744988f774 100644
+--- a/context-menu/trigger/ContextMenuTrigger.js
++++ b/context-menu/trigger/ContextMenuTrigger.js
+@@ -18,7 +18,7 @@ var _createBaseUIEventDetails = require("../../internals/createBaseUIEventDetail
+ var _popupStateMapping = require("../../utils/popupStateMapping");
+ var _reasons = require("../../internals/reasons");
+ var _findRootOwnerId = require("../../menu/utils/findRootOwnerId");
+-const LONG_PRESS_DELAY = 500;
++const LONG_PRESS_DELAY = 350;
+ 
+ /**
+  * An area that opens the menu on right click or long press.
+diff --git a/context-menu/trigger/ContextMenuTrigger.mjs b/context-menu/trigger/ContextMenuTrigger.mjs
+index f5495fbd0a204ba2b45917c705c647c8dc5413a9..60fbef4c4958e882151df4a31dc115848f79e706 100644
+--- a/context-menu/trigger/ContextMenuTrigger.mjs
++++ b/context-menu/trigger/ContextMenuTrigger.mjs
+@@ -12,7 +12,7 @@ import { createChangeEventDetails } from "../../internals/createBaseUIEventDetai
+ import { pressableTriggerOpenStateMapping } from "../../utils/popupStateMapping.mjs";
+ import { REASONS } from "../../internals/reasons.mjs";
+ import { findRootOwnerId } from "../../menu/utils/findRootOwnerId.mjs";
+-const LONG_PRESS_DELAY = 500;
++const LONG_PRESS_DELAY = 350;
+ 
+ /**
+  * An area that opens the menu on right click or long press.

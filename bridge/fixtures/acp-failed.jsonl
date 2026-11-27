@@ -1,0 +1,3 @@
+{"type":"session","id":"THREAD"}
+{"type":"text","text":"I start."}
+{"type":"error","message":"The agent stopped (exit code 1)."}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>com.apple.security.device.audio-input</key>
+  <true/>
+  <!-- Tauri signs the helpers in Contents/MacOS with these entitlements too. The compiled bridge (Bun) runs 8 times
+       slower under the hardened runtime without the JIT. -->
+  <key>com.apple.security.cs.allow-jit</key>
+  <true/>
+  <!-- bun:ffi writes its call stubs into executable memory at dlopen (`responsible` in bridge/main.ts). Without this,
+       macOS killed the bridge of 2.97.633 one second after its start (Code Signature Invalid), and the app showed no
+       projects and no agents. -->
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <true/>
+</dict>
+</plist>

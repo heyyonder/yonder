@@ -1,0 +1,77 @@
+{
+  "name": "Terminal",
+  "about": "Mono type, sharp corners, green on black or on paper.",
+  "look": {
+    "light": {
+      "bg": "#f6f6f1",
+      "page": "#ecece6",
+      "panel": "#ffffff",
+      "hover": "#ebebe4",
+      "text": "#1b1b1b",
+      "muted": "#666660",
+      "line": "#d6d6ce",
+      "accent": "#0a8f4a",
+      "accent-text": "#ffffff",
+      "green": "#0a8f4a",
+      "red": "#cc3a31",
+      "amber": "#9a6400",
+      "blue": "#1f63d6",
+      "purple": "#7c4dd6"
+    },
+    "dark": {
+      "bg": "#0b0b0b",
+      "page": "#000000",
+      "panel": "#111111",
+      "hover": "#161616",
+      "text": "#e2e2e2",
+      "muted": "#7b7b7b",
+      "line": "#242424",
+      "accent": "#3ddc84",
+      "accent-text": "#0b0b0b",
+      "green": "#3ddc84",
+      "red": "#ff5f56",
+      "amber": "#ffbd2e",
+      "blue": "#5fb3ff",
+      "purple": "#c792ea"
+    },
+    "radius": 0,
+    "font": "mono",
+    "density": "compact",
+    "glass": "off",
+    "bubbles": false,
+    "rows": "compact",
+    "icons": "plain"
+  },
+  "tabs": [
+    {
+      "id": "agents",
+      "title": "agents"
+    },
+    {
+      "id": "completed",
+      "title": "done"
+    },
+    {
+      "id": "saved",
+      "title": "saved"
+    },
+    {
+      "id": "closed",
+      "title": "closed"
+    },
+    {
+      "id": "preview",
+      "title": "canvas"
+    },
+    {
+      "id": "search",
+      "title": "find"
+    }
+  ],
+  "copy": {
+    "title": "~/all",
+    "call": "$ call",
+    "endCall": "■ end",
+    "message": "> _"
+  }
+}

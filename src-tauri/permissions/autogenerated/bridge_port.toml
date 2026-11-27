@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-bridge-port"
+description = "Enables the bridge_port command without any pre-configured scope."
+commands.allow = ["bridge_port"]
+
+[[permission]]
+identifier = "deny-bridge-port"
+description = "Denies the bridge_port command without any pre-configured scope."
+commands.deny = ["bridge_port"]

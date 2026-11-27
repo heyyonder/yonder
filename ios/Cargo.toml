@@ -1,0 +1,42 @@
+# The iPhone app of Yonder. It runs the same React app as the Mac app (src/), but the phone talks to the bridge
+# on the Mac through the relay. The Mac app is in src-tauri. See docs/mobile.md.
+[package]
+name = "yonder-ios"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "yonder_ios_lib"
+crate-type = ["staticlib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# Panics of the app go to Sentry (the project yonder). See "Crash reports" in docs/wiki.md.
+# Not the default "debug-images": its findshlibs does not build for iOS.
+sentry = { version = "0.49.3", default-features = false, features = ["backtrace", "contexts", "panic", "transport", "release-health"] }
+tauri = { version = "2", features = [] }
+# The JSON of the abilities and of the yonder:// links (src/lib.rs). Tauri already has it, so it adds no new crate.
+serde_json = "1"
+
+[target.'cfg(any(target_os = "ios", target_os = "android"))'.dependencies]
+tauri-plugin-barcode-scanner = "2"
+tauri-plugin-haptics = "2"
+# The photo library of the iPhone (PHPicker), without the sheet that a file input shows first. See "Phone" in docs/wiki.md.
+tauri-plugin-dialog = "2"
+# The browser inside the app for Yonder Preview (SFSafariViewController). See docs/tunnel.md.
+tauri-plugin-opener = "2"
+# The Face ID lock of the app (LocalAuthentication), and the fingerprint lock on Android. See "Phone" in docs/wiki.md.
+tauri-plugin-biometric = "2"
+# The APNs device token for the push notifications of finished agents. See "Push" in CLAUDE.md.
+tauri-plugin-notifications = { version = "=0.5.0-rc.14", default-features = false, features = ["push-notifications"] }
+
+# swift-rs 1.0.8 with one change, so that a release build (TestFlight) links with Xcode 27.
+# See the "Yonder patch" comment in swift-rs/src-rs/build.rs.
+[patch.crates-io]
+swift-rs = { path = "swift-rs" }
+# tao 0.37.1 with two changes. The CarPlay scene keeps its own delegate: see the "Yonder patch" comments in
+# tao/src/platform_impl/ios/view.rs and "Tauri and the scenes" in docs/carplay.md. The window stays upright, and only
+# the player of a video turns: see the "Yonder patch" in tao/src/platform/ios.rs.
+tao = { path = "tao" }

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-owner-check"
+description = "Enables the owner_check command without any pre-configured scope."
+commands.allow = ["owner_check"]
+
+[[permission]]
+identifier = "deny-owner-check"
+description = "Denies the owner_check command without any pre-configured scope."
+commands.deny = ["owner_check"]

@@ -1,0 +1,17 @@
+{
+  "identifier": "default",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "barcode-scanner:default",
+    "biometric:default",
+    "dialog:allow-open",
+    "dialog:allow-ask",
+    "haptics:allow-impact-feedback",
+    "haptics:allow-notification-feedback",
+    "haptics:allow-selection-feedback",
+    "notifications:default",
+    "opener:default",
+    { "identifier": "opener:allow-open-url", "allow": [{ "url": "https://*.yonder.so/*", "app": "inAppBrowser" }, { "url": "https://yonder.so/*", "app": "inAppBrowser" }] }
+  ]
+}

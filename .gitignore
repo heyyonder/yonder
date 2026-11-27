@@ -1,0 +1,21 @@
+node_modules
+dist
+src-tauri/target
+src-tauri/gen
+.wrangler
+src-tauri/binaries
+omarchy/out
+windows/out
+
+# Private files of the owner. They must never go public.
+/experiments
+/.claude/skills/release
+/.claude/skills/review-calls
+/ios/store/listing.md
+/android/store/listing.md
+/relay/deploy.sh
+/relay/compose.yml
+/.github/workflows/release.yml
+/.github/workflows/promote.yml
+/docs/open-source.md
+CLAUDE.local.md

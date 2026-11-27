@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Yonder store screenshots</title>
+<!--
+  The screenshots of the store listing, with mock projects and agents.
+  Edit SCREENS below: each screen has a headline, a subline, a background, the phone view and the stickers.
+  Open this file in Chrome to see all the screens. Add ?s=1 (to 5) to see one screen at 1080 x 1920.
+  Add ios (?ios or ?s=1&ios) to see the iPhone screens: 1320 x 2868, with the Dynamic Island.
+  Render the PNG files: bun android/store/render.ts (Google Play), bun android/store/render.ts ios (App Store, to ios/store)
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa; --panel: #fff; --hover: #f1f1ef; --text: #1d1d1f; --muted: #6e6e73; --line: #e6e6e3;
+    --green: #1f9d55; --red: #d93f3f; --amber: #c99400; --blue: #2f6fde; --purple: #8e4ec6; --live: #e5484d;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: Inter, -apple-system, system-ui, sans-serif; background: #ddd; -webkit-font-smoothing: antialiased; }
+  body.one { background: none; }
+  #all { display: flex; flex-wrap: wrap; gap: 40px; padding: 40px; }
+  #all .shot { zoom: 0.4; }
+
+  /* One store screenshot: 1080 x 1920 (9:16). */
+  .shot { width: 1080px; height: 1920px; position: relative; overflow: hidden; color: #fff; }
+  .shot.red { background: radial-gradient(1200px 900px at 10% 0%, #ff7a6b 0%, transparent 60%), linear-gradient(160deg, #f0565a 0%, #d8373d 100%); }
+  .shot.sun { background: radial-gradient(1000px 800px at 90% 10%, #ffd36b 0%, transparent 60%), linear-gradient(160deg, #ff9a5a 0%, #f05a5e 100%); }
+  .shot.night { background: radial-gradient(1000px 900px at 80% 0%, #4b3a8f 0%, transparent 60%), linear-gradient(160deg, #1d1b33 0%, #121220 100%); }
+  .shot.cream { background: radial-gradient(1000px 800px at 0% 0%, #ffe3d6 0%, transparent 60%), linear-gradient(160deg, #fff6ef 0%, #fde3d8 100%); color: var(--text); }
+  .shot.mint { background: radial-gradient(1000px 800px at 100% 0%, #b9f2d5 0%, transparent 60%), linear-gradient(160deg, #e9fbf2 0%, #cdeee0 100%); color: var(--text); }
+
+  .blob { position: absolute; border-radius: 50%; filter: blur(2px); opacity: 0.18; background: #fff; }
+  .cream .blob, .mint .blob { background: var(--live); opacity: 0.08; }
+
+  .head { position: absolute; top: 120px; left: 80px; right: 80px; text-align: center; }
+  .head h1 { font-size: 92px; line-height: 1.02; font-weight: 800; letter-spacing: -3px; }
+  .head p { margin-top: 28px; font-size: 40px; line-height: 1.3; font-weight: 500; opacity: 0.88; }
+
+  /* The phone: the UI is drawn at 390 px wide and zoomed. */
+  .phone { position: absolute; left: 50%; top: 560px; width: 720px; height: 1520px; transform: translateX(-50%) rotate(var(--tilt, 0deg));
+    background: #111; border-radius: 96px; padding: 18px; box-shadow: 0 60px 120px rgba(0, 0, 0, 0.35), 0 0 0 4px rgba(255, 255, 255, 0.15) inset; }
+  .screen { width: 100%; height: 100%; border-radius: 80px; overflow: hidden; background: var(--bg); position: relative; }
+  .ui { width: 390px; height: 820px; zoom: 1.7538; color: var(--text); position: relative; display: flex; flex-direction: column; }
+  .camera-hole { position: absolute; top: 12px; left: 50%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: #111; z-index: 3; }
+
+  /* The iPhone screens (?ios): 1320 x 2868, the 6.9" size of App Store Connect. The shot keeps its 1080 px layout and is
+     zoomed by 11/9, so it is taller (9:19.5). The phone is 1.2 times larger, so that it fills the height and shows the tab
+     bar, and it has the Dynamic Island in place of the camera hole. The stickers move down with the phone (shot()). */
+  .ios .shot { height: 2346.55px; }
+  .ios .one .shot { zoom: 1.222222; }
+  .ios .phone { transform: translateX(-50%) rotate(var(--tilt, 0deg)) scale(1.2); transform-origin: 50% 0; }
+  .ios .camera-hole { top: 24px; width: 200px; height: 58px; margin-left: -100px; border-radius: 29px; }
+
+  .sbar { height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-size: 13px; font-weight: 600; flex: none; }
+  .sbar .ic { display: flex; gap: 5px; align-items: center; }
+  .titlebar { height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; flex: none; }
+  .titlebar b { font-size: 15px; font-weight: 600; }
+  .titlebar b span { color: var(--muted); font-weight: 400; }
+  .btn { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 8px; display: grid; place-items: center; background: var(--panel); }
+  .btns { display: flex; gap: 6px; }
+  svg.i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .statusrow { display: flex; align-items: center; gap: 10px; padding: 4px 16px 0; font-size: 13px; flex: none; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .statusrow .r { margin-left: auto; color: var(--muted); }
+  .proj { display: flex; align-items: center; justify-content: center; gap: 9px; margin: 14px 0 12px; font-size: 22px; font-weight: 700; flex: none; }
+  .fav { width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 800; }
+  .callrow { display: flex; gap: 10px; padding: 0 16px; flex: none; }
+  .call { flex: 1; height: 52px; border-radius: 26px; background: var(--text); color: #fff; font-size: 16px; font-weight: 600; display: grid; place-items: center; }
+  .call.live { background: var(--live); }
+  .mute { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); display: grid; place-items: center; }
+  .callrow.small .call { height: 36px; border-radius: 18px; font-size: 14px; }
+  .callrow.small .mute { width: 36px; height: 36px; }
+  .mute svg.i { width: 20px; height: 20px; }
+  .wave { display: flex; align-items: center; gap: 3px; height: 18px; }
+  .wave i { width: 3px; border-radius: 2px; background: currentColor; display: block; }
+
+  .list { flex: 1; overflow: hidden; margin-top: 14px; border-top: 1px solid var(--line); }
+  .row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--bg); }
+  .row.hl { background: var(--hover); }
+  .glyph { width: 14px; font-size: 14px; line-height: 20px; text-align: center; font-weight: 700; flex: none; }
+  .row .main { flex: 1; min-width: 0; }
+  .row .name { font-size: 15px; font-weight: 600; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .name .n { color: var(--muted); font-weight: 400; margin-right: 6px; }
+  .row .sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .row .meta { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; line-height: 20px; }
+  .row .meta .star { color: #d6d6d2; }
+  .row .meta .star.on { color: #e2a400; }
+  .row .meta .star.on svg { fill: currentColor; }
+  .flags { display: inline-flex; gap: 4px; margin-right: 2px; }
+
+  .tabbar { position: absolute; left: 14px; right: 14px; bottom: 18px; height: 64px; border-radius: 32px; display: flex; padding: 5px;
+    background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06); }
+  .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11px; font-weight: 600; color: var(--muted); border-radius: 27px; }
+  .tab.on { background: rgba(0, 0, 0, 0.07); color: var(--text); }
+  .tab svg.i { width: 20px; height: 20px; }
+
+  .convhead { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 14px; flex: none; }
+  .convhead .t { font-size: 15px; font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .convhead .t .n { color: var(--muted); font-weight: 400; margin-right: 6px; }
+  .convhead .st { font-size: 13px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+  .seg { display: flex; margin: 12px 16px 0; background: var(--hover); border-radius: 9px; padding: 3px; flex: none; }
+  .seg div { flex: 1; text-align: center; font-size: 13px; font-weight: 600; padding: 6px 0; border-radius: 7px; color: var(--muted); }
+  .seg div.on { background: var(--panel); color: var(--text); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+  .body { flex: 1; overflow: hidden; padding: 14px 16px; font-size: 15px; line-height: 1.5; }
+  .points ul { padding-left: 22px; font-size: 18px; line-height: 1.45; }
+  .points li { margin-bottom: 12px; }
+  .facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 13px; margin-bottom: 14px; }
+  .facts dt { color: var(--muted); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; }
+  .card h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin-bottom: 6px; }
+  .turn { margin-bottom: 12px; display: flex; gap: 10px; }
+  .turn .b { width: 8px; height: 8px; border-radius: 50%; margin-top: 8px; flex: none; background: var(--text); }
+  .turn.tool { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--muted); }
+  .turn.tool .b { background: var(--green); width: 6px; height: 6px; margin-top: 6px; }
+  .turn.user { background: var(--hover); border-radius: 10px; padding: 8px 12px; }
+  .turn.user .b { display: none; }
+  code { font-family: ui-monospace, Menlo, monospace; font-size: 13px; background: var(--hover); padding: 1px 5px; border-radius: 5px; }
+  .diff { font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 4px 0 12px 16px; }
+  .diff div { padding: 2px 8px; white-space: pre; }
+  .diff .ln { color: var(--muted); display: inline-block; width: 26px; }
+  .diff .del { background: #fde8e8; color: #a12a2a; }
+  .diff .add { background: #e3f6ea; color: #17703e; }
+  .prompt { border-top: 1px solid var(--line); padding: 14px 16px 26px; color: var(--muted); font-size: 15px; flex: none; background: var(--bg); }
+
+  .pair { position: absolute; inset: 0; background: var(--live); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 32px; }
+  .pair h2 { font-size: 40px; font-weight: 800; margin-top: 18px; }
+  .pair p { opacity: 0.85; margin-top: 8px; font-size: 16px; }
+  .pair .scan { margin-top: 40px; background: #fff; color: var(--live); width: 100%; height: 54px; border-radius: 27px; display: grid; place-items: center; font-weight: 700; font-size: 17px; }
+
+  /* The stickers that float over the picture. */
+  .sticker { position: absolute; z-index: 5; background: #fff; color: var(--text); border-radius: 40px; padding: 28px 36px; font-size: 36px; font-weight: 600; line-height: 1.25;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.22); transform: rotate(var(--r, 0deg)); display: flex; align-items: center; gap: 22px; max-width: 760px; }
+  .sticker .who { font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px; }
+  .sticker .av { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; flex: none; color: #fff; }
+  .sticker .av svg.i { width: 40px; height: 40px; }
+  .sticker.dark { background: #1d1d1f; color: #fff; }
+  .sticker.dark .who { color: #aaa; }
+  .sticker .wave i { width: 6px; border-radius: 3px; }
+  .sticker .wave { height: 48px; gap: 6px; }
+</style>
+</head>
+<body>
+<div id="all"></div>
+<script>
+// The icons: the paths of Lucide, as in src/icons.tsx.
+const ICONS = {
+  sun: ["M12 8a4 4 0 1 0 0 8 4 4 0 1 0 0-8z", "M12 2v2", "M12 20v2", "m4.93 4.93 1.41 1.41", "m17.66 17.66 1.41 1.41", "M2 12h2", "M20 12h2", "m6.34 17.66-1.41 1.41", "m19.07 4.93-1.41 1.41"],
+  settings: ["M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915", "M12 9a3 3 0 1 0 0 6 3 3 0 1 0 0-6z"],
+  star: ["M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"],
+  camera: ["M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z", "M12 10a3 3 0 1 0 0 6 3 3 0 1 0 0-6z"],
+  back: ["m15 18-6-6 6-6"],
+  mic: ["M12 19v3", "M19 10v2a7 7 0 0 1-14 0v-2", "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"],
+  folder: ["M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"],
+  bot: ["M12 8V4H8", "M6 8h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2z", "M2 14h2", "M20 14h2", "M15 13v2", "M9 13v2"],
+  check: ["M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20z", "m9 12 2 2 4-4"],
+  archive: ["M3 3h18a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z", "M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8", "M10 12h4"],
+  lock: ["M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z", "M7 11V7a5 5 0 0 1 10 0v4"],
+  laptop: ["M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"],
+  speaker: ["M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z", "M16 9a5 5 0 0 1 0 6", "M19.364 18.364a9 9 0 0 0 0-12.728"],
+};
+const icon = (n) => `<svg class="i" viewBox="0 0 24 24">${ICONS[n].map((d) => `<path d="${d}"/>`).join("")}</svg>`;
+const wave = (n, h) => `<span class="wave">${Array.from({ length: n }, (_, i) => `<i style="height:${Math.round(h * (0.3 + 0.7 * Math.abs(Math.sin(i * 1.7 + 0.4))))}px"></i>`).join("")}</span>`;
+
+// The mock projects and agents. They are not real work.
+const PROJECTS = {
+  "billing-api": { color: "#2f6fde", letter: "B" },
+  "website": { color: "#1f9d55", letter: "W" },
+  "mobile-app": { color: "#8e4ec6", letter: "M" },
+  "recipes": { color: "#e08a00", letter: "R" },
+};
+const GLYPH = { running: ["●", "var(--amber)"], waiting: ["?", "var(--blue)"], done: ["✓", "var(--green)"], failed: ["✗", "var(--red)"] };
+const AGENTS = [
+  { n: 7, name: "Fix the failing test", status: "done", model: "Opus 5.5 · high", ctx: "88k", age: "1m", unread: true, star: true },
+  { n: 8, name: "Add a CSV export", status: "running", model: "Opus 5.5 · high", ctx: "52k", age: "4m" },
+  { n: 3, name: "Pick a chart library", status: "waiting", model: "Opus 5.5 · medium", ctx: "31k", age: "6m", attention: true },
+  { n: 5, name: "Write the API docs", status: "running", model: "Sonnet 5.5 · low", ctx: "24k", age: "9m" },
+  { n: 2, name: "Upgrade the Stripe SDK", status: "waiting", model: "Opus 5.5 · xhigh", ctx: "96k", age: "12m", attention: true },
+  { n: 4, name: "Speed up the invoice list", status: "done", model: "Opus 5.5 · high", ctx: "41k", age: "25m" },
+  { n: 1, name: "Add dark mode to emails", status: "done", model: "Fable 5.1 · high", ctx: "63k", age: "1h" },
+];
+
+// Parts of the phone UI.
+const sbar = () => `<div class="sbar"><span>9:41</span><span class="ic"><svg width="16" height="11" viewBox="0 0 16 11"><path d="M1 10h2V7H1zm4 0h2V5H5zm4 0h2V3H9zm4 0h2V0h-2z" fill="#1d1d1f"/></svg><svg width="22" height="11" viewBox="0 0 22 11"><rect x=".5" y=".5" width="19" height="10" rx="3" fill="none" stroke="#1d1d1f" opacity=".5"/><rect x="2" y="2" width="14" height="7" rx="1.5" fill="#1d1d1f"/></svg></span></div>`;
+const titlebar = () => `<div class="titlebar"><span class="btn">${icon("settings")}</span><b>Yonder</b><span class="btns"><span class="btn">${icon("camera")}</span><span class="btn">${icon("sun")}</span></span></div>`;
+const statusrow = (live) => `<div class="statusrow">${live
+  ? `<span class="dot" style="background:var(--live)"></span><b>Live</b> <span style="color:var(--muted)">2:14</span>`
+  : `<span class="dot" style="background:var(--green)"></span><b>Ready</b>`}
+  <span style="color:var(--amber)">●</span> 2 <span style="color:var(--blue);font-weight:700">?</span> 2</div>`;
+const proj = (p) => `<div class="proj"><span class="fav" style="background:${PROJECTS[p].color}">${PROJECTS[p].letter}</span>${p}</div>`;
+const callrow = (live) => live
+  ? `<div class="callrow"><div class="call live"><span style="display:flex;gap:10px;align-items:center">${wave(9, 18)} End call</span></div><div class="mute">${icon("mic")}</div></div>`
+  : `<div class="callrow"><div class="call">Start call</div></div>`;
+const row = (a, hl) => {
+  const [g, c] = GLYPH[a.status];
+  const flags = (a.unread ? `<span class="dot" style="background:var(--blue)"></span>` : "") + (a.attention ? `<span class="dot" style="background:var(--purple)"></span>` : "");
+  return `<div class="row${hl ? " hl" : ""}"><span class="glyph" style="color:${c}">${g}</span><div class="main"><div class="name"><span class="n">${a.n}</span>${a.name}</div><div class="sub">${a.model}</div></div>
+    <div class="meta"><span class="flags">${flags}</span>${a.ctx} · ${a.age}<span class="star${a.star ? " on" : ""}">${icon("star")}</span></div></div>`;
+};
+const tabbar = (on) => `<div class="tabbar">${[["Projects", "folder"], ["Agents", "bot"], ["Completed", "check"], ["Closed", "archive"]]
+  .map(([t, i]) => `<div class="tab${t === on ? " on" : ""}">${icon(i)}${t}</div>`).join("")}</div>`;
+const header = (live, p, small) => sbar() + titlebar() + statusrow(live) + proj(p) + callrow(live).replace('class="callrow"', `class="callrow${small ? " small" : ""}"`);
+
+// The phone views.
+const VIEWS = {
+  agents: ({ live, filter, hl }) => header(live, "billing-api") +
+    `<div class="list">${AGENTS.filter(filter || (() => true)).map((a) => row(a, a.n === hl)).join("")}</div>` + tabbar(filter ? "Agents" : "Completed"),
+  summary: ({ live }) => header(live, "billing-api", true) +
+    `<div class="convhead"><span class="btn">${icon("back")}</span><span class="t"><span class="n">7</span>Fix the failing test</span><span class="st"><span style="color:var(--green);font-weight:700">✓</span> done</span></div>
+     <div class="seg"><div class="on">Summary</div><div>Chat</div></div>
+     <div class="body points"><ul>
+       <li>You asked to fix the failing billing test.</li>
+       <li>The subtotal rounded each line item before the sum.</li>
+       <li>The agent removed the rounding in <code>invoice.ts</code>.</li>
+       <li>Done: all 84 tests pass.</li>
+     </ul></div><div class="prompt">Send a message</div>`,
+  chat: ({ live }) => header(live, "billing-api", true) +
+    `<div class="convhead"><span class="btn">${icon("back")}</span><span class="t"><span class="n">7</span>Fix the failing test</span><span class="st"><span style="color:var(--green);font-weight:700">✓</span> done</span></div>
+     <div class="seg"><div>Summary</div><div class="on">Chat</div></div>
+     <div class="body">
+       <div class="turn user"><span class="b"></span><div>Fix the failing test in billing.</div></div>
+       <div class="turn tool"><span class="b"></span><div>Bash bun test</div></div>
+       <div class="turn tool"><span class="b"></span><div>Read src/invoice.ts</div></div>
+       <div class="turn tool"><span class="b"></span><div>Update src/invoice.ts <span style="color:var(--green)">+1</span> <span style="color:var(--red)">-1</span></div></div>
+       <div class="diff"><div><span class="ln">41</span> const subtotal = items</div><div class="del"><span class="ln">42</span>-  .map(i =&gt; round(i.price * i.qty))</div><div class="add"><span class="ln">42</span>+  .map(i =&gt; i.price * i.qty)</div><div><span class="ln">43</span>   .reduce((a, b) =&gt; a + b, 0);</div></div>
+       <div class="turn tool"><span class="b"></span><div>Bash bun test · 84 passed</div></div>
+       <div class="turn"><span class="b"></span><div>Fixed. <code>subtotal</code> rounded each line item before the sum, so the total was off by a cent. All 84 tests pass now.</div></div>
+     </div><div class="prompt">Send a message</div>`,
+  pair: () => `<div class="pair"><img width="160" height="160" src="../../src/empty/wave.svg" alt="">
+     <h2>Yonder</h2><p>Talk to your agents from anywhere.</p><div class="scan">Scan the code</div>
+     <p style="font-size:14px;margin-top:18px">On the Mac, open Settings, Phone, Pair. Then scan its code.</p></div>`,
+};
+
+// The screens of the listing. Edit the words, the background (red, sun, night, cream, mint), the view and the stickers.
+// A sticker has a position (x, y in px of the 1080 x 1920 screen), a tilt (r) and its HTML.
+const SCREENS = [
+  {
+    bg: "red", title: "Talk to your<br>coding agents", sub: "A voice remote for Claude Code on your Mac.",
+    view: "agents", opts: { live: true, filter: (a) => a.status !== "done", hl: 8 }, tilt: -3,
+    stickers: [
+      { x: 40, y: 900, r: -4, html: `<span class="av" style="background:var(--text)">${icon("mic")}</span><div><div class="who">You</div>Add a CSV export to billing.</div>` },
+      { x: 280, y: 1330, r: 3, cls: "dark", html: `<span class="av" style="background:var(--live)">${icon("speaker")}</span><div><div class="who">Yonder</div>On it. Agent 8 started.</div>` },
+    ],
+  },
+  {
+    bg: "cream", title: "Every agent,<br>at a glance", sub: "See what runs, what waits on you and what is done.",
+    view: "agents", opts: { filter: () => true }, tilt: 2,
+    stickers: [
+      { x: 60, y: 1020, r: -5, html: `<span style="color:var(--blue);font-size:56px;font-weight:800">?</span><div>2 agents<br>wait on you</div>` },
+      { x: 640, y: 1480, r: 4, html: `<span style="color:var(--green);font-size:56px;font-weight:800">✓</span><div>3 done</div>` },
+    ],
+  },
+  {
+    bg: "sun", title: "Get the gist,<br>not the logs", sub: "Each agent sums up its work in a few words.",
+    view: "summary", opts: {}, tilt: -2,
+    stickers: [
+      { x: 70, y: 1440, r: -3, cls: "dark", html: `<span class="av" style="background:var(--live)">${icon("speaker")}</span><div><div class="who">Yonder</div>Agent 7 is done.<br>All 84 tests pass.</div>` },
+    ],
+  },
+  {
+    bg: "mint", title: "Every change,<br>line by line", sub: "Read the conversation and the diffs. Answer from anywhere.",
+    view: "chat", opts: {}, tilt: 2,
+    stickers: [
+      { x: 650, y: 1150, r: 6, html: `<span style="color:var(--green);font-weight:800">+1</span><span style="color:var(--red);font-weight:800">−1</span>` },
+      { x: 40, y: 1500, r: -4, html: `<span class="av" style="background:var(--text)">${icon("mic")}</span><div><div class="who">You</div>Nice. Now add a test<br>for one cent.</div>` },
+    ],
+  },
+  {
+    bg: "night", title: "Your Mac does<br>the work", sub: "Pair once with a QR code. Encrypted end to end.",
+    view: "pair", opts: {}, tilt: -2,
+    stickers: [
+      { x: 50, y: 980, r: -5, html: `<span class="av" style="background:var(--text)">${icon("lock")}</span><div>End-to-end<br>encrypted</div>` },
+      { x: 560, y: 1620, r: 4, html: `<span class="av" style="background:var(--live)">${icon("laptop")}</span><div>No ads.<br>No tracking.</div>` },
+    ],
+  },
+];
+
+const IOS = new URLSearchParams(location.search).has("ios");
+if (IOS) document.documentElement.className = "ios";
+
+const shot = (s, i) => `<div class="shot ${s.bg}" id="s${i + 1}">
+  <div class="blob" style="width:520px;height:520px;left:-160px;top:420px"></div>
+  <div class="blob" style="width:380px;height:380px;right:-120px;top:120px"></div>
+  <div class="head"><h1>${s.title}</h1><p>${s.sub}</p></div>
+  <div class="phone" style="--tilt:${s.tilt}deg"><div class="screen"><span class="camera-hole"></span><div class="ui">${VIEWS[s.view](s.opts)}</div></div></div>
+  ${s.stickers.map((k) => `<div class="sticker ${k.cls || ""}" style="left:${k.x}px;top:${IOS ? 1.2 * k.y - 112 : k.y}px;--r:${k.r}deg">${k.html}</div>`).join("")}
+</div>`;
+
+const n = Number(new URLSearchParams(location.search).get("s"));
+if (n) { document.body.className = "one"; document.body.innerHTML = shot(SCREENS[n - 1], n - 1); }
+else document.getElementById("all").innerHTML = SCREENS.map(shot).join("");
+</script>
+</body>
+</html>

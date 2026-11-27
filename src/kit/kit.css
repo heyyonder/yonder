@@ -1,0 +1,66 @@
+/* The kit of a screen (docs/screen-api.md): the parts of Yonder for a page in a frame, on the CSS variables of the theme,
+   so a new screen looks like Yonder with no work. It copies the look of the default screen (src/app.css). */
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 16px/1.4 var(--sans); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; }
+.y-page { display: flex; flex-direction: column; height: 100%; padding-bottom: var(--under, 0px); overflow: hidden; }
+.y-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.y-bar { flex: none; height: 52px; display: flex; align-items: center; gap: 10px; padding: 0 16px; }
+.y-bar > .y-title { flex: 1; text-align: center; }
+.y-title { margin: 0; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.y-section { margin: 0; padding: 8px 16px 7px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+.y-list { margin: 0; padding: 0; list-style: none; }
+.y-row { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; column-gap: 8px; align-items: center; width: 100%; padding: 9px 16px 9px 8px; border: 0; border-bottom: 1px solid var(--line); background: none; text-align: left; }
+.y-row > .y-num { grid-row: 1 / span 3; text-align: center; font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--muted); }
+.y-row > .y-name, .y-row > .y-sub { grid-column: 2; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.y-row > .y-name { font-weight: 600; }
+.y-row > .y-sub { font-size: 13px; color: var(--muted); }
+.y-row > .y-end { grid-column: 3; grid-row: 1 / span 3; font-size: 13px; color: var(--muted); }
+.y-row.y-running > .y-num, .y-running { color: var(--green); }
+.y-row.y-waiting > .y-num, .y-waiting { color: var(--blue); }
+.y-row.y-need > .y-num, .y-need { color: var(--purple); }
+.y-row.y-failed > .y-num, .y-failed { color: var(--red); }
+.y-done { color: var(--muted); }
+.y-dot { display: inline-block; flex: none; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.y-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 0 18px; border: 0; border-radius: 22px; background: var(--panel); box-shadow: inset 0 0 0 1px var(--line); font-size: 15px; font-weight: 600; }
+.y-button.y-primary { background: var(--call, var(--accent)); color: var(--call-text, var(--accent-text)); box-shadow: none; }
+.y-button.y-live { background: var(--live); color: #fff; box-shadow: none; }
+.y-button.y-wide { width: 100%; height: 52px; border-radius: 26px; }
+.y-round { display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: color-mix(in srgb, var(--panel) 70%, transparent); box-shadow: inset 0 0 0 1px var(--line); }
+.y-field { width: 100%; min-width: 0; height: 48px; padding: 0 18px; border: 0; border-radius: 24px; background: none; box-shadow: inset 0 0 0 1px var(--line); color: var(--text); font: inherit; font-size: 17px; outline: none; }
+.y-field::placeholder { color: var(--muted); }
+.y-tabs { flex: none; display: flex; margin: 0 12px 12px; padding: 4px; border-radius: 31px; background: color-mix(in srgb, var(--panel) 85%, transparent); box-shadow: inset 0 0 0 1px var(--line); }
+.y-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 54px; border: 0; border-radius: 27px; background: none; font-size: 11px; font-weight: 500; color: var(--text); }
+.y-tab[aria-selected="true"] { background: color-mix(in srgb, var(--text) 12%, transparent); }
+.y-tab svg { width: 24px; height: 24px; }
+.y-chat { display: flex; flex-direction: column; gap: 12px; padding: 14px 16px; }
+.y-bubble { align-self: flex-end; max-width: 82%; padding: 10px 14px; border-radius: 20px; background: var(--panel); white-space: pre-wrap; overflow-wrap: anywhere; }
+.y-say { white-space: pre-wrap; overflow-wrap: anywhere; }
+.y-step { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); }
+.y-muted { color: var(--muted); }
+/* <y-projects>, the project switcher (docs/screen-api.md): the pill of a dropdown with the project of the screen, and
+   the page of the projects that a tap opens over the whole screen, as the Projects tab of the default screen. */
+y-projects [hidden], .y-projects-page [hidden] { display: none !important; }
+y-projects { display: inline-flex; min-width: 0; max-width: 100%; }
+.y-pill { display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; height: 34px; padding: 0 12px; border: 0; border-radius: 17px; background: none; font-size: 16px; font-weight: 600; }
+.y-pill[aria-expanded="true"] { background: var(--hover, color-mix(in srgb, var(--text) 8%, transparent)); }
+.y-pill > span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.y-pill > .y-icon { width: 14px; height: 14px; color: var(--muted); }
+.y-pill img, .y-prow img { flex: none; width: 18px; height: 18px; object-fit: contain; }
+.y-projects-page { position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column; padding-bottom: var(--under, 0px); background: var(--bg); color: var(--text); }
+.y-projects-page > .y-bar { justify-content: center; }
+.y-ptools { flex: none; padding: 4px 16px 8px; }
+.y-ptools .y-field { height: 40px; font-size: 16px; }
+.y-prow { display: flex; align-items: center; gap: 4px; padding: 0 10px 0 16px; }
+.y-prow.y-on { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.y-prow.y-on .y-pname { color: var(--accent); font-weight: 600; }
+.y-prow.y-rest { box-shadow: inset 0 1px var(--line); }
+.y-pick { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; height: 46px; padding: 0; border: 0; background: none; font-size: 16px; text-align: left; }
+.y-pick > .y-icon { width: 18px; height: 18px; color: var(--muted); }
+.y-pname { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.y-pick > .y-dot { color: var(--live); }
+.y-star { display: grid; place-items: center; flex: none; width: 36px; height: 36px; padding: 0; border: 0; background: none; color: var(--muted); }
+.y-star > .y-icon { width: 18px; height: 18px; }
+.y-star.y-starred { color: var(--amber, var(--accent)); }
+.y-star.y-starred > .y-icon { fill: currentColor; }
+.y-icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }

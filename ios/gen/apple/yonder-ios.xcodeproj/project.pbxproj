@@ -1,0 +1,956 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		061050B55B49B413411F0E85 /* YonderAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFB08A922DC8ED1EB36C37 /* YonderAttributes.swift */; };
+		094AC08FB2852B5EE5A3FC52 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B45FED4FB99ACF2ACBF6136A /* QuartzCore.framework */; };
+		128C42DD2DC6D240B92138F6 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = D9AAAF4DACB4552CBA85DD6C /* assets */; };
+		12EC3859CC89E2971D526D34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E923A9CD8DE49C25626E30A5 /* Assets.xcassets */; };
+		1C9E2E4B2A70F3CC862F4F2C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F022703C24CFD477BE03589 /* CoreGraphics.framework */; };
+		1CE842CBC2B3D178F627F934 /* StartCallIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5E9DF62DA209F7DED3E564 /* StartCallIntent.swift */; };
+		232CF03702B113AF649207A4 /* YonderIsland.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A186412E7935DDB310279F /* YonderIsland.swift */; };
+		3401890B56A5D0F05E9803E9 /* StartCallIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D5E9DF62DA209F7DED3E564 /* StartCallIntent.swift */; };
+		4DD2B22614011FA7452CE931 /* CarLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C892A72C1AC9DA46F709E0F /* CarLink.swift */; };
+		4F03022B04D2268DEC737478 /* CarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE33B5A7C6CF4AE9073F825 /* CarStore.swift */; };
+		51A91D807F530770DAE64107 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC2533CDDF644308D383150 /* ActivityKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		56F7937924D85BD8617A5CDC /* CallIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8555849646F1BDC70E51C /* CallIntent.swift */; };
+		57C9724B4D97A896AC2540CE /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 290C7C871E7E5D846EF503A7 /* MetalKit.framework */; };
+		5C8C80B2475CFA81676E5936 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A3CC50A9ED86E280BC6FAC /* UIKit.framework */; };
+		6677DEA39F2A6A4EA9BB9BF2 /* NativeToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A94B210E6D0A28846615699 /* NativeToggle.swift */; };
+		6D3202E5356598A53D2BC31A /* CarLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C892A72C1AC9DA46F709E0F /* CarLink.swift */; };
+		6FE12B16583A9ED5AF9EC34B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B44F6B73DF1AE3BA7F0A83FF /* Assets.xcassets */; };
+		733DC661AABD4B50D3475ED8 /* Guard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908F6CCF8745B82E02586F1 /* Guard.swift */; };
+		81E9716FFC3687893D8D3A83 /* WatchLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = A008B2F381A84D9BBEE84C02 /* WatchLink.swift */; };
+		81F4E8D1B2B8F1D3D08F7AEA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3B5B9C7C50EF1FFB4A94A6F /* WebKit.framework */; };
+		824870E69F932C20EFAEF3F9 /* QuickLook.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB089185CD44DC024828DB9 /* QuickLook.swift */; };
+		82B4F31A41F284B88497CA86 /* NativeChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4870233CC0022AA33568F8B9 /* NativeChrome.swift */; };
+		836A856C1EAF541D1F997A59 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2642C5CC9F7F914D263DA375 /* LaunchScreen.storyboard */; };
+		8598704075C9E7B63665F2A0 /* libapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF80996497888E1E00DDC60 /* libapp.a */; };
+		889BB775F0CE067614D68ECA /* YonderAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFB08A922DC8ED1EB36C37 /* YonderAttributes.swift */; };
+		898FB3110B0A064151EC04CC /* AppleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19431CE9A96DA216A66D55C5 /* AppleSignIn.swift */; };
+		8AEC43F87AEF99F5C834C261 /* YonderShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2B3AC230E8C1FE8591828499 /* YonderShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8DC6ABA5CFC9653B2921F0A2 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB8C040E6ACC020A07A469AD /* AppIntents.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		8DE92752EA3E63D42AD8BD0B /* GlassButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D625C40DF2BBBE668C4F9F8 /* GlassButton.swift */; };
+		8E9A61CBE5F530A3556CF710 /* CarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE33B5A7C6CF4AE9073F825 /* CarStore.swift */; };
+		900DC0DE7910BC9DAF63867D /* StartCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75A555A38B8F2FA4E3EB95DF /* StartCall.swift */; };
+		90E90C325516C59AC0D9C3AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 020000CCA8C6C271156167F0 /* Assets.xcassets */; };
+		96A06BD44A81DF58CB2601E2 /* CarCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526E4C453E927EEC8E686C57 /* CarCall.swift */; };
+		99C510F04C641021DCE06083 /* CarCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526E4C453E927EEC8E686C57 /* CarCall.swift */; };
+		9BEB791B0C7531A317801F3E /* CarLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C892A72C1AC9DA46F709E0F /* CarLink.swift */; };
+		9D000A5EA8CCF346F78622A8 /* Abilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B4B385B2F4CC1A55E7602B /* Abilities.swift */; };
+		9EA28B8553BD39D4301D36FE /* Dictate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA3AEDCA2EBFC89DD18F46 /* Dictate.swift */; };
+		B068694E4A0EE77EA40AE24A /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CC353F9F28927A271BE1F2 /* ShareViewController.swift */; };
+		B0BDC395DC6B1F865C4AF5A4 /* GlassTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67DEA0066E785DB1145BBECD /* GlassTabBar.swift */; };
+		B4B65F363A1E251F914832D9 /* ChromeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12464A32D758709AE2AEB559 /* ChromeState.swift */; };
+		B5371400239CBB81183369A9 /* TalkWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA167CF9AF20CD25E973F6 /* TalkWidgets.swift */; };
+		B7D52D882D48808CEE458EB3 /* CarPlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22F437AD5A1F31B298E37C1 /* CarPlay.swift */; };
+		BCD9625986FB15B1AAAA9832 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 289BFFFCC254317C574B9BF4 /* Metal.framework */; };
+		CD06086BC72AC4AB02454160 /* YonderIsland.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F767F4B8FBE06948849BA33D /* YonderIsland.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE6E841872C7DE8A56C48021 /* CarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE33B5A7C6CF4AE9073F825 /* CarStore.swift */; };
+		D4D15D344A7CB93D2DCC0371 /* ShrinkVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96305B27716A7F95D977C550 /* ShrinkVideo.swift */; };
+		DBC8D14D9884FFE80319481B /* CallIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8555849646F1BDC70E51C /* CallIntent.swift */; };
+		DC6B6073E3140C7E5474AB6A /* KitSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AF07381528ACC5EEC9F23 /* KitSheet.swift */; };
+		E336C623E1CA94BBABB40D74 /* Island.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CB61CACCB707337FFAAE03 /* Island.swift */; };
+		E745D4912E86579DAA85FCEE /* YonderWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B334532ED4A199097F49A526 /* YonderWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E774EBD3E26B9A65D0E02981 /* YonderWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D412EE0009B00CFDDB2D4C /* YonderWatchApp.swift */; };
+		EA137FAB53F1D165C77CE638 /* AuthSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBBCCE4E9CE24BA4DED52B0 /* AuthSheet.swift */; };
+		F9953EB35AB09EA58E3EB50F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6305451C4483D28B70C6C84A /* Security.framework */; };
+		F9F8FE7BF8AA8FEEEA340F1E /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 79E9A60EF99539300AA6B7B4 /* main.mm */; };
+		FEE35D6E06CB56B9F01C7667 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B94CE99A7FEB4D0D76F255 /* WatchModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2ADF7249AB65CDFF7096CB94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B8639B0F0C65EB00533E79A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 429EC1082B6AE4075418D5D3;
+			remoteInfo = YonderShare;
+		};
+		967A57EF3421F49F7ED21D6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B8639B0F0C65EB00533E79A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F4415EABA51AF695C1AEA84;
+			remoteInfo = YonderIsland;
+		};
+		CD03497CDA0E13C8B6A90D23 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B8639B0F0C65EB00533E79A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 345E74EE45E1EF61F5CE8E57;
+			remoteInfo = YonderWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		456EF184C42E6185715DFF36 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				E745D4912E86579DAA85FCEE /* YonderWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6BD583D34E460958D52FF32B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CD06086BC72AC4AB02454160 /* YonderIsland.appex in Embed Foundation Extensions */,
+				8AEC43F87AEF99F5C834C261 /* YonderShare.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		01B23CA1AC128ED2A3433D10 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		020000CCA8C6C271156167F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0445FAC07589D38274B85E89 /* bindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bindings.h; sourceTree = "<group>"; };
+		0C892A72C1AC9DA46F709E0F /* CarLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarLink.swift; sourceTree = "<group>"; };
+		0EFA3AEDCA2EBFC89DD18F46 /* Dictate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictate.swift; sourceTree = "<group>"; };
+		12464A32D758709AE2AEB559 /* ChromeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeState.swift; sourceTree = "<group>"; };
+		19431CE9A96DA216A66D55C5 /* AppleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignIn.swift; sourceTree = "<group>"; };
+		1F9CECCB92EFF36560AB2BC7 /* yonder-ios_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "yonder-ios_iOS.entitlements"; sourceTree = "<group>"; };
+		2642C5CC9F7F914D263DA375 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		289BFFFCC254317C574B9BF4 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		290C7C871E7E5D846EF503A7 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		2B3AC230E8C1FE8591828499 /* YonderShare.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = YonderShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F022703C24CFD477BE03589 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		39CC353F9F28927A271BE1F2 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		3D5E9DF62DA209F7DED3E564 /* StartCallIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCallIntent.swift; sourceTree = "<group>"; };
+		4870233CC0022AA33568F8B9 /* NativeChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeChrome.swift; sourceTree = "<group>"; };
+		526E4C453E927EEC8E686C57 /* CarCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarCall.swift; sourceTree = "<group>"; };
+		5A94B210E6D0A28846615699 /* NativeToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeToggle.swift; sourceTree = "<group>"; };
+		6305451C4483D28B70C6C84A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		658AF07381528ACC5EEC9F23 /* KitSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KitSheet.swift; sourceTree = "<group>"; };
+		67DEA0066E785DB1145BBECD /* GlassTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassTabBar.swift; sourceTree = "<group>"; };
+		6D625C40DF2BBBE668C4F9F8 /* GlassButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassButton.swift; sourceTree = "<group>"; };
+		72C262DC6468A74554A4A3DE /* yonder-ios_iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "yonder-ios_iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		72EFB08A922DC8ED1EB36C37 /* YonderAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YonderAttributes.swift; sourceTree = "<group>"; };
+		75A555A38B8F2FA4E3EB95DF /* StartCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCall.swift; sourceTree = "<group>"; };
+		7908F6CCF8745B82E02586F1 /* Guard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guard.swift; sourceTree = "<group>"; };
+		79E9A60EF99539300AA6B7B4 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		82A16593AB75475C8AE45D9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		83B4B385B2F4CC1A55E7602B /* Abilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Abilities.swift; sourceTree = "<group>"; };
+		842B7699B410CC5F67ABE8F6 /* simulator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = simulator.entitlements; sourceTree = "<group>"; };
+		8EF80996497888E1E00DDC60 /* libapp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libapp.a; sourceTree = "<group>"; };
+		92A3CC50A9ED86E280BC6FAC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		96305B27716A7F95D977C550 /* ShrinkVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkVideo.swift; sourceTree = "<group>"; };
+		993AC9CBA75CF9819849DA71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9DDE4509421710E52BB1283C /* main.rs */ = {isa = PBXFileReference; path = main.rs; sourceTree = "<group>"; };
+		9E7853B9800EB48E52AD81C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A008B2F381A84D9BBEE84C02 /* WatchLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchLink.swift; sourceTree = "<group>"; };
+		B22F437AD5A1F31B298E37C1 /* CarPlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlay.swift; sourceTree = "<group>"; };
+		B334532ED4A199097F49A526 /* YonderWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YonderWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B439D6271B7FFE03C9305943 /* YonderShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = YonderShare.entitlements; sourceTree = "<group>"; };
+		B44F6B73DF1AE3BA7F0A83FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B45FED4FB99ACF2ACBF6136A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		BAE33B5A7C6CF4AE9073F825 /* CarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarStore.swift; sourceTree = "<group>"; };
+		BB8C040E6ACC020A07A469AD /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
+		BFC2533CDDF644308D383150 /* ActivityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ActivityKit.framework; path = System/Library/Frameworks/ActivityKit.framework; sourceTree = SDKROOT; };
+		C1CB61CACCB707337FFAAE03 /* Island.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Island.swift; sourceTree = "<group>"; };
+		C5DA167CF9AF20CD25E973F6 /* TalkWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TalkWidgets.swift; sourceTree = "<group>"; };
+		CEBBCCE4E9CE24BA4DED52B0 /* AuthSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSheet.swift; sourceTree = "<group>"; };
+		D0A8555849646F1BDC70E51C /* CallIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallIntent.swift; sourceTree = "<group>"; };
+		D2D412EE0009B00CFDDB2D4C /* YonderWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YonderWatchApp.swift; sourceTree = "<group>"; };
+		D9AAAF4DACB4552CBA85DD6C /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = SOURCE_ROOT; };
+		DFB089185CD44DC024828DB9 /* QuickLook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLook.swift; sourceTree = "<group>"; };
+		E0A186412E7935DDB310279F /* YonderIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YonderIsland.swift; sourceTree = "<group>"; };
+		E5B94CE99A7FEB4D0D76F255 /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
+		E923A9CD8DE49C25626E30A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F3B5B9C7C50EF1FFB4A94A6F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		F732348A1294EA5E71ECB391 /* lib.rs */ = {isa = PBXFileReference; path = lib.rs; sourceTree = "<group>"; };
+		F767F4B8FBE06948849BA33D /* YonderIsland.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = YonderIsland.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CB01023B9147F2E74CBF7242 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8598704075C9E7B63665F2A0 /* libapp.a in Frameworks */,
+				1C9E2E4B2A70F3CC862F4F2C /* CoreGraphics.framework in Frameworks */,
+				BCD9625986FB15B1AAAA9832 /* Metal.framework in Frameworks */,
+				57C9724B4D97A896AC2540CE /* MetalKit.framework in Frameworks */,
+				094AC08FB2852B5EE5A3FC52 /* QuartzCore.framework in Frameworks */,
+				F9953EB35AB09EA58E3EB50F /* Security.framework in Frameworks */,
+				5C8C80B2475CFA81676E5936 /* UIKit.framework in Frameworks */,
+				81F4E8D1B2B8F1D3D08F7AEA /* WebKit.framework in Frameworks */,
+				51A91D807F530770DAE64107 /* ActivityKit.framework in Frameworks */,
+				8DC6ABA5CFC9653B2921F0A2 /* AppIntents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1710CE1DA85B06A0D60A0986 /* YonderShare */ = {
+			isa = PBXGroup;
+			children = (
+				9E7853B9800EB48E52AD81C8 /* Info.plist */,
+				39CC353F9F28927A271BE1F2 /* ShareViewController.swift */,
+				B439D6271B7FFE03C9305943 /* YonderShare.entitlements */,
+			);
+			path = YonderShare;
+			sourceTree = "<group>";
+		};
+		2ACCFA5B9AA7B532AFA11E72 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BFC2533CDDF644308D383150 /* ActivityKit.framework */,
+				BB8C040E6ACC020A07A469AD /* AppIntents.framework */,
+				2F022703C24CFD477BE03589 /* CoreGraphics.framework */,
+				8EF80996497888E1E00DDC60 /* libapp.a */,
+				289BFFFCC254317C574B9BF4 /* Metal.framework */,
+				290C7C871E7E5D846EF503A7 /* MetalKit.framework */,
+				B45FED4FB99ACF2ACBF6136A /* QuartzCore.framework */,
+				6305451C4483D28B70C6C84A /* Security.framework */,
+				92A3CC50A9ED86E280BC6FAC /* UIKit.framework */,
+				F3B5B9C7C50EF1FFB4A94A6F /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		35EA0A89F4678830E991E2D0 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				C95AE3079FCAC6C3AC1AA2FD /* yonder-ios */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		3BEFA7FBD312D7C4CE1DEB82 /* YonderIsland */ = {
+			isa = PBXGroup;
+			children = (
+				020000CCA8C6C271156167F0 /* Assets.xcassets */,
+				D0A8555849646F1BDC70E51C /* CallIntent.swift */,
+				993AC9CBA75CF9819849DA71 /* Info.plist */,
+				3D5E9DF62DA209F7DED3E564 /* StartCallIntent.swift */,
+				C5DA167CF9AF20CD25E973F6 /* TalkWidgets.swift */,
+				72EFB08A922DC8ED1EB36C37 /* YonderAttributes.swift */,
+				E0A186412E7935DDB310279F /* YonderIsland.swift */,
+			);
+			path = YonderIsland;
+			sourceTree = "<group>";
+		};
+		3F77B609EEA8FE92A59895B0 /* bindings */ = {
+			isa = PBXGroup;
+			children = (
+				0445FAC07589D38274B85E89 /* bindings.h */,
+			);
+			path = bindings;
+			sourceTree = "<group>";
+		};
+		66B66A665677778F67201FD9 /* YonderWatch */ = {
+			isa = PBXGroup;
+			children = (
+				E923A9CD8DE49C25626E30A5 /* Assets.xcassets */,
+				82A16593AB75475C8AE45D9A /* Info.plist */,
+				E5B94CE99A7FEB4D0D76F255 /* WatchModel.swift */,
+				D2D412EE0009B00CFDDB2D4C /* YonderWatchApp.swift */,
+			);
+			path = YonderWatch;
+			sourceTree = "<group>";
+		};
+		A8AEFFB0C18CBFF9E41B4A22 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				72C262DC6468A74554A4A3DE /* yonder-ios_iOS.app */,
+				F767F4B8FBE06948849BA33D /* YonderIsland.appex */,
+				2B3AC230E8C1FE8591828499 /* YonderShare.appex */,
+				B334532ED4A199097F49A526 /* YonderWatch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C1B248C11E9EAA8E475761BE /* yonder-ios_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				01B23CA1AC128ED2A3433D10 /* Info.plist */,
+				842B7699B410CC5F67ABE8F6 /* simulator.entitlements */,
+				1F9CECCB92EFF36560AB2BC7 /* yonder-ios_iOS.entitlements */,
+			);
+			path = "yonder-ios_iOS";
+			sourceTree = "<group>";
+		};
+		C95AE3079FCAC6C3AC1AA2FD /* yonder-ios */ = {
+			isa = PBXGroup;
+			children = (
+				83B4B385B2F4CC1A55E7602B /* Abilities.swift */,
+				19431CE9A96DA216A66D55C5 /* AppleSignIn.swift */,
+				CEBBCCE4E9CE24BA4DED52B0 /* AuthSheet.swift */,
+				526E4C453E927EEC8E686C57 /* CarCall.swift */,
+				0C892A72C1AC9DA46F709E0F /* CarLink.swift */,
+				B22F437AD5A1F31B298E37C1 /* CarPlay.swift */,
+				BAE33B5A7C6CF4AE9073F825 /* CarStore.swift */,
+				12464A32D758709AE2AEB559 /* ChromeState.swift */,
+				0EFA3AEDCA2EBFC89DD18F46 /* Dictate.swift */,
+				6D625C40DF2BBBE668C4F9F8 /* GlassButton.swift */,
+				67DEA0066E785DB1145BBECD /* GlassTabBar.swift */,
+				7908F6CCF8745B82E02586F1 /* Guard.swift */,
+				C1CB61CACCB707337FFAAE03 /* Island.swift */,
+				658AF07381528ACC5EEC9F23 /* KitSheet.swift */,
+				79E9A60EF99539300AA6B7B4 /* main.mm */,
+				4870233CC0022AA33568F8B9 /* NativeChrome.swift */,
+				5A94B210E6D0A28846615699 /* NativeToggle.swift */,
+				DFB089185CD44DC024828DB9 /* QuickLook.swift */,
+				96305B27716A7F95D977C550 /* ShrinkVideo.swift */,
+				75A555A38B8F2FA4E3EB95DF /* StartCall.swift */,
+				A008B2F381A84D9BBEE84C02 /* WatchLink.swift */,
+				3F77B609EEA8FE92A59895B0 /* bindings */,
+			);
+			path = "yonder-ios";
+			sourceTree = "<group>";
+		};
+		EDC6A8477746DCA4E9FD2586 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F732348A1294EA5E71ECB391 /* lib.rs */,
+				9DDE4509421710E52BB1283C /* main.rs */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
+		F4EB05A5DF8B4232A57F4790 = {
+			isa = PBXGroup;
+			children = (
+				D9AAAF4DACB4552CBA85DD6C /* assets */,
+				B44F6B73DF1AE3BA7F0A83FF /* Assets.xcassets */,
+				2642C5CC9F7F914D263DA375 /* LaunchScreen.storyboard */,
+				FC6FFEE3E7B701D88420E951 /* Externals */,
+				35EA0A89F4678830E991E2D0 /* Sources */,
+				EDC6A8477746DCA4E9FD2586 /* src */,
+				C1B248C11E9EAA8E475761BE /* yonder-ios_iOS */,
+				3BEFA7FBD312D7C4CE1DEB82 /* YonderIsland */,
+				1710CE1DA85B06A0D60A0986 /* YonderShare */,
+				66B66A665677778F67201FD9 /* YonderWatch */,
+				2ACCFA5B9AA7B532AFA11E72 /* Frameworks */,
+				A8AEFFB0C18CBFF9E41B4A22 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FC6FFEE3E7B701D88420E951 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		28B0A8589ED3177CB8CEC9BC /* yonder-ios_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82032D4554F6EFBF5BD859D5 /* Build configuration list for PBXNativeTarget "yonder-ios_iOS" */;
+			buildPhases = (
+				AA8FEACED46D939EE2AB06AD /* Build Rust Code */,
+				08065262BC3A7C407B85E261 /* Sources */,
+				720D6EBE901895B41F539781 /* Resources */,
+				CB01023B9147F2E74CBF7242 /* Frameworks */,
+				6BD583D34E460958D52FF32B /* Embed Foundation Extensions */,
+				456EF184C42E6185715DFF36 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2A4AAAC16F5BDF2404F84C4E /* PBXTargetDependency */,
+				3C8F981EE2941F82C1E3BCA0 /* PBXTargetDependency */,
+				C4791FAA809398D552F63944 /* PBXTargetDependency */,
+			);
+			name = "yonder-ios_iOS";
+			packageProductDependencies = (
+			);
+			productName = "yonder-ios_iOS";
+			productReference = 72C262DC6468A74554A4A3DE /* yonder-ios_iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		345E74EE45E1EF61F5CE8E57 /* YonderWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82DF33C69821FE72EF4EC9DE /* Build configuration list for PBXNativeTarget "YonderWatch" */;
+			buildPhases = (
+				22F95C92940BE0528733410D /* Sources */,
+				EE981BFC7D56B92068776B83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YonderWatch;
+			packageProductDependencies = (
+			);
+			productName = YonderWatch;
+			productReference = B334532ED4A199097F49A526 /* YonderWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		429EC1082B6AE4075418D5D3 /* YonderShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 051E012251E33BB6889933C1 /* Build configuration list for PBXNativeTarget "YonderShare" */;
+			buildPhases = (
+				F2D5F8E8353CF25957D0A1B5 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YonderShare;
+			packageProductDependencies = (
+			);
+			productName = YonderShare;
+			productReference = 2B3AC230E8C1FE8591828499 /* YonderShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		6F4415EABA51AF695C1AEA84 /* YonderIsland */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4FAF94B512D93F0FC11F8B3 /* Build configuration list for PBXNativeTarget "YonderIsland" */;
+			buildPhases = (
+				E9C89A34B31E0E8D318E8BC7 /* Sources */,
+				2B4492258443A3B766BE59BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YonderIsland;
+			packageProductDependencies = (
+			);
+			productName = YonderIsland;
+			productReference = F767F4B8FBE06948849BA33D /* YonderIsland.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B8639B0F0C65EB00533E79A1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					28B0A8589ED3177CB8CEC9BC = {
+						DevelopmentTeam = C5338FSGXJ;
+					};
+					345E74EE45E1EF61F5CE8E57 = {
+						DevelopmentTeam = C5338FSGXJ;
+					};
+					429EC1082B6AE4075418D5D3 = {
+						DevelopmentTeam = C5338FSGXJ;
+					};
+					6F4415EABA51AF695C1AEA84 = {
+						DevelopmentTeam = C5338FSGXJ;
+					};
+				};
+			};
+			buildConfigurationList = 67840D39AD9CEBFAD0E5100E /* Build configuration list for PBXProject "yonder-ios" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = F4EB05A5DF8B4232A57F4790;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A8AEFFB0C18CBFF9E41B4A22 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				28B0A8589ED3177CB8CEC9BC /* yonder-ios_iOS */,
+				6F4415EABA51AF695C1AEA84 /* YonderIsland */,
+				429EC1082B6AE4075418D5D3 /* YonderShare */,
+				345E74EE45E1EF61F5CE8E57 /* YonderWatch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2B4492258443A3B766BE59BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90E90C325516C59AC0D9C3AD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		720D6EBE901895B41F539781 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FE12B16583A9ED5AF9EC34B /* Assets.xcassets in Resources */,
+				836A856C1EAF541D1F997A59 /* LaunchScreen.storyboard in Resources */,
+				128C42DD2DC6D240B92138F6 /* assets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE981BFC7D56B92068776B83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12EC3859CC89E2971D526D34 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AA8FEACED46D939EE2AB06AD /* Build Rust Code */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Rust Code";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Externals/x86_64/${CONFIGURATION}/libapp.a",
+				"$(SRCROOT)/Externals/arm64/${CONFIGURATION}/libapp.a",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bun tauri ios xcode-script -v --platform \"${PLATFORM_DISPLAY_NAME:?}\" --sdk-root \"${SDKROOT:?}\" --framework-search-paths \"${FRAMEWORK_SEARCH_PATHS:?}\" --header-search-paths \"${HEADER_SEARCH_PATHS:?}\" --gcc-preprocessor-definitions \"${GCC_PREPROCESSOR_DEFINITIONS:-}\" --configuration \"${CONFIGURATION:?}\" ${ARCHS:?}\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		08065262BC3A7C407B85E261 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D000A5EA8CCF346F78622A8 /* Abilities.swift in Sources */,
+				898FB3110B0A064151EC04CC /* AppleSignIn.swift in Sources */,
+				EA137FAB53F1D165C77CE638 /* AuthSheet.swift in Sources */,
+				DBC8D14D9884FFE80319481B /* CallIntent.swift in Sources */,
+				96A06BD44A81DF58CB2601E2 /* CarCall.swift in Sources */,
+				6D3202E5356598A53D2BC31A /* CarLink.swift in Sources */,
+				B7D52D882D48808CEE458EB3 /* CarPlay.swift in Sources */,
+				CE6E841872C7DE8A56C48021 /* CarStore.swift in Sources */,
+				B4B65F363A1E251F914832D9 /* ChromeState.swift in Sources */,
+				9EA28B8553BD39D4301D36FE /* Dictate.swift in Sources */,
+				8DE92752EA3E63D42AD8BD0B /* GlassButton.swift in Sources */,
+				B0BDC395DC6B1F865C4AF5A4 /* GlassTabBar.swift in Sources */,
+				733DC661AABD4B50D3475ED8 /* Guard.swift in Sources */,
+				E336C623E1CA94BBABB40D74 /* Island.swift in Sources */,
+				DC6B6073E3140C7E5474AB6A /* KitSheet.swift in Sources */,
+				82B4F31A41F284B88497CA86 /* NativeChrome.swift in Sources */,
+				6677DEA39F2A6A4EA9BB9BF2 /* NativeToggle.swift in Sources */,
+				824870E69F932C20EFAEF3F9 /* QuickLook.swift in Sources */,
+				D4D15D344A7CB93D2DCC0371 /* ShrinkVideo.swift in Sources */,
+				900DC0DE7910BC9DAF63867D /* StartCall.swift in Sources */,
+				1CE842CBC2B3D178F627F934 /* StartCallIntent.swift in Sources */,
+				81E9716FFC3687893D8D3A83 /* WatchLink.swift in Sources */,
+				061050B55B49B413411F0E85 /* YonderAttributes.swift in Sources */,
+				F9F8FE7BF8AA8FEEEA340F1E /* main.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22F95C92940BE0528733410D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				99C510F04C641021DCE06083 /* CarCall.swift in Sources */,
+				4DD2B22614011FA7452CE931 /* CarLink.swift in Sources */,
+				4F03022B04D2268DEC737478 /* CarStore.swift in Sources */,
+				FEE35D6E06CB56B9F01C7667 /* WatchModel.swift in Sources */,
+				E774EBD3E26B9A65D0E02981 /* YonderWatchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E9C89A34B31E0E8D318E8BC7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56F7937924D85BD8617A5CDC /* CallIntent.swift in Sources */,
+				3401890B56A5D0F05E9803E9 /* StartCallIntent.swift in Sources */,
+				B5371400239CBB81183369A9 /* TalkWidgets.swift in Sources */,
+				889BB775F0CE067614D68ECA /* YonderAttributes.swift in Sources */,
+				232CF03702B113AF649207A4 /* YonderIsland.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2D5F8E8353CF25957D0A1B5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9BEB791B0C7531A317801F3E /* CarLink.swift in Sources */,
+				8E9A61CBE5F530A3556CF710 /* CarStore.swift in Sources */,
+				B068694E4A0EE77EA40AE24A /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2A4AAAC16F5BDF2404F84C4E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F4415EABA51AF695C1AEA84 /* YonderIsland */;
+			targetProxy = 967A57EF3421F49F7ED21D6F /* PBXContainerItemProxy */;
+		};
+		3C8F981EE2941F82C1E3BCA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 429EC1082B6AE4075418D5D3 /* YonderShare */;
+			targetProxy = 2ADF7249AB65CDFF7096CB94 /* PBXContainerItemProxy */;
+		};
+		C4791FAA809398D552F63944 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 345E74EE45E1EF61F5CE8E57 /* YonderWatch */;
+			targetProxy = CD03497CDA0E13C8B6A90D23 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		029F95FD892A6A368D60E8B5 /* release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = release;
+		};
+		497C9E153658310A8BCC44AE /* release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = (
+					arm64,
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "yonder-ios_iOS/yonder-ios_iOS.entitlements";
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = "yonder-ios_iOS/simulator.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = C5338FSGXJ;
+				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\".\"",
+				);
+				INFOPLIST_FILE = "yonder-ios_iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = "$(inherited) $(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/$(PLATFORM_NAME) $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = "$(inherited) $(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/$(PLATFORM_NAME) $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladartym.yonder;
+				PRODUCT_NAME = Yonder;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = arm64;
+			};
+			name = release;
+		};
+		501497CFCB36C34B3349BF4E /* debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = debug;
+		};
+		5E2C60AF44BDA735E5BFEC41 /* debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = C5338FSGXJ;
+				INFOPLIST_FILE = YonderWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladartym.yonder.watchkitapp;
+				PRODUCT_NAME = YonderWatch;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = debug;
+		};
+		AADFD0756AA1A4B290A83142 /* debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = C5338FSGXJ;
+				INFOPLIST_FILE = YonderIsland/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladartym.yonder.island;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = debug;
+		};
+		B412C207BBEA866E328B2DB6 /* debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = (
+					arm64,
+				);
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "yonder-ios_iOS/yonder-ios_iOS.entitlements";
+				"CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]" = "yonder-ios_iOS/simulator.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = C5338FSGXJ;
+				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphoneos*]" = x86_64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\".\"",
+				);
+				INFOPLIST_FILE = "yonder-ios_iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				"LIBRARY_SEARCH_PATHS[arch=arm64]" = "$(inherited) $(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/$(PLATFORM_NAME) $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				"LIBRARY_SEARCH_PATHS[arch=x86_64]" = "$(inherited) $(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/$(PLATFORM_NAME) $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/$(PLATFORM_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladartym.yonder;
+				PRODUCT_NAME = Yonder;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = arm64;
+			};
+			name = debug;
+		};
+		C4DD8BD1AF45E6F7703F1C2D /* release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = C5338FSGXJ;
+				INFOPLIST_FILE = YonderIsland/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladartym.yonder.island;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = release;
+		};
+		EF6CE9A6ED0449FA367286E4 /* release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = C5338FSGXJ;
+				INFOPLIST_FILE = YonderWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladartym.yonder.watchkitapp;
+				PRODUCT_NAME = YonderWatch;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = release;
+		};
+		F02E3ECDC882C14854BF9219 /* release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = YonderShare/YonderShare.entitlements;
+				DEVELOPMENT_TEAM = C5338FSGXJ;
+				INFOPLIST_FILE = YonderShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladartym.yonder.share;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = release;
+		};
+		F94C70AB237FC80C6AC1F53F /* debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = YonderShare/YonderShare.entitlements;
+				DEVELOPMENT_TEAM = C5338FSGXJ;
+				INFOPLIST_FILE = YonderShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.vladartym.yonder.share;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		051E012251E33BB6889933C1 /* Build configuration list for PBXNativeTarget "YonderShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F94C70AB237FC80C6AC1F53F /* debug */,
+				F02E3ECDC882C14854BF9219 /* release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = debug;
+		};
+		67840D39AD9CEBFAD0E5100E /* Build configuration list for PBXProject "yonder-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				501497CFCB36C34B3349BF4E /* debug */,
+				029F95FD892A6A368D60E8B5 /* release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = debug;
+		};
+		82032D4554F6EFBF5BD859D5 /* Build configuration list for PBXNativeTarget "yonder-ios_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B412C207BBEA866E328B2DB6 /* debug */,
+				497C9E153658310A8BCC44AE /* release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = debug;
+		};
+		82DF33C69821FE72EF4EC9DE /* Build configuration list for PBXNativeTarget "YonderWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E2C60AF44BDA735E5BFEC41 /* debug */,
+				EF6CE9A6ED0449FA367286E4 /* release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = debug;
+		};
+		D4FAF94B512D93F0FC11F8B3 /* Build configuration list for PBXNativeTarget "YonderIsland" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AADFD0756AA1A4B290A83142 /* debug */,
+				C4DD8BD1AF45E6F7703F1C2D /* release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B8639B0F0C65EB00533E79A1 /* Project object */;
+}

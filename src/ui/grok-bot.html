@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Grok Bot</title>
+<style>
+/* The look of Grok Bot: plain surfaces, round buttons, and one shape with a color for each agent. The colors of the
+   screen are the tokens of screen.json; these are the parts that the tokens do not name. */
+:root { --me: #0b0b0b; --me-text: #fff; --btn: #f0f0f0; --sheet: #f0f0f0; --field: #e3e3e3; --input: #fcfcfc; --group: #fcfcfc; --ring: #c4c4c4; --ink: var(--text); --shade: rgba(0, 0, 0, 0.25); }
+:root[data-theme="dark"] { --me: #4f4f4f; --btn: #2e2e2e; --sheet: #1c1c1c; --field: #272729; --input: #1b1b1b; --group: #262626; --ring: #5c5c5c; --shade: rgba(0, 0, 0, 0.5); }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; overscroll-behavior: none; background: var(--bg); color: var(--text); font: 17px/1.3 var(--sans, -apple-system, system-ui, sans-serif); -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; margin: 0; cursor: pointer; -webkit-user-select: none; user-select: none; }
+input, textarea { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+svg.av { display: block; flex: none; overflow: visible; }
+
+.shell { position: fixed; inset: 0; display: flex; }
+.home, .chat, .empty { position: relative; display: flex; flex-direction: column; min-width: 0; height: 100%; }
+.home, .chat { flex: 1; }
+body[data-view="chat"] .home, body[data-view="home"] .chat, .empty { display: none; }
+
+.circ { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--btn); }
+.circ.lg { width: 50px; height: 50px; }
+.circ.lg svg.i { width: 24px; height: 24px; }
+.circ:active, .row:active, .chip:active, .pill:active, .wide:active, .group button:active, .newbtn:active { opacity: 0.6; }
+.circ.live { background: var(--live); color: #fff; }
+.circ.wait { animation: pulse 1.2s ease-in-out infinite; }
+
+/* The list of agents */
+.top { flex: none; position: relative; display: flex; align-items: center; justify-content: space-between; height: 59px; padding: 0 16px; }
+.top .mid { position: absolute; left: 76px; right: 76px; display: flex; justify-content: center; pointer-events: none; }
+.top .mid > * { pointer-events: auto; }
+#me { color: var(--muted); }
+y-projects .y-pill { height: 40px; padding: 0 14px; border-radius: 20px; background: var(--btn); font-size: 16px; font-weight: 600; }
+.chips { flex: none; display: flex; gap: 8px; padding: 5px 16px 8px; overflow-x: auto; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; height: 34px; padding: 0 15px; border-radius: 17px; background: var(--btn); font-size: 15px; font-weight: 500; white-space: nowrap; }
+.chip[aria-selected="true"] { background: var(--text); color: var(--bg); }
+.list { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 2px 0 12px; }
+.row { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 78px; padding: 8px 20px 8px 16px; text-align: left; }
+.row.on { background: var(--hover); }
+.row svg.av { width: 48px; height: 48px; }
+.txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.l1, .l2 { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.nm { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 17px; font-weight: 590; }
+.num { font-weight: 400; color: var(--muted); }
+.tm { flex: none; font-size: 15px; color: var(--muted); }
+.sub { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 15px; color: var(--muted); }
+.bad { color: var(--red); font-weight: 500; }
+.dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--blue); }
+.dot.need { background: var(--purple); }
+.none { margin: 56px 20px; text-align: center; font-size: 15px; color: var(--muted); }
+.bottom { flex: none; display: flex; align-items: center; gap: 10px; padding: 8px 16px calc(10px + var(--under, 0px)); }
+.search { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; height: 50px; padding: 0 16px; border-radius: 25px; background: var(--btn); color: var(--muted); }
+.search input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; outline: none; font-size: 17px; color: var(--text); }
+.search input::placeholder { color: var(--muted); }
+
+/* A chat */
+.ctop { position: absolute; z-index: 3; top: 0; left: 0; right: 0; height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: linear-gradient(var(--bg) 55%, transparent); pointer-events: none; }
+.ctop > * { pointer-events: auto; }
+.who { position: absolute; left: 50%; transform: translateX(-50%); max-width: calc(100% - 140px); display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px 0 8px; border-radius: 22px; background: var(--btn); font-size: 17px; font-weight: 600; }
+.who svg.av { width: 30px; height: 30px; }
+.who span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.msgs { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 8px; padding: 76px 16px 12px; }
+.day { align-self: center; margin: 4px 0 10px; font-size: 14px; color: var(--muted); }
+.b { max-width: min(84%, 640px); padding: 11px 16px; border-radius: 22px; font-size: 17px; line-height: 1.32; white-space: pre-wrap; overflow-wrap: anywhere; }
+.b.me { align-self: flex-end; background: var(--me); color: var(--me-text); }
+.b.bot { align-self: flex-start; background: var(--panel); }
+.b.me + .b.bot, .b.bot + .b.me { margin-top: 10px; }
+.b.wait { opacity: 0.55; }
+.b code { font: 0.86em var(--mono, ui-monospace, monospace); }
+.b pre { margin: 6px 0; padding: 10px 12px; border-radius: 12px; background: var(--bg); font: 13px/1.45 var(--mono, ui-monospace, monospace); white-space: pre-wrap; }
+.status { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 16px; color: var(--muted); }
+.status svg.av { width: 26px; height: 26px; }
+.shim { background: linear-gradient(90deg, var(--muted) 30%, var(--text) 50%, var(--muted) 70%) 100% 0 / 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shim 2.4s linear infinite; }
+.files { flex: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px; }
+.file { display: flex; align-items: center; gap: 4px; max-width: 100%; height: 34px; padding: 0 4px 0 12px; border-radius: 17px; background: var(--btn); font-size: 14px; }
+.file span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.file button { display: grid; place-items: center; width: 28px; height: 28px; }
+.file svg.i { width: 16px; height: 16px; }
+.composer { flex: none; display: flex; align-items: flex-end; gap: 10px; padding: 8px 16px calc(10px + var(--under, 0px)); }
+.field { flex: 1; min-width: 0; display: flex; align-items: flex-end; gap: 6px; min-height: 50px; padding: 5px 5px 5px 18px; border-radius: 25px; background: var(--input); box-shadow: inset 0 0 0 1px var(--line); }
+.field textarea { flex: 1; min-width: 0; height: 40px; max-height: 132px; padding: 9px 0; border: 0; background: none; outline: none; resize: none; font-size: 17px; line-height: 22px; color: var(--text); }
+.field textarea::placeholder { color: var(--muted); }
+.mini { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--btn); color: var(--muted); }
+.mini svg.i { width: 20px; height: 20px; }
+.mini.send { background: var(--accent); color: var(--accent-text); }
+.mini.rec { background: var(--red); color: #fff; }
+/* Each control takes a tap of 44 px or more, also where it looks smaller, as in Grok Bot. */
+.chip, .mini, .file button { position: relative; }
+.chip::after { content: ""; position: absolute; inset: -5px 0; }
+.mini::after { content: ""; position: absolute; inset: -2px; }
+.file button::after { content: ""; position: absolute; inset: -8px; }
+
+/* An approval: a card with two buttons, in the list and in the chat */
+.card { margin: 4px 16px 10px; padding: 14px 16px 16px; border-radius: 22px; background: var(--panel); }
+.chat .card { margin: 0 16px 8px; }
+.by { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); }
+.by svg.av { width: 20px; height: 20px; }
+.card .pill { background: var(--field); }
+.card h3 { margin: 8px 0 4px; font-size: 17px; font-weight: 600; overflow-wrap: anywhere; }
+.card p { margin: 2px 0; font-size: 15px; color: var(--muted); overflow-wrap: anywhere; }
+.acts { display: flex; gap: 10px; margin-top: 14px; }
+.pill { flex: 1; height: 46px; border-radius: 23px; background: var(--btn); font-size: 16px; font-weight: 600; }
+.pill.main { background: var(--accent); color: var(--accent-text); }
+
+/* Sheets from the bottom */
+.layer { position: fixed; inset: 0; z-index: 20; display: flex; align-items: flex-end; justify-content: center; }
+.shade { position: absolute; inset: 0; background: var(--shade); animation: fade 0.25s ease; }
+.sheet { position: relative; width: 100%; max-width: 520px; max-height: calc(100% - 40px); overflow-y: auto; padding: 16px 20px calc(20px + var(--under, 0px)); border-radius: 32px 32px 0 0; background: var(--sheet); animation: up 0.34s cubic-bezier(0.2, 0.9, 0.25, 1); }
+.sh { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
+.sh h2 { margin: 0; font-size: 17px; font-weight: 600; }
+.preview { display: grid; place-items: center; height: 150px; }
+.preview svg.av { width: 112px; height: 112px; }
+.pop { animation: pop 0.3s ease; }
+.name { display: block; width: 100%; height: 54px; padding: 0 16px; border: 0; border-radius: 18px; background: var(--field); outline: none; text-align: center; font-size: 22px; font-weight: 600; color: var(--text); }
+.name::placeholder { color: var(--muted); }
+.shapes { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 6px; max-width: 340px; margin: 16px auto 14px; }
+.shapes button, .colors button { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; }
+.shapes svg.av { width: 40px; height: 40px; }
+.colors { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 12px; margin: 0 auto 16px; max-width: 420px; }
+.colors button { width: 44px; height: 44px; }
+.colors i { display: block; width: 32px; height: 32px; border-radius: 50%; }
+.shapes [aria-pressed="true"], .colors [aria-pressed="true"] { box-shadow: inset 0 0 0 3px var(--ring); }
+.wide { display: block; width: 100%; height: 50px; border-radius: 27px; background: var(--accent); color: var(--accent-text); font-size: 17px; font-weight: 600; }
+.wide.soft { margin-top: 10px; background: var(--group); color: var(--text); }
+/* A short phone, such as the iPhone SE: the same sheet, smaller, so it still fits with no scroll. */
+@media (max-height: 700px) {
+  .preview { height: 106px; }
+  .preview svg.av { width: 80px; height: 80px; }
+  .name { height: 48px; font-size: 20px; }
+  .shapes { margin: 10px auto; }
+  .shapes button { width: 46px; height: 46px; }
+  .shapes svg.av { width: 34px; height: 34px; }
+  .colors { margin-bottom: 12px; }
+  .colors button { width: 40px; height: 40px; }
+  .colors i { width: 30px; height: 30px; }
+  .wide { height: 46px; }
+}
+.group { overflow: hidden; border-radius: 20px; background: var(--group); }
+.group button { display: flex; align-items: center; gap: 14px; width: 100%; height: 54px; padding: 0 18px; text-align: left; font-size: 17px; }
+.group button + button { box-shadow: inset 0 1px var(--line); }
+.group .bad { font-weight: 400; }
+.apps { display: flex; flex-direction: column; gap: 2px; margin-top: 10px; }
+.app { display: flex; align-items: center; gap: 14px; width: 100%; padding: 10px 4px; text-align: left; }
+.ico { display: grid; place-items: center; flex: none; width: 44px; height: 44px; overflow: hidden; border-radius: 12px; background: var(--group); font-size: 22px; font-weight: 600; }
+.ico img { width: 28px; height: 28px; object-fit: contain; }
+.app b { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 16px; font-weight: 600; }
+.app small { font-size: 13px; color: var(--muted); }
+.apps.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; }
+.apps.grid .app { flex-direction: column; gap: 6px; padding: 4px 0; text-align: center; min-width: 0; }
+.apps.grid .ico { width: 60px; height: 60px; border-radius: 16px; }
+.apps.grid .app span { width: 100%; min-width: 0; }
+.apps.grid small { display: none; }
+.apps.grid b { font-size: 12px; font-weight: 500; }
+.toast { position: fixed; z-index: 30; top: 12px; left: 50%; transform: translateX(-50%); max-width: calc(100% - 32px); padding: 10px 16px; border-radius: 20px; background: var(--text); color: var(--bg); font-size: 15px; animation: fade 0.2s ease; }
+
+/* The Mac and wide windows: the list on the left and the chat on the right, as in Grok Bot on the iPad */
+.blob { position: absolute; transform: translate(-50%, -50%); }
+.blob svg.av { width: 100%; height: 100%; }
+.newbtn { position: relative; height: 50px; padding: 0 24px; border-radius: 25px; background: var(--accent); color: var(--accent-text); font-size: 17px; font-weight: 600; }
+@media (min-width: 720px) {
+  body[data-view] .home { display: flex; flex: none; width: 340px; box-shadow: inset -1px 0 var(--line); }
+  body[data-view="home"] .empty { display: flex; flex: 1; align-items: center; justify-content: center; overflow: hidden; }
+  #back { visibility: hidden; }
+}
+@media (max-width: 719px) { .chat.in { animation: push 0.3s cubic-bezier(0.2, 0.9, 0.25, 1); } }
+
+@keyframes up { from { transform: translateY(100%); } }
+@keyframes fade { from { opacity: 0; } }
+@keyframes push { from { transform: translateX(40%); opacity: 0; } }
+@keyframes pop { 50% { transform: scale(1.1); } }
+@keyframes pulse { 50% { opacity: 0.5; } }
+@keyframes shim { to { background-position: 0 0; } }
+@media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body data-view="home">
+<div class="shell">
+  <section class="home">
+    <header class="top">
+      <button class="circ" id="me" aria-label="Settings"></button>
+      <div class="mid"><y-projects></y-projects></div>
+      <button class="circ lg" id="new" aria-label="New"></button>
+    </header>
+    <nav class="chips" id="chips"></nav>
+    <main class="list" id="list"></main>
+    <footer class="bottom">
+      <button class="circ lg" id="apps" aria-label="Apps"></button>
+      <label class="search"><span id="lens"></span><input id="q" placeholder="Search" autocomplete="off" aria-label="Search"></label>
+      <button class="circ lg" id="call" aria-label="Call"></button>
+    </footer>
+  </section>
+  <section class="chat" id="chat">
+    <header class="ctop">
+      <button class="circ" id="back" aria-label="Back"></button>
+      <button class="who" id="who" aria-label="Edit the look"></button>
+      <button class="circ" id="more" aria-label="More"></button>
+    </header>
+    <main class="msgs" id="msgs"></main>
+    <div id="asks"></div>
+    <div class="files" id="files"></div>
+    <footer class="composer">
+      <button class="circ lg" id="attach" aria-label="Attach"></button>
+      <div class="field">
+        <textarea id="text" rows="1" placeholder="Message" aria-label="Message"></textarea>
+        <button class="mini" id="mic" aria-label="Dictate"></button>
+        <button class="mini send" id="send" aria-label="Send" hidden></button>
+      </div>
+    </footer>
+  </section>
+  <section class="empty" id="empty"></section>
+</div>
+<script>
+(() => {
+  const Y = window.yonder;
+  const W = Object.assign({ one: "agent", many: "agents", One: "Agent", Many: "Agents" }, Y.word || {});
+  const root = document.documentElement;
+  // The app sets the look on <html>. A test page in a browser has none, so it follows the browser.
+  if (!root.dataset.theme) root.dataset.theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => "&#" + c.charCodeAt(0) + ";");
+
+  const I = {
+    person: '<circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+    grid: '<rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><path d="M16.75 13.5v6.5M13.5 16.75H20"/>',
+    phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
+    back: '<path d="m15 18-6-6 6-6"/>',
+    dots: '<circle cx="5" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.7" fill="currentColor" stroke="none"/>',
+    mic: '<rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"/>',
+    up: '<path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/>',
+    x: '<path d="M18 6 6 18M6 6l12 12"/>',
+    stop: '<rect x="7" y="7" width="10" height="10" rx="2" fill="currentColor" stroke="none"/>',
+    camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/>',
+    photo: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/>',
+    file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
+    paste: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>',
+    location: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+  };
+  const icon = (n) => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${I[n]}</svg>`;
+
+  // The shapes of Grok Bot, each in a box of 100 with two eyes that are holes. A mask cuts the eyes, so they show what
+  // is behind the shape, as in Grok Bot. [name, turn, shape, left eye, tilt of the eyes]
+  const ring = (n, R, r) => { let s = ""; for (let i = 0; i < n; i++) { const a = (i / n) * 2 * Math.PI; s += `<circle cx="${(50 + R * Math.cos(a)).toFixed(1)}" cy="${(50 + R * Math.sin(a)).toFixed(1)}" r="${r}"/>`; } return s + `<circle cx="50" cy="50" r="${R + 2}"/>`; };
+  const poly = (n, R, inner = 0, turn = -90) => { const k = inner ? n * 2 : n, p = []; for (let i = 0; i < k; i++) { const a = ((turn + (360 / k) * i) * Math.PI) / 180, r = inner && i % 2 ? inner : R; p.push(`${(50 + r * Math.cos(a)).toFixed(1)},${(50 + r * Math.sin(a)).toFixed(1)}`); } return p.join(" "); };
+  const SHAPES = [
+    ["circle", 0, '<circle cx="50" cy="50" r="46"/>', [53, 34], -10],
+    ["puff", -4, '<circle cx="29" cy="60" r="22"/><circle cx="47" cy="39" r="25"/><circle cx="72" cy="50" r="23"/><circle cx="55" cy="67" r="23"/>', [50, 49], 0],
+    ["square", -16, '<rect x="15" y="15" width="70" height="70" rx="17"/>', [44, 50], 0],
+    ["sparkle", -10, '<path d="M50 9Q61 39 91 50Q61 61 50 91Q39 61 9 50Q39 39 50 9Z" stroke-width="12" stroke-linejoin="round"/>', [44, 49], 0],
+    ["clover", 0, '<circle cx="34" cy="35" r="21"/><circle cx="64" cy="32" r="21"/><circle cx="33" cy="64" r="22"/><circle cx="65" cy="64" r="24"/><circle cx="50" cy="50" r="22"/>', [51, 46], 0],
+    ["bean", -32, '<path d="M50 86C24 72 9 56 9 37C9 22 20 12 33 12C41 12 47 16 50 22C53 16 59 12 67 12C80 12 91 22 91 37C91 56 76 72 50 86Z" stroke-width="10" stroke-linejoin="round"/>', [43, 44], 0],
+    ["flower", 0, ring(8, 30, 16), [44, 50], 0],
+    ["drop", 0, '<path d="M14 9C38 9 90 23 90 58A39 39 0 0 1 12 58C12 40 12 24 14 9Z"/>', [55, 54], -6],
+    ["pill", -8, '<rect x="5" y="25" width="90" height="50" rx="25"/>', [56, 47], 0],
+    ["triangle", -6, '<path d="M26 22 82 54 24 80Z" stroke-width="26" stroke-linejoin="round"/>', [44, 51], 0],
+    ["house", -14, `<polygon points="${poly(5, 40)}" stroke-width="16" stroke-linejoin="round"/>`, [43, 55], 0],
+    ["star", 8, `<polygon points="${poly(6, 42, 26)}" stroke-width="12" stroke-linejoin="round"/>`, [44, 50], 0],
+    ["hexagon", -14, `<polygon points="${poly(6, 40, 0, 0)}" stroke-width="14" stroke-linejoin="round"/>`, [44, 50], 0],
+    ["apple", 0, '<circle cx="52" cy="57" r="39"/><path d="M41 20 33 7" fill="none" stroke-width="7" stroke-linecap="round"/>', [57, 49], -6],
+  ].map(([name, turn, body, [x, y], tilt]) => ({ name, turn, body, x, y, tilt }));
+  const SHAPE = Object.fromEntries(SHAPES.map((s) => [s.name, s]));
+  // The colors of Grok Bot. White is the ink of the look: white in the dark look, black in the light look.
+  const COLORS = ["#ffffff", "#936439", "#ff263c", "#ff6700", "#ff9800", "#00c972", "#00bca6", "#1084fe", "#9159fe", "#ff309b", "#777777"];
+  const eyes = (s) => [[s.x, s.y], [s.x + 13, s.y - 1]].map(([x, y]) => `<rect x="${x - 4.5}" y="${y - 9.5}" width="9" height="19" rx="4.5" transform="rotate(${s.tilt} ${x} ${y})"/>`).join("");
+  document.body.insertAdjacentHTML("afterbegin", `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>${SHAPES.map((s) =>
+    `<mask id="gb-${s.name}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><g fill="#fff" stroke="#fff" stroke-width="0" transform="rotate(${s.turn} 50 50)">${s.body}</g><g fill="#000" transform="rotate(${s.turn} 50 50)">${eyes(s)}</g></mask>`).join("")}</defs></svg>`);
+  const fillOf = (c) => (c === "#ffffff" ? "var(--ink)" : /^#[0-9a-f]{6}$/i.test(c) ? c : "#777777");
+  const av = (a) => `<svg class="av" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" style="fill:${fillOf(a.color)}" mask="url(#gb-${SHAPE[a.shape] ? a.shape : "circle"})"/></svg>`;
+  const hash = (s) => { let h = 2166136261; for (const c of String(s)) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
+  // A surprise look. A seed, such as the id of an agent, gives the same look on each phone and each Mac.
+  const surprise = (seed) => { const h = seed === undefined ? Math.floor(Math.random() * 2 ** 32) : hash(seed); return { shape: SHAPES[h % SHAPES.length].name, color: COLORS[1 + (Math.floor(h / SHAPES.length) % (COLORS.length - 1))] }; };
+
+  let mice = [], closed = [], approvals = [], project = { name: "All workspaces", path: "*" }, call = { phase: "idle" };
+  let tab = "run", query = "", open = null, draft = null, turns = [], files = [], timer = 0, shown = "", dictating = false, before = "", starting = 0;
+  // The picks and the messages that the bridge does not show yet, by the number of the agent, so they show at once.
+  const picked = {}, named = {}, pending = {}, asked = new Set();
+  const computer = () => call.available === false;
+
+  // A picture of another screen, such as a creature of Duet, keeps its color and gets a shape from its own shape.
+  const look = (m) => { const a = m.avatar; return picked[m.num] || (a && SHAPE[a.shape] ? a : a ? { ...surprise(a.shape), color: a.color } : surprise(m.id)); };
+  const nameOf = (m) => named[m.num] || m.name || m.label || `${W.One} ${m.num}`;
+  const line = (s) => String(s || "").split("\n").map((l) => l.replace(/^[\s>#*•-]+/, "").trim()).find(Boolean) || "";
+  const subOf = (m) => (m.status === "running" ? line(m.activity) || "Working on it…" : line(m.next) || line(m.summary) || line(m.task));
+  const when = (t) => {
+    if (!t) return "";
+    const d = new Date(t), now = new Date(), days = Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+    if (days <= 0) return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    if (days === 1) return "Yesterday";
+    return days < 7 ? d.toLocaleDateString([], { weekday: "long" }) : d.toLocaleDateString([], { month: "short", day: "numeric" });
+  };
+  const dayOf = (t) => { const w = when(t), time = new Date(t).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); return w === time ? `Today ${time}` : `${w} ${time}`; };
+  // The text of an agent: code blocks, bold, code and headings, and the rest as plain lines.
+  const md = (raw) => String(raw).replace(/\n{3,}/g, "\n\n").split(/```[^\n]*\n?/).map((p, i) => (i % 2 ? `<pre>${esc(p.replace(/\n$/, ""))}</pre>` :
+    esc(p).replace(/^#{1,6}\s+(.+)$/gm, "<b>$1</b>").replace(/^(\s*)[-*]\s+/gm, "$1• ").replace(/\*\*([^*\n]+)\*\*/g, "<b>$1</b>").replace(/`([^`\n]+)`/g, "<code>$1</code>").replace(/\[([^\]\n]+)\]\([^)\s]+\)/g, "$1"))).join("");
+  const toast = (text) => { const t = document.createElement("div"); t.className = "toast"; t.textContent = text; document.body.append(t); setTimeout(() => t.remove(), 3200); };
+  const fail = (e) => toast((e && e.message) || "That did not work.");
+
+  // A new agent gets a surprise picture, and the bridge keeps it, so each phone and each Mac show the same one. The seed
+  // is its id, so two phones with this screen save the same picture. An agent of less than 5 seconds waits, so that the
+  // look that the user picked for it on another phone or Mac gets there first. Each agent is asked once.
+  let later = 0;
+  function autoLooks() {
+    if (starting || !Y.mice.avatar) return;
+    for (const m of mice) if (!m.avatar && !picked[m.num] && !asked.has(m.id)) {
+      if (Date.now() - (m.createdAt || m.startedAt || 0) < 5000) { clearTimeout(later); later = setTimeout(autoLooks, 5000); continue; }
+      asked.add(m.id);
+      Y.mice.avatar(m.id, surprise(m.id)).catch(() => {});
+    }
+  }
+
+  // The list
+  const TABS = [["run", W.Many], ["done", "Done"], ["closed", "Closed"]];
+  const inProject = (m) => project.path === "*" || m.project === project.name;
+  const mouseOf = (num) => mice.find((m) => m.num === num) || closed.find((m) => m.num === num);
+  const askCard = (a) => {
+    const m = mice.find((x) => x.num === a.mouse);
+    const rows = (a.rows || []).map((r) => `<p>${Array.isArray(r) ? `${esc(r[0])}: ${esc(r[1])}` : esc(r)}</p>`).join("");
+    return `<section class="card">${m ? `<div class="by">${av(look(m))}<span>${esc(nameOf(m))}</span></div>` : ""}<h3>${esc(a.title || "Allow this?")}</h3>${rows}` +
+      `<div class="acts"><button class="pill main" data-ask="${esc(a.id)}" data-allow="1">Allow</button><button class="pill" data-ask="${esc(a.id)}">Deny</button></div></section>`;
+  };
+  const row = (m) => {
+    const sel = open && !open.draft && open.num === m.num ? " on" : "";
+    const dot = m.attention || approvals.some((a) => a.mouse === m.num) ? '<i class="dot need"></i>' : m.unread ? '<i class="dot"></i>' : "";
+    const name = nameOf(m), label = String(m.label ?? "");
+    return `<button class="row${sel}" data-num="${m.num}">${av(look(m))}<span class="txt"><span class="l1"><span class="nm">${esc(name)}${label && label !== name ? ` <span class="num">${esc(label)}</span>` : ""}</span><span class="tm">${esc(when(m.updatedAt))}</span></span>` +
+      `<span class="l2"><span class="sub${m.status === "running" ? " shim" : ""}">${m.status === "failed" ? '<span class="bad">Failed</span> · ' : ""}${esc(subOf(m))}</span>${dot}</span></span></button>`;
+  };
+  function drawList() {
+    $("chips").innerHTML = TABS.map(([k, t]) => `<button class="chip" data-tab="${k}" aria-selected="${k === tab}">${esc(t)}</button>`).join("");
+    const q = query.trim().toLowerCase();
+    const all = (tab === "closed" ? closed : mice.filter((m) => (tab === "run") === (m.status === "running"))).filter(inProject)
+      .filter((m) => !q || `${nameOf(m)} ${m.label} ${m.project} ${subOf(m)}`.toLowerCase().includes(q))
+      .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+    const asks = tab === "closed" ? [] : approvals.filter((a) => { const m = mice.find((x) => x.num === a.mouse); return (!m || inProject(m)) && !(open && open.num === a.mouse && wide()); });
+    $("list").innerHTML = asks.map(askCard).join("") + (all.length ? all.map(row).join("") : asks.length ? "" : `<p class="none">No ${esc(W.many)}</p>`);
+    drawEmpty();
+  }
+  const wide = () => innerWidth >= 720;
+
+  // The space on the right on the Mac, when no chat is open
+  function drawEmpty() {
+    if (open || !wide()) return;
+    const spots = [[22, 24, 70], [76, 20, 54], [14, 60, 46], [86, 56, 74], [32, 84, 58], [66, 84, 44], [50, 14, 36], [90, 88, 40]];
+    $("empty").innerHTML = spots.map(([x, y, s], i) => `<span class="blob" style="left:${x}%;top:${y}%;width:${s}px;height:${s}px">${av(mice[i] ? look(mice[i]) : surprise(`spot ${i}`))}</span>`).join("") +
+      `<button class="newbtn" data-new="1">New ${esc(W.one)}</button>`;
+  }
+
+  // A chat
+  const current = () => {
+    if (!open || open.draft) return null;
+    const m = mice.find((x) => x.id === open.id) || mice.find((x) => x.num === open.num) || closed.find((x) => x.id === open.id);
+    if (m) open.id = m.id;
+    return m || null;
+  };
+  const key = () => (open.draft ? "draft" : open.num);
+  function drawChat() {
+    const m = current();
+    const a = open.draft ? draft.avatar : m ? look(m) : picked[open.num] || surprise(String(open.num));
+    const name = open.draft ? draft.name || `New ${W.one}` : m ? nameOf(m) : named[open.num] || `${W.One} ${open.num}`;
+    $("who").innerHTML = av(a) + `<span>${esc(name)}</span>`;
+    $("more").hidden = !m;
+    drawMsgs();
+    drawAsks();
+  }
+  function drawMsgs(end) {
+    const m = current();
+    const a = open.draft ? draft.avatar : m ? look(m) : picked[open.num] || surprise(String(open.num));
+    const sent = pending[key()] || [];
+    let html = `<div class="day">${esc(dayOf((m && (m.createdAt || m.startedAt)) || Date.now()))}</div>`;
+    for (const t of turns) if ((t.who === "user" || t.who === "assistant") && String(t.text || "").trim())
+      html += t.who === "user" ? `<div class="b me">${esc(t.text.trim())}</div>` : `<div class="b bot">${md(t.text.trim())}</div>`;
+    html += sent.map((t) => `<div class="b me wait">${esc(t)}</div>`).join("");
+    if ((m && m.status === "running") || (sent.length && !(m && m.status !== "running")))
+      html += `<div class="status">${av(a)}<span class="shim">${esc((m && line(m.activity)) || "Working on it…")}</span></div>`;
+    const box = $("msgs"), atEnd = box.scrollHeight - box.scrollTop - box.clientHeight < 120;
+    if (html !== shown) { box.innerHTML = html; shown = html; if (atEnd || end) box.scrollTop = box.scrollHeight; }
+  }
+  function drawAsks() {
+    const m = current();
+    $("asks").innerHTML = m ? approvals.filter((a) => a.mouse === m.num).map(askCard).join("") : "";
+  }
+  async function loadTurns() {
+    const m = current();
+    if (!m) return;
+    let got;
+    try { got = await Y.chat.get(m.id); } catch { return; }
+    if (!current() || current().num !== m.num) return;
+    turns = got || [];
+    // A sent message leaves the waiting row when the chat has it.
+    const said = turns.filter((t) => t.who === "user").slice(-6).map((t) => String(t.text || ""));
+    if (pending[m.num]) pending[m.num] = pending[m.num].filter((p) => !said.some((s) => s.includes(p)));
+    drawMsgs();
+  }
+  const poll = () => { clearInterval(timer); loadTurns(); timer = setInterval(loadTurns, 3000); };
+  function show(view) {
+    document.body.dataset.view = view;
+    const c = $("chat");
+    c.classList.remove("in");
+    if (view === "chat") { void c.offsetWidth; c.classList.add("in"); }
+  }
+  function openChat(m) {
+    open = { id: m.id, num: m.num };
+    turns = []; files = []; shown = "";
+    show("chat"); drawChat(); drawFiles(); drawList(); poll(); drawMsgs(true);
+  }
+  // A new agent starts as a draft with a surprise look. A tap on its name changes the look before the first message.
+  function startDraft() {
+    draft = { avatar: surprise(), name: "" };
+    open = { draft: true };
+    turns = []; files = []; shown = "";
+    show("chat"); drawChat(); drawFiles(); drawList();
+    $("text").focus();
+  }
+  function back() {
+    open = null; draft = null; clearInterval(timer); stopDictation();
+    show("home"); drawList();
+  }
+
+  // The look of an agent or of the draft: the shapes, the colors and the name, as Create New Bot of Grok Bot.
+  function lookSheet(m) {
+    const a = { ...(m ? look(m) : draft.avatar) };
+    const old = m ? nameOf(m) : draft.name;
+    const s = sheet(`<div class="sh"><button class="circ" data-close aria-label="Close">${icon("x")}</button><h2>Edit ${esc(W.One)}</h2></div>
+      <div class="preview" id="pv"></div><input class="name" id="nm" maxlength="40" placeholder="Name your ${esc(W.One)}" value="${esc(old)}" autocomplete="off">
+      <div class="shapes" id="shapes"></div><div class="colors" id="colors"></div><button class="wide" id="ok">Save</button>`);
+    const draw = (bounce) => {
+      s.querySelector("#pv").innerHTML = av(a);
+      if (bounce) s.querySelector("#pv svg").classList.add("pop");
+      s.querySelector("#shapes").innerHTML = SHAPES.map((x) => `<button data-shape="${x.name}" aria-label="${x.name}" aria-pressed="${x.name === a.shape}">${av({ shape: x.name, color: a.color })}</button>`).join("");
+      s.querySelector("#colors").innerHTML = COLORS.map((c) => `<button data-color="${c}" aria-label="${c}" aria-pressed="${c === a.color}"><i style="background:${fillOf(c)}"></i></button>`).join("");
+    };
+    draw();
+    s.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      if (b.dataset.shape) (a.shape = b.dataset.shape), draw(true);
+      else if (b.dataset.color) (a.color = b.dataset.color), draw(true);
+      else if (b.id === "ok") {
+        const name = s.querySelector("#nm").value.trim();
+        closeSheet();
+        if (m) save(m, a, name !== old ? name : "");
+        else (draft = { avatar: a, name }), drawChat();
+      }
+    });
+  }
+  // A pick shows at once, then goes to the bridge, so each phone and each Mac show it. A failure puts the old look back.
+  async function save(m, a, name) {
+    picked[m.num] = a;
+    if (name) named[m.num] = name;
+    redraw();
+    try {
+      if (name) await Y.mice.rename(m.id, name);
+      if (Y.mice.avatar) await Y.mice.avatar(m.id, a);
+    } catch (e) {
+      delete picked[m.num]; delete named[m.num]; redraw(); fail(e);
+    }
+  }
+  function sheet(html) {
+    closeSheet();
+    const layer = document.createElement("div");
+    layer.className = "layer"; layer.id = "layer";
+    layer.innerHTML = `<div class="shade" data-close></div><div class="sheet" role="dialog">${html}</div>`;
+    layer.addEventListener("click", (e) => e.target.closest("[data-close]") && closeSheet());
+    document.body.append(layer);
+    return layer.querySelector(".sheet");
+  }
+  const closeSheet = () => $("layer") && $("layer").remove();
+  function moreSheet() {
+    const m = current();
+    if (!m) return;
+    const items = [["edit", `Edit ${W.one}`], ...(m.status === "running" ? [["stop", "Stop"]] : []), ...(m.status !== "done" ? [["done", "Complete"]] : []), ["close", "Close", "bad"]];
+    const s = sheet(`<div class="group">${items.map(([k, t, c]) => `<button data-act="${k}" class="${c || ""}">${esc(t)}</button>`).join("")}</div><button class="wide soft" data-close>Cancel</button>`);
+    s.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-act]");
+      if (!b) return;
+      closeSheet();
+      const act = b.dataset.act;
+      if (act === "edit") return lookSheet(m);
+      // The list changes at once. A failure loads the true list again.
+      if (act === "close") (mice = mice.filter((x) => x.id !== m.id)), back();
+      else (m.status = act === "done" ? "done" : "waiting"), redraw();
+      Y.mice[act](m.id).catch((err) => (fail(err), Y.mice.list().then((l) => ((mice = l || []), redraw()), () => {})));
+    });
+  }
+  function attachSheet() {
+    const kinds = computer() ? [["file", "File"], ["paste", "Paste"]] : [["camera", "Camera"], ["photo", "Photos"], ["file", "Files"], ["paste", "Paste"], ["location", "Location"]];
+    const s = sheet(`<div class="group">${kinds.map(([k, t]) => `<button data-att="${k}">${icon(k)}<span>${t}</span></button>`).join("")}</div><button class="wide soft" data-close>Cancel</button>`);
+    s.addEventListener("click", async (e) => {
+      const b = e.target.closest("[data-att]");
+      if (!b) return;
+      closeSheet();
+      try {
+        const got = Y.attach && (await Y.attach[b.dataset.att]());
+        if (got && got.path) files.push(got.path), drawFiles(), drawSend();
+      } catch (err) { fail(err); }
+    });
+  }
+  async function appsSheet() {
+    const s = sheet(`<div class="sh"><button class="circ" data-close aria-label="Close">${icon("x")}</button><h2>Apps</h2></div><div class="apps" id="applist"></div>`);
+    let list = [], grid = false;
+    try { [list, grid] = await Promise.all([Y.apps.list(), Y.settings.get().then((v) => v && v.appsView === "grid", () => false)]); } catch { list = []; }
+    const pic = (a) => {
+      const i = String(a.icon || "");
+      if (i.startsWith("<svg")) return `<img alt="" src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(i)}">`;
+      if (i.startsWith("data:image/")) return `<img alt="" src="${esc(i)}">`;
+      return esc(i && i.length <= 4 ? i : (a.title || "?").slice(0, 1).toUpperCase());
+    };
+    const box = s.querySelector("#applist");
+    box.classList.toggle("grid", grid);
+    box.innerHTML = list.length ? list.map((a) => `<button class="app" data-app="${esc(a.id)}"><span class="ico">${pic(a)}</span><span><b>${esc(a.title)}</b><small>${esc(when(a.at))}</small></span></button>`).join("") : `<p class="none">No apps</p>`;
+    box.onclick = (e) => { const b = e.target.closest("[data-app]"); if (b) closeSheet(), Y.apps.open(b.dataset.app).catch(fail); };
+  }
+
+  // Writing and sending
+  function drawFiles() {
+    $("files").innerHTML = files.map((p, i) => `<span class="file"><span>${esc(p.split("/").pop())}</span><button data-drop="${i}" aria-label="Remove">${icon("x")}</button></span>`).join("");
+  }
+  const grow = () => { const t = $("text"); t.style.height = "40px"; t.style.height = Math.min(t.scrollHeight, 132) + "px"; };
+  const drawSend = () => { const has = !!$("text").value.trim() || files.length > 0; $("send").hidden = !has || dictating; $("mic").hidden = has && !dictating; };
+  async function send() {
+    const box = $("text"), text = box.value.trim(), paths = files.slice();
+    if (!text && !paths.length) return;
+    const k = key();
+    (pending[k] = pending[k] || []).push(text || "📎");
+    box.value = ""; files = []; grow(); drawFiles(); drawSend(); drawMsgs(true);
+    try {
+      if (open.draft) {
+        const d = draft;
+        // No surprise look goes to the new agent while it starts: it takes the look of the draft.
+        starting++;
+        try {
+          const r = await Y.mice.start(text, project.path === "*" ? "" : project.path, paths);
+          const num = r && r.num;
+          pending[num] = pending.draft; delete pending.draft;
+          picked[num] = d.avatar;
+          if (d.name) named[num] = d.name;
+          if (open && open.draft) open = { id: r && r.id, num }, (draft = null), drawChat(), poll();
+          // The new agent takes its name and its look by its number, because its id changes when its session starts.
+          if (d.name) await Y.mice.rename(String(num), d.name);
+          if (Y.mice.avatar) await Y.mice.avatar(String(num), d.avatar);
+        } finally { starting--; }
+      } else {
+        await Y.mice.send(current() ? current().id : open.id, text, paths);
+        loadTurns();
+      }
+    } catch (e) {
+      if (pending[k]) pending[k] = pending[k].filter((p) => p !== (text || "📎"));
+      if (!box.value) box.value = text;
+      grow(); drawSend(); if (open) drawMsgs(); fail(e);
+    }
+  }
+  async function dictate() {
+    if (dictating) {
+      dictating = false; drawMic();
+      try { const t = await Y.dictation.stop(); if (typeof t === "string" && t.trim()) $("text").value = `${before} ${t}`.trim(); } catch (e) { fail(e); }
+      grow(); drawSend();
+      return;
+    }
+    before = $("text").value.trim();
+    try { await Y.dictation.start(); dictating = true; drawMic(); } catch (e) { fail(e); }
+  }
+  function stopDictation() { if (dictating) (dictating = false), Y.dictation.cancel().catch(() => {}), drawMic(); }
+  const drawMic = () => { $("mic").classList.toggle("rec", dictating); $("mic").innerHTML = icon(dictating ? "stop" : "mic"); drawSend(); };
+  Y.dictation.on((v) => {
+    if (!dictating || !v) return;
+    if (v.error) return (dictating = false), drawMic(), toast(v.error);
+    if (typeof v.text === "string") $("text").value = `${before} ${v.text}`.trim(), grow();
+  });
+
+  // The call
+  function drawCall() {
+    const b = $("call");
+    b.hidden = computer();
+    b.classList.toggle("live", call.phase === "live");
+    b.classList.toggle("wait", call.phase === "connecting");
+    b.setAttribute("aria-label", call.phase === "idle" ? "Call" : "End the call");
+  }
+  $("call").onclick = async () => {
+    try { call = call.phase === "idle" ? await Y.call.start() : await Y.call.end(); } catch (e) { fail(e); }
+    drawCall();
+  };
+
+  async function answer(id, allow) {
+    approvals = approvals.filter((a) => a.id !== id);
+    drawList(); if (open) drawAsks();
+    try { await Y.approvals.answer(id, allow); } catch (e) { fail(e); }
+    loadAsks();
+  }
+  const loadAsks = () => Y.approvals.list().then((list) => { approvals = list || []; drawList(); if (open) drawAsks(); }, () => {});
+  function redraw() { drawList(); if (open) drawChat(); }
+
+  // The buttons
+  $("me").innerHTML = icon("person");
+  $("new").innerHTML = icon("plus");
+  $("apps").innerHTML = icon("grid");
+  $("lens").innerHTML = icon("search");
+  $("call").innerHTML = icon("phone");
+  $("back").innerHTML = icon("back");
+  $("more").innerHTML = icon("dots");
+  $("attach").innerHTML = icon("plus");
+  $("mic").innerHTML = icon("mic");
+  $("send").innerHTML = icon("up");
+  $("me").onclick = () => Y.settings.open().catch(fail);
+  $("new").onclick = startDraft;
+  $("apps").onclick = appsSheet;
+  $("back").onclick = back;
+  $("more").onclick = moreSheet;
+  $("who").onclick = () => (open && open.draft ? lookSheet(null) : current() && lookSheet(current()));
+  $("attach").onclick = attachSheet;
+  $("send").onclick = send;
+  $("mic").onclick = dictate;
+  $("q").oninput = (e) => ((query = e.target.value), drawList());
+  $("text").oninput = () => (grow(), drawSend());
+  // On the Mac, Return sends and Shift-Return makes a new line. On the phone, the Return key makes a new line.
+  $("text").onkeydown = (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing && computer()) e.preventDefault(), send(); };
+  // A tap on the box of the text, outside the text, also starts to write.
+  document.querySelector(".field").onclick = (e) => e.target === e.currentTarget && $("text").focus();
+  $("files").onclick = (e) => { const b = e.target.closest("[data-drop]"); if (b) files.splice(Number(b.dataset.drop), 1), drawFiles(), drawSend(); };
+  $("empty").onclick = (e) => e.target.closest("[data-new]") && startDraft();
+  const onAsk = (e) => { const b = e.target.closest("[data-ask]"); if (b) answer(b.dataset.ask, !!b.dataset.allow); return !!b; };
+  $("asks").onclick = onAsk;
+  $("list").onclick = (e) => {
+    if (onAsk(e)) return;
+    const b = e.target.closest("[data-num]");
+    const m = b && mouseOf(Number(b.dataset.num));
+    if (m) openChat(m);
+  };
+  $("chips").onclick = async (e) => {
+    const b = e.target.closest("[data-tab]");
+    if (!b) return;
+    tab = b.dataset.tab;
+    drawList();
+    if (tab === "closed") closed = await Y.mice.closed().catch(() => []), drawList();
+  };
+  addEventListener("resize", () => drawEmpty());
+  // The keyboard makes the chat shorter. A chat at its end stays at its end, so the last message shows over the keyboard.
+  // `gap` is the distance to the end before the change of size: the browser can scroll the chat when its size changes,
+  // before the ResizeObserver runs, so a scroll at a size that the observer has not seen does not count.
+  const chat = $("msgs");
+  let gap = 0, seen = 0;
+  chat.addEventListener("scroll", () => chat.clientHeight === seen && (gap = chat.scrollHeight - chat.scrollTop - chat.clientHeight));
+  new ResizeObserver(() => ((seen = chat.clientHeight), gap < 60 && (chat.scrollTop = chat.scrollHeight))).observe(chat);
+  // iOS can scroll a page to show a text field, also a page that does not scroll. The page goes back to the top.
+  addEventListener("scroll", () => (scrollX || scrollY) && scrollTo(0, 0));
+
+  // The data
+  Y.mice.on((list) => {
+    mice = list || [];
+    // A pick leaves its waiting place when the bridge has it.
+    for (const m of mice) {
+      const p = picked[m.num];
+      if (p && m.avatar && m.avatar.shape === p.shape && m.avatar.color === p.color) delete picked[m.num];
+      if (named[m.num] && m.name === named[m.num]) delete named[m.num];
+    }
+    if (tab === "closed") Y.mice.closed().then((c) => ((closed = c || []), drawList()), () => {});
+    autoLooks();
+    redraw();
+    loadAsks();
+  });
+  Y.projects.on((p) => ((project = p || project), drawList()));
+  Y.call.on((s) => ((call = s || call), drawCall()));
+  drawList();
+  drawMic();
+  drawCall();
+  Y.ready();
+  Promise.all([Y.mice.list(), Y.projects.current(), Y.call.state()]).then(([list, p, c]) => {
+    mice = list || []; project = p || project; call = c || call;
+    autoLooks(); drawCall(); redraw(); loadAsks();
+  }, fail);
+})();
+</script>
+</body>
+</html>

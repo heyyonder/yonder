@@ -1,0 +1,59 @@
+{
+  "name": "Big button",
+  "about": "Voice first. Large type, and a call that fills the screen.",
+  "look": {
+    "light": {
+      "bg": "#ffffff",
+      "page": "#ffffff",
+      "panel": "#f4f4f4",
+      "hover": "#ededed",
+      "text": "#111111",
+      "muted": "#555555",
+      "line": "#e3e3e3",
+      "accent": "#111111",
+      "accent-text": "#ffffff",
+      "green": "#1aa251",
+      "red": "#e5303a",
+      "blue": "#1f6feb",
+      "purple": "#7a3fd1",
+      "live": "#e5303a",
+      "call": "#1aa251"
+    },
+    "dark": {
+      "bg": "#0a0a0a",
+      "page": "#0a0a0a",
+      "panel": "#1a1a1a",
+      "hover": "#222222",
+      "text": "#f5f5f5",
+      "muted": "#a3a3a3",
+      "line": "#2a2a2a",
+      "accent": "#f5f5f5",
+      "accent-text": "#0a0a0a",
+      "green": "#34c759",
+      "red": "#ff453a",
+      "blue": "#409cff",
+      "purple": "#bf5af2",
+      "live": "#ff453a",
+      "call": "#34c759"
+    },
+    "density": "large",
+    "glass": "off"
+  },
+  "talk": "big",
+  "tabs": [
+    {
+      "id": "agents"
+    },
+    {
+      "id": "completed"
+    },
+    {
+      "id": "preview"
+    }
+  ],
+  "copy": {
+    "title": "Yonder",
+    "call": "Talk",
+    "endCall": "End"
+  }
+}

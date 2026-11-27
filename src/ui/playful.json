@@ -1,0 +1,47 @@
+{
+  "name": "Playful",
+  "about": "Warm colors, round shapes, friendly words.",
+  "look": {
+    "light": {
+      "bg": "#fffaf3",
+      "page": "#fff3e3",
+      "panel": "#ffffff",
+      "hover": "#fff1e0",
+      "text": "#2b2118",
+      "muted": "#93806c",
+      "line": "#f1e6d6",
+      "accent": "#ff6b3d",
+      "accent-text": "#ffffff",
+      "green": "#1fb36b",
+      "red": "#ef4444",
+      "amber": "#f59e0b",
+      "blue": "#3d8bff",
+      "purple": "#a259ff",
+      "live": "#ff6b3d"
+    },
+    "dark": {
+      "bg": "#1d1712",
+      "page": "#16110d",
+      "panel": "#2a211a",
+      "hover": "#33281f",
+      "text": "#fbefe2",
+      "muted": "#b8a28c",
+      "line": "#3a2e24",
+      "accent": "#ff7d52",
+      "accent-text": "#1d1712",
+      "green": "#3ccf8e",
+      "red": "#ff6b6b",
+      "amber": "#fbbf24",
+      "blue": "#6aa8ff",
+      "purple": "#c08bff",
+      "live": "#ff7d52"
+    },
+    "font": "rounded"
+  },
+  "copy": {
+    "title": "Hi there 👋",
+    "call": "Call Yonder",
+    "endCall": "Hang up",
+    "message": "Say something…"
+  }
+}

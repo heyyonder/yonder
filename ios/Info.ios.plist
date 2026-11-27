@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>NSCameraUsageDescription</key>
+  <string>Yonder scans the pairing code on your Mac, and takes photos for your agents.</string>
+  <!-- The recent photos of the attach sheet (recent_photos in ios/src/lib.rs). -->
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Yonder shows your recent photos, so you can attach them for your agents.</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Yonder listens to you during a voice call and when you dictate.</string>
+  <!-- The dictation of the prompt box: the speech recognizer of iOS (Dictate.swift). Without this key, iOS ends the app. -->
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>Yonder writes the words that you dictate, on the iPhone when it can.</string>
+  <!-- The Face ID lock of the app (src/Lock.tsx). -->
+  <key>NSFaceIDUsageDescription</key>
+  <string>Yonder uses Face ID to unlock the app, and to allow the relay when you are away from your Mac.</string>
+  <!-- The phone reaches the Mac over the local network with no relay (connect in src/link.ts, bridge/relay.ts). From
+       iOS 17, App Transport Security blocks a connection to an IP address without NSAllowsLocalNetworking. -->
+  <key>NSLocalNetworkUsageDescription</key>
+  <string>Yonder connects to your Mac on the same network, so your agents do not go through the relay.</string>
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+  </dict>
+  <!-- get_location: the pin of the phone, when the user asks Yonder for it. -->
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Yonder sends your location to an agent when you ask for it.</string>
+  <!-- The ability save_photo (Abilities.swift): add-only access, which cannot read the library. -->
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Yonder saves the pictures and videos that your agents make to Photos when you ask.</string>
+  <!-- yonder:// links open the app, such as the answer of a Shortcut that an agent ran (the ability "open"). -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>so.yonder</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>yonder</string>
+      </array>
+    </dict>
+  </array>
+  <!-- The quick action of the icon: the screen of the install with no custom look, a floor that no screen can hide
+       (QuickAction in Abilities.swift, docs/shell.md). -->
+  <key>UIApplicationShortcutItems</key>
+  <array>
+    <dict>
+      <key>UIApplicationShortcutItemType</key>
+      <string>so.yonder.default-screen</string>
+      <key>UIApplicationShortcutItemTitle</key>
+      <string>Default screen</string>
+      <key>UIApplicationShortcutItemIconSymbolName</key>
+      <string>arrow.counterclockwise</string>
+    </dict>
+  </array>
+  <!-- The voice call goes on while the screen is locked. See "The locked screen" in docs/mobile.md. -->
+  <key>UIBackgroundModes</key>
+  <array>
+    <string>audio</string>
+  </array>
+  <!-- The Yonder icon and the counts of the agents in the Dynamic Island during a call. See "The Dynamic Island" in docs/mobile.md. -->
+  <key>NSSupportsLiveActivities</key>
+  <true/>
+  <!-- The CarPlay screen (CarPlay.swift). Only the car scene is here: the phone window gets its configuration from tao,
+       which keeps the delegate of a scene that this manifest names (ios/tao). Do not add
+       UIApplicationSupportsMultipleScenes: tao places its window in another way with it. See docs/carplay.md. -->
+  <key>UIApplicationSceneManifest</key>
+  <dict>
+    <key>UISceneConfigurations</key>
+    <dict>
+      <key>CPTemplateApplicationSceneSessionRoleApplication</key>
+      <array>
+        <dict>
+          <key>UISceneConfigurationName</key>
+          <string>CarPlay</string>
+          <key>UISceneClassName</key>
+          <string>CPTemplateApplicationScene</string>
+          <key>UISceneDelegateClassName</key>
+          <string>YonderCarScene</string>
+        </dict>
+      </array>
+    </dict>
+  </dict>
+  <!-- Export compliance: the app uses only the encryption of iOS (HTTPS, and the WebCrypto of WebKit for the end-to-end
+       layer of src/link.ts), so it is exempt, and TestFlight does not ask at each build. See ios/store/listing.md. -->
+  <key>ITSAppUsesNonExemptEncryption</key>
+  <false/>
+</dict>
+</plist>

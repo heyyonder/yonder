@@ -1,0 +1,23 @@
+# Starts a staging release from the public repository: a push to staging sends the dispatch public-staging to the
+# private release repository (the variable RELEASE_REPO), whose release.yml builds this commit on the release runner
+# with the signing keys. A fork has no RELEASE_REPO and no RELEASE_DISPATCH_TOKEN and is not heyyonder/yonder, so it
+# starts nothing. This job runs on ubuntu-latest and only sends the dispatch: the code of a push never runs here.
+# Never add a pull_request trigger to a job on the self-hosted runner.
+name: Dispatch release
+
+on:
+  push:
+    branches: [staging]
+
+jobs:
+  dispatch:
+    # Until the cut this file is also in the release repository, where release.yml starts from the push itself.
+    if: github.repository == 'heyyonder/yonder' && vars.RELEASE_REPO != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - run: gh api "repos/$RELEASE_REPO/dispatches" -f event_type=public-staging -f "client_payload[sha]=$GITHUB_SHA"
+        env:
+          RELEASE_REPO: ${{ vars.RELEASE_REPO }}
+          GH_TOKEN: ${{ secrets.RELEASE_DISPATCH_TOKEN }}

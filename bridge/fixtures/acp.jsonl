@@ -1,0 +1,9 @@
+{"type":"session","id":"THREAD"}
+{"type":"model","model":"gpt-5.5"}
+{"type":"text","text":"I read the README."}
+{"type":"tool","id":"call-1","kind":"execute","title":"Run","input":{"command":"sed -i '' 's/Readme/README/' README.md"}}
+{"type":"tool","id":"call-2","kind":"edit","title":"Edit README.md","input":{},"path":"/p/README.md"}
+{"type":"tool","id":"call-3","kind":"other","title":"yonder.list_workers","input":{}}
+{"type":"permission","id":"call-4","title":"curl example.com","allowed":true}
+{"type":"text","text":"The README title is fixed."}
+{"type":"end","stopReason":"end_turn"}

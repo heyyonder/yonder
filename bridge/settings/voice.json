@@ -1,0 +1,9 @@
+{
+  "id": "voice",
+  "name": "Voice",
+  "icon": "mic",
+  "settings": [
+    {"key": "walkieTalkie", "type": "boolean", "default": false, "label": "Walkie-talkie", "store": "config", "control": "toggle", "group": "walkie", "sync": true, "words": "walkie talkie push to talk voice chat speak answer aloud read reply hands free"},
+    {"key": "speechModel", "type": "string", "default": "", "label": "Speech model", "store": "config", "control": "text", "group": "walkie", "help": "Talk to an agent, and hear its answer. The speech model is a whisper.cpp model file on the computer. Empty finds one.", "words": "speech to text model whisper own local stt transcribe path file"}
+  ]
+}

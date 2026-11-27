@@ -1,0 +1,51 @@
+{
+  "name": "Square Pop",
+  "about": "Omarchy, but playful: square corners, round easy type, violet and pink.",
+  "from": "omarchy",
+  "look": {
+    "light": {
+      "bg": "#f6f5fb",
+      "page": "#ecebf5",
+      "panel": "#ffffff",
+      "hover": "#ebe8f8",
+      "text": "#25213b",
+      "muted": "#5d5878",
+      "line": "#dcd9ea",
+      "accent": "#6a3df5",
+      "accent-text": "#ffffff",
+      "green": "#0f7a43",
+      "red": "#c8243f",
+      "amber": "#a35f00",
+      "blue": "#2563eb",
+      "purple": "#9b2fc4",
+      "live": "#d61f66",
+      "call": "#d61f66",
+      "call-text": "#ffffff"
+    },
+    "dark": {
+      "bg": "#1a1b26",
+      "page": "#13141c",
+      "panel": "#232538",
+      "hover": "#2b2e45",
+      "text": "#d6dcfa",
+      "muted": "#9aa1c8",
+      "line": "#30344f",
+      "accent": "#b79cff",
+      "accent-text": "#1a1b26",
+      "green": "#9ece6a",
+      "red": "#ff7a93",
+      "amber": "#ffc777",
+      "blue": "#82aaff",
+      "purple": "#e59cff",
+      "live": "#e0307a",
+      "call": "#ff7eb6",
+      "call-text": "#1a1b26"
+    },
+    "radius": 0,
+    "font": "rounded",
+    "density": "normal",
+    "glass": "off",
+    "bubbles": false,
+    "icons": "plain"
+  }
+}

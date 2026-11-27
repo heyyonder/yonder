@@ -1,0 +1,44 @@
+{
+  "name": "Omarchy",
+  "about": "The look of omarchy.org: Tokyo Night, mono type, square corners.",
+  "look": {
+    "light": {
+      "bg": "#eff1f5",
+      "page": "#e3e4e8",
+      "panel": "#f8f9fb",
+      "hover": "#dce0e8",
+      "text": "#4c4f69",
+      "muted": "#5c5f77",
+      "line": "#ccd0da",
+      "accent": "#1e66f5",
+      "accent-text": "#ffffff",
+      "green": "#40a02b",
+      "red": "#d20f39",
+      "amber": "#df8e1d",
+      "blue": "#1e66f5",
+      "purple": "#ea76cb"
+    },
+    "dark": {
+      "bg": "#1a1b26",
+      "page": "#13141c",
+      "panel": "#1f2230",
+      "hover": "#24283b",
+      "text": "#c0caf5",
+      "muted": "#8b93b8",
+      "line": "#292e42",
+      "accent": "#9ece6a",
+      "accent-text": "#1a1b26",
+      "green": "#9ece6a",
+      "red": "#f7768e",
+      "amber": "#e0af68",
+      "blue": "#7aa2f7",
+      "purple": "#bb9af7"
+    },
+    "radius": 0,
+    "font": "mono",
+    "glass": "off",
+    "bubbles": false,
+    "icons": "plain",
+    "rail": "starred"
+  }
+}

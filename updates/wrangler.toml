@@ -1,0 +1,10 @@
+# The update server (worker.ts). `bun run deploy-updates` deploys it with CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID
+# (GitHub secrets in a release), else the wrangler login of this computer.
+name = "yonder-updates"
+main = "worker.ts"
+compatibility_date = "2025-10-01"
+routes = [{ pattern = "updates.yonder.so", custom_domain = true }]
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "yonder-downloads"

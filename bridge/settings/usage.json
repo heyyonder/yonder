@@ -1,0 +1,9 @@
+{
+  "id": "usage",
+  "name": "Usage",
+  "icon": "gauge",
+  "home": false,
+  "settings": [
+    {"key": "usageBar", "type": "boolean", "default": true, "label": "Title bar", "store": "phone", "control": "toggle", "help": "Show the percent used of the week at the top.", "words": "percent top header weekly usage", "sync": true}
+  ]
+}

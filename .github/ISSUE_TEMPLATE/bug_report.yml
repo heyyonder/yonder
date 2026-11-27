@@ -1,0 +1,39 @@
+name: Bug report
+description: Something in Yonder does not work.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did you see, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to make it happen
+      placeholder: |
+        1. Open ...
+        2. Tap ...
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      multiple: true
+      options: [macOS, Windows, Linux, iPhone, Android]
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Settings › General shows the version, such as 2.120.1001.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: The end of ~/.config/yonder/bridge.log, with no keys or private data.
+      render: text

@@ -1,0 +1,50 @@
+{
+  "name": "Grok Bot",
+  "about": "The look of the Grok Bot app: each agent has a shape and a color, and each chat is plain.",
+  "kind": "screen",
+  "look": {
+    "light": {
+      "bg": "#fcfcfc",
+      "page": "#f0f0f0",
+      "panel": "#f2f2f2",
+      "hover": "#ededed",
+      "text": "#141414",
+      "muted": "#6b6b6b",
+      "line": "#e5e5e5",
+      "accent": "#0b0b0b",
+      "accent-text": "#ffffff",
+      "green": "#00a35c",
+      "red": "#e5132a",
+      "amber": "#b86e00",
+      "blue": "#0a6fd8",
+      "purple": "#7b45e8",
+      "live": "#00a35c",
+      "call": "#0b0b0b",
+      "call-text": "#ffffff"
+    },
+    "dark": {
+      "bg": "#141414",
+      "page": "#1c1c1c",
+      "panel": "#1f1f1f",
+      "hover": "#262626",
+      "text": "#f5f5f5",
+      "muted": "#929292",
+      "line": "#2e2e2e",
+      "accent": "#f5f5f5",
+      "accent-text": "#141414",
+      "green": "#00c972",
+      "red": "#ff4d5e",
+      "amber": "#ff9800",
+      "blue": "#3b9bff",
+      "purple": "#a47bff",
+      "live": "#00a35c",
+      "call": "#f5f5f5",
+      "call-text": "#141414"
+    },
+    "font": "system"
+  },
+  "abilities": [
+    "dictation"
+  ],
+  "tools": []
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- The voice call. The web view asks for the microphone at the first call. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <!-- A live call goes on with the screen locked: CallService.kt. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- The notification of a live call. From Android 13 the app asks for it at the first call (MainActivity.kt);
+         without it, Android hides the notification and the shade shows only the microphone dot. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- The tick of the full swipe on an agent row: navigator.vibrate in the web view. -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- get_location: the web view asks for the location when the user asks Yonder for it. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- The speech recognizer of the phone, for the dictation (Dictation.kt) and "Hey Yonder" (Wake.kt). From Android 11,
+         an app sees the recognizer only with this query. -->
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
+
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.yonder_android"
+        android:usesCleartextTraffic="${usesCleartextTraffic}">
+        <activity
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
+            android:label="@string/main_activity_title"
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".CallService"
+            android:foregroundServiceType="microphone"
+            android:stopWithTask="true"
+            android:exported="false" />
+
+        <provider
+          android:name="androidx.core.content.FileProvider"
+          android:authorities="${applicationId}.fileprovider"
+          android:exported="false"
+          android:grantUriPermissions="true">
+          <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- Sentry. No traces and no replays. The DSN comes from SENTRY_DSN at build time (build.gradle.kts). An empty
+             DSN turns sentry-android off. -->
+        <meta-data
+          android:name="io.sentry.dsn"
+          android:value="${sentryDsn}" />
+    </application>
+</manifest>

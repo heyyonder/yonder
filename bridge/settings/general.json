@@ -1,0 +1,16 @@
+{
+  "id": "general",
+  "name": "General",
+  "icon": "settings",
+  "settings": [
+    {"key": "defaultProfile", "control": "custom", "component": "defaultProfile", "label": "Default profile", "words": "default profile new tasks cli"},
+    {"key": "steer", "type": "boolean", "default": false, "label": "Steer", "store": "config", "control": "toggle", "help": "A message to a working agent goes at once. Off: it can wait until the agent finishes.", "words": "steer queue message interrupt working agent", "sync": true},
+    {"key": "outsideSessions", "type": "boolean", "default": true, "label": "Outside sessions", "store": "config", "control": "toggle", "help": "Show the Claude Code sessions that you started outside Yonder, such as in Ghostty.", "words": "outside sessions terminal ghostty background other chats hide show"},
+    {"key": "update", "control": "custom", "component": "update", "label": "Version"},
+    {"key": "pair", "control": "custom", "component": "pair", "label": "Pair a phone"},
+    {"key": "lock", "control": "custom", "component": "lock", "label": "Face ID"},
+    {"key": "push", "control": "custom", "component": "push", "label": "Notifications"},
+    {"key": "vault", "control": "custom", "component": "vault", "label": "1Password"},
+    {"key": "backup", "control": "custom", "component": "backup", "label": "Backup"}
+  ]
+}

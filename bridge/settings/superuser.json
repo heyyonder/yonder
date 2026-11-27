@@ -1,0 +1,8 @@
+{
+  "id": "superuser",
+  "name": "Super user",
+  "icon": "star",
+  "superuser": true,
+  "home": false,
+  "settings": []
+}

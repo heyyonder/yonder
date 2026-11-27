@@ -1,0 +1,20 @@
+#!/bin/bash
+# Tauri (cargo-mobile2) runs xcodebuild with `-sdk iphoneos` or `-sdk iphonesimulator`. -sdk forces that SDK on each
+# target, also on the Apple Watch app, which then does not build. A generic destination builds each target with its
+# own SDK. `bun run ios` and `bun run sim` put this folder first in PATH. See docs/watch.md.
+# shortcut: a wrapper around xcodebuild. Delete it when cargo-mobile2 builds with -destination.
+[[ " $* " == *" -destination "* ]] && exec /usr/bin/xcodebuild "$@"
+args=()
+while [ $# -gt 0 ]; do
+  if [ "$1" = "-sdk" ] && [ "$2" = "iphoneos" ]; then
+    args+=(-destination "generic/platform=iOS")
+    shift 2
+  elif [ "$1" = "-sdk" ] && [ "$2" = "iphonesimulator" ]; then
+    args+=(-destination "generic/platform=iOS Simulator")
+    shift 2
+  else
+    args+=("$1")
+    shift
+  fi
+done
+exec /usr/bin/xcodebuild "${args[@]}"

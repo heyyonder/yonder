@@ -1,0 +1,6 @@
+{
+  "identifier": "default",
+  "windows": ["main"],
+  "permissions": ["core:default", "mcp-bridge:default", "core:window:allow-start-dragging", "dialog:allow-open", "dialog:allow-save", "dialog:allow-ask", "allow-set-call-live", "allow-call-level", "allow-set-wake", "allow-set-keys", "allow-auth-sheet", "allow-set-mic", "allow-set-audio", "allow-check-update", "allow-install-update", "allow-opened", "allow-owner-check", "allow-bridge-port"],
+  "remote": { "urls": ["http://127.0.0.1:7787/*"] }
+}

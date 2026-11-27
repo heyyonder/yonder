@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- The Swift helpers need macOS 26 (build.rs). It is set here and not as minimumSystemVersion in tauri.conf.json,
+       because that sets MACOSX_DEPLOYMENT_TARGET, and with 26.0 the linker of macOS 27 makes proc-macro dylibs that
+       dyld refuses ("mis-aligned LINKEDIT string pool"). -->
+  <key>LSMinimumSystemVersion</key>
+  <string>26.0</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Yonder listens to you during a voice call.</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>When "Hey Yonder" is on, Yonder listens for it on this Mac to start a call.</string>
+  <!-- yonder:// links open the app, such as a new task link (bridge/link.ts). main.rs gives each to the page. -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>so.yonder.mac</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>yonder</string>
+      </array>
+    </dict>
+  </array>
+</dict>
+</plist>

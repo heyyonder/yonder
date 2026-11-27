@@ -1,0 +1,12 @@
+{
+  "id": "agents",
+  "name": "Profiles",
+  "icon": "cpu",
+  "settings": [
+    {"key": "mode", "type": "enum", "default": "bypassPermissions", "label": "Permissions", "store": "config", "control": "custom", "component": "mode", "options": [{"value": "bypassPermissions", "label": "Bypass permissions"}, {"value": "auto", "label": "Auto mode"}, {"value": "acceptEdits", "label": "Accept edits"}]},
+    {"key": "defaultModel", "type": "string", "default": "auto", "label": "Default model", "store": "config", "control": "custom", "component": "model", "sync": true},
+    {"key": "models", "type": "list", "default": ["haiku", "fable"], "label": "Models", "store": "config", "control": "custom", "component": "range", "sync": true},
+    {"key": "efforts", "type": "list", "default": ["low", "max"], "label": "Efforts", "store": "config", "control": "custom", "component": "range", "sync": true},
+    {"key": "advisorModel", "type": "boolean", "default": false, "on": "fable", "label": "Advisor", "store": "claude", "control": "toggle", "help": "Fable reviews the work of each new agent.", "words": "advisor fable reviewer claude code"}
+  ]
+}

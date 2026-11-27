@@ -1,0 +1,8 @@
+{
+  "id": "account",
+  "name": "Account",
+  "icon": "shield",
+  "settings": [
+    {"key": "sync", "type": "boolean", "default": true, "label": "Sync", "store": "config", "control": "toggle", "help": "Your settings follow you to each device.", "words": "sync backup restore cloud devices settings"}
+  ]
+}

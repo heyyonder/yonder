@@ -1,0 +1,19 @@
+{
+  "name": "Dashboard",
+  "about": "Every number of every agent.",
+  "kind": "screen",
+  "look": {
+    "light": {
+      "bg": "#f7f8fa"
+    },
+    "dark": {
+      "bg": "#0e1013"
+    }
+  },
+  "tools": [
+    "get_usage"
+  ],
+  "abilities": [
+    "dictation"
+  ]
+}

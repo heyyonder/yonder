@@ -1,0 +1,75 @@
+# Runs the free checks of Yonder on each push to main, and before each release: release.yml calls it on a push to
+# staging. "Run workflow" on GitHub, or `gh workflow run check.yml`, runs the checks by hand.
+# It does not run `bun run test` (bridge/check.ts): that check starts real Claude Code workers, which use credits. The
+# release gate of release.yml runs it before an upload.
+name: Check
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call: # release.yml runs the checks first
+    inputs:
+      # The code to check, when it is not the commit of this run: release.yml of the private repository checks the
+      # commit of the public repository that sent the dispatch.
+      repository:
+        type: string
+        default: ""
+      ref:
+        type: string
+        default: ""
+    secrets:
+      token: # read access to a private repository
+        required: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repository || github.repository }}
+          ref: ${{ inputs.ref }}
+          token: ${{ secrets.token || github.token }}
+          fetch-depth: 0 # version.ts counts the commits after the last commit of version 1
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.11 # the Bun of the Mac that wrote bun.lock
+      - run: bun install --frozen-lockfile
+      - name: Types
+        run: bun run check
+      - name: Front end build
+        run: bun run build
+      - name: Agent names
+        run: bun src/names.ts
+      - name: Close when done rule
+        run: bun bridge/keep-open.ts
+      - name: Backup and safe saves
+        run: bun bridge/backup-check.ts
+      - name: Phone screen rule
+        run: bun src/screen-check.ts
+      - name: Screen skill matches the API
+        run: bun run check-skill
+      - name: Update server rules
+        run: bun run check-updates
+      # The code of the relay is its own public repository. The check runs it in the process.
+      - uses: actions/checkout@v4
+        with:
+          repository: vladartym/yonder-relay
+          path: yonder-relay
+      - name: Phone relay
+        run: bun run check-relay
+        env:
+          RELAY_DIR: ${{ github.workspace }}/yonder-relay
+      - name: Bridge start
+        run: bun run check-bridge
+      - name: Workspaces
+        run: bun bridge/workspaces-check.ts
+      - name: People (docs/multi-user.md)
+        run: bun run check-people
+      # The port and the token of the bridge, and the check of the OS user (bridge/peer.ts): /proc/net/tcp on Linux.
+      - name: Bridge port and token
+        run: bun run check-port
+        env:
+          RELAY_DIR: ${{ github.workspace }}/yonder-relay

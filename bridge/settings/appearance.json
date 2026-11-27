@@ -1,0 +1,23 @@
+{
+  "id": "appearance",
+  "name": "Appearance",
+  "icon": "sun",
+  "settings": [
+    {"key": "theme", "label": "Theme", "store": "phone", "control": "custom", "component": "theme", "sync": true},
+    {"key": "accent", "type": "string", "label": "Color", "store": "config", "control": "custom", "component": "accent", "help": "The accent of the theme: \"\" for the color of the screen in use, or a hex color such as \"#0090ff\".", "words": "colour accent tint primary orange green teal blue violet pink custom", "sync": true},
+    {"key": "chatFont", "label": "Chat font", "store": "phone", "control": "custom", "component": "fonts", "sync": true},
+    {"key": "chatSize", "label": "Chat size", "store": "phone", "control": "custom", "component": "fonts", "sync": true},
+    {"key": "summaryFont", "label": "Summary font", "store": "phone", "control": "custom", "component": "fonts", "sync": true},
+    {"key": "summarySize", "label": "Summary size", "store": "phone", "control": "custom", "component": "fonts", "sync": true},
+    {"key": "ui", "label": "Screen", "store": "phone", "control": "custom", "component": "screen", "sync": true},
+    {"key": "onboarded", "type": "string", "label": "Onboarded", "store": "phone", "control": "custom", "component": "none", "sync": true, "help": "\"on\" after the questions of the first run, once for each computer."},
+    {"key": "appsView", "type": "enum", "default": "list", "label": "Apps view", "store": "phone", "control": "custom", "component": "appsView", "options": [{"value": "list", "label": "List"}, {"value": "grid", "label": "Grid"}], "help": "The Canvas tab as a list or as a grid of icons. The button at the top of the Canvas tab changes it.", "sync": true},
+    {"key": "agentName", "label": "Word for an agent", "store": "config", "control": "custom", "component": "agentName", "sync": true, "words": "word name task mouse rename"},
+    {"key": "agentNaming", "type": "enum", "default": "numbers", "label": "Agent names", "store": "config", "control": "dropdown", "options": [{"value": "numbers", "label": "Numbers"}, {"value": "names", "label": "Names"}, {"value": "projects", "label": "Workspaces"}], "sync": true, "words": "names numbers projects workspaces call"},
+    {"key": "sumUp", "type": "boolean", "default": true, "label": "Summaries", "store": "config", "control": "toggle", "help": "Sum up each agent in a few points. Off hides the tab.", "words": "summary sum up points haiku tab", "sync": true},
+    {"key": "contextDetail", "type": "enum", "default": "normal", "label": "Detail", "group": "context", "store": "config", "control": "dropdown", "options": [{"value": "minimal", "label": "Minimal"}, {"value": "normal", "label": "Normal"}, {"value": "verbose", "label": "Verbose"}], "words": "context detail verbose minimal tool calls thinking terminal", "sync": true},
+    {"key": "contextGroup", "type": "boolean", "default": false, "label": "Group tool calls", "group": "context", "store": "config", "control": "toggle", "help": "Minimal shows only the messages. Normal also shows each tool call and the thinking, as in the terminal. Verbose opens the thinking and each full command. Group puts the tool calls in a row on one line.", "words": "context group collapse tool calls", "sync": true},
+    {"key": "mods", "type": "boolean", "default": true, "label": "Mods", "group": "mods", "store": "config", "control": "toggle", "words": "mods plugins claude code band pane status line toast", "sync": true},
+    {"key": "modsPhone", "type": "boolean", "default": false, "label": "Mods on the phone", "group": "mods", "store": "config", "control": "toggle", "help": "Show what the Claude Code mods of each agent draw: the band over the message box, the status lines and the toasts under it, and the panes.", "words": "mods plugins claude code band pane status line toast phone mobile", "sync": true}
+  ]
+}

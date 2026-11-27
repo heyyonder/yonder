@@ -1,0 +1,16 @@
+name: Feature request
+description: An idea for Yonder.
+labels: [idea]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What do you want to do that Yonder cannot do now?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: How could Yonder solve it?

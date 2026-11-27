@@ -1,0 +1,28 @@
+# The Yonder bridge on a Linux desktop (docs/omarchy.md). omarchy/install.sh puts it in ~/.config/systemd/user/, and makes
+# the service of a server from it.
+[Unit]
+Description=Yonder bridge
+# The bridge opens windows, links and the clipboard, so it starts with the graphical session and gets its environment.
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/share/yonder/yonder-bridge
+# The window (dist/) is next to the binary (ROOT in bridge/main.ts).
+Environment=YONDER_ROOT=%h/.local/share/yonder
+# YONDER_DESKTOP names the mode, so an update from the bridge keeps the desktop mode (omarchy/install.sh).
+Environment=YONDER_DESKTOP=1
+# The stubs of Omarchy in ~/.local/bin give claude, and the mise shims (when mise has them) the tools of each project.
+# A service does not read .bashrc.
+Environment=PATH=%h/.local/share/mise/shims:%h/.local/bin:/usr/local/bin:/usr/bin
+# An empty value keeps the workers on the Main account of Claude Code, also when the user switches accounts in Omarchy.
+Environment=OMARCHY_AGENT_CLAUDE_HOME=
+StandardOutput=append:%h/.config/yonder/bridge.log
+StandardError=inherit
+Restart=always
+RestartSec=2
+# A stop or a restart ends only the bridge. The supervisor of Claude Code and the workers keep running.
+KillMode=process
+
+[Install]
+WantedBy=graphical-session.target

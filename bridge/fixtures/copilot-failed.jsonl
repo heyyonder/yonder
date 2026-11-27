@@ -1,0 +1,3 @@
+{"type":"session.start","data":{"sessionId":"THREAD","startTime":"2026-10-05T12:00:00.000Z"},"id":"e0","timestamp":"2026-10-05T12:00:00.000Z","parentId":null}
+{"type":"session.error","data":{"errorType":"quota","message":"You have reached your monthly limit of premium requests.","statusCode":429},"id":"e7","timestamp":"2026-10-05T12:00:05.000Z","parentId":"e0"}
+{"type":"result","timestamp":"2026-10-05T12:00:05.200Z","sessionId":"THREAD","exitCode":1,"usage":{"premiumRequests":0,"totalApiDurationMs":0,"sessionDurationMs":5200,"codeChanges":{"linesAdded":0,"linesRemoved":0,"filesModified":[]}}}

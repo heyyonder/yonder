@@ -1,0 +1,191 @@
+<!-- The sample "Dashboard" (docs/ui-themes.md): every number of every agent, dense and tabular, in the light and the
+     dark look. It uses only window.yonder (src/OwnScreen.tsx), and get_usage through yonder.tool, which "tools" in
+     dashboard.json allows. -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font: 14px/1.35 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { display: flex; flex-direction: column; overflow: hidden; --accent: #2f6fde; --accent-text: #ffffff; }
+  :root[data-theme="dark"] body { --line: #20242a; --muted: #7d848e; --accent: #7aa2ff; --accent-text: #0e1013; --green: #34d399; --purple: #c084fc; --blue: #60a5fa; --red: #f87171; }
+  .top h1 small .y-pill { height: 20px; margin-top: 1px; padding: 0; gap: 3px; font-size: 12px; font-weight: 500; color: var(--muted); }
+  button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace; font-variant-numeric: tabular-nums; }
+  .top { flex: none; display: flex; justify-content: space-between; align-items: center; padding: 6px 16px 10px; gap: 10px; }
+  .top h1 { font-size: 20px; font-weight: 700; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .top h1 small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); }
+  .acts { display: flex; gap: 8px; flex: none; }
+  .btn { height: 34px; padding: 0 12px; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line); display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; }
+  .btn.go { background: var(--accent); color: var(--accent-text); box-shadow: none; }
+  .btn.end { background: var(--red); color: #fff; box-shadow: none; }
+  .stats { flex: none; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stats > div { padding: 10px 10px 11px 16px; border-right: 1px solid var(--line); min-width: 0; }
+  .stats > div:last-child { border-right: none; }
+  .stats small { display: block; font-size: 10px; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+  .stats b { display: block; font-size: 17px; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar { height: 3px; border-radius: 2px; background: var(--line); margin-top: 6px; }
+  .bar i { display: block; height: 3px; border-radius: 2px; background: var(--accent); }
+  .live { flex: none; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: rgb(248 113 113 / 0.1); border-bottom: 1px solid rgb(248 113 113 / 0.3); color: var(--red); font-weight: 600; font-size: 13px; }
+  main { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 12px; }
+  .sec { padding: 12px 16px 6px; font-size: 11px; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; display: flex; justify-content: space-between; }
+  .need { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); box-shadow: inset 3px 0 0 var(--purple); width: 100%; text-align: left; }
+  .need .t { flex: 1; min-width: 0; }
+  .need .t b { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .need .t span { font-size: 12px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+  th { text-align: left; font-size: 10px; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; padding: 6px; border-bottom: 1px solid var(--line); }
+  td { padding: 9px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  th:first-child, td:first-child { padding-left: 16px; width: 40px; } th:last-child, td:last-child { padding-right: 16px; text-align: right; width: 70px; }
+  table.named th:first-child, table.named td:first-child { width: 84px; }
+  th:nth-child(3), td:nth-child(3) { width: 64px; } th:nth-child(4), td:nth-child(4) { width: 76px; }
+  td.nm b { display: block; overflow: hidden; text-overflow: ellipsis; }
+  td.nm small { display: block; color: var(--muted); font-size: 11px; }
+  tr[data-id] { cursor: pointer; }
+  .ctx { display: inline-block; width: 26px; height: 4px; border-radius: 2px; background: var(--line); vertical-align: middle; margin-right: 5px; }
+  .ctx i { display: block; height: 4px; border-radius: 2px; background: var(--muted); }
+  .st { font-size: 11px; font-weight: 600; }
+  .running { color: var(--green); } .need-c { color: var(--purple); } .waiting { color: var(--blue); } .done, .closed { color: var(--muted); } .failed { color: var(--red); }
+  .log div { display: grid; grid-template-columns: 58px 1fr; gap: 8px; padding: 6px 16px; font-size: 13px; line-height: 1.35; }
+  .log .tm { font-size: 11px; color: var(--muted); padding-top: 2px; }
+  .log .me { color: var(--accent); }
+  .log .tl { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+  .log .it { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .in { flex: none; margin: 8px 12px 12px; height: 44px; border-radius: 10px; box-shadow: inset 0 0 0 1px var(--line); display: flex; align-items: center; padding: 0 6px 0 12px; gap: 8px; }
+  .in input { flex: 1; min-width: 0; border: none; outline: none; background: none; color: inherit; font: inherit; }
+  .in input::placeholder { color: var(--muted); }
+  .tabs { flex: none; height: calc(58px + var(--under, 0px)); border-top: 1px solid var(--line); display: flex; padding: 8px 6px var(--under, 0px); }
+  .tabs button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); font-weight: 600; }
+  .tabs button.on { color: var(--text); }
+  .tabs svg { width: 22px; height: 22px; stroke-width: 1.8; }
+</style>
+<div class="top" id="top"></div>
+<div id="live"></div>
+<div id="stats"></div>
+<main id="main"></main>
+<form class="in" id="form"><input id="text" autocomplete="off" enterkeyhint="send"><button class="btn" type="button" id="go"></button></form>
+<nav class="tabs" id="tabs"></nav>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const P = {
+  grid: "M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z", check: "M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20zm-3 10 2 2 4-4",
+  apps: "m12 2 10 5-10 5L2 7zM2 17l10 5 10-5M2 12l10 5 10-5",
+  gear: "M10 5H3M12 19H3M14 3v4M16 17v4M21 12h-9M21 19h-5M21 5h-7M8 10v4M8 12H3", mic: "M12 19v3M19 10v2a7 7 0 0 1-14 0v-2M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z", back: "m15 18-6-6 6-6", chevrons: "m7 15 5 5 5-5M7 9l5-5 5 5", door: "M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14M2 20h20M14 12v.01",
+};
+const I = (n) => `<svg viewBox="0 0 24 24"><path d="${P[n]}"/></svg>`;
+const W = yonder.word || { one: "agent", many: "agents", One: "Agent", Many: "Agents" }; // The word of the user (yonder.word).
+let apps = [], all = [], closed = [], mice = [], tab = "open", open = null, turns = [], call = { phase: "idle" }, usage = {}, project = { name: "All projects", path: "*" }, talking = false;
+// The agents of the project in use (yonder.projects). The switcher under the title is <y-projects> of the kit.
+const inProject = (m) => project.path === "*" || m.project === project.name;
+const pick = () => (mice = all.filter(inProject));
+const ago = (t) => { const m = Math.max(0, Math.round((Date.now() - t) / 60000)); return m < 60 ? `${m}m` : m < 1440 ? `${Math.round(m / 60)}h` : `${Math.round(m / 1440)}d`; };
+const clock = (t) => { const s = Math.floor((Date.now() - t) / 1000); return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`; };
+const model = (m) => (m.model || "").replace(/^claude-/, "").replace(/-\d.*$/, "").replace(/^./, (c) => c.toUpperCase()) || "—";
+const needs = (m) => m.status === "waiting" || m.attention;
+const state = (m) => needs(m) ? `<span class="st need-c">◆ you</span>` : m.status === "running" ? `<span class="st running">● ${ago(m.startedAt)}</span>` : m.status === "failed" ? `<span class="st failed">✕ ${ago(m.updatedAt)}</span>` : `<span class="st done">✓ ${ago(m.updatedAt)}</span>`;
+// In the names and projects modes (yonder.word.naming), an agent shows its name, "Nova", in place of its number (m.label).
+const named = W.naming === "names" || W.naming === "projects";
+const tag = (m) => esc(m.label ?? (m.num || ""));
+const table = (list) => `<table${named ? ' class="named"' : ""}><tr><th>${named ? "" : "#"}</th><th>${esc(W.one.toUpperCase())}</th><th>MODEL</th><th>CTX</th><th>TIME</th></tr>${list.map((m) => `<tr data-id="${esc(m.id)}"><td class="mono ${needs(m) ? "need-c" : m.status}">${tag(m)}</td><td class="nm"><b>${esc(m.name)}</b><small>${esc(m.project)}</small></td><td>${esc(model(m))}</td><td class="mono">${m.context == null ? "—" : `<span class="ctx"><i style="width:${m.context}%"></i></span>${m.context}%`}</td><td>${state(m)}</td></tr>`).join("")}</table>`;
+const drawLive = () => ($("live").innerHTML = call.phase !== "idle" ? `<div class="live"><span class="mono">${call.phase === "live" && call.since ? `LIVE ${clock(call.since)}` : "CONNECTING"}${call.muted ? " · MUTED" : ""}</span><span>Yonder</span></div>` : "");
+function draw() {
+  const running = mice.filter((m) => m.status === "running").length, waiting = mice.filter(needs);
+  drawLive();
+  $("top").innerHTML = open
+    ? `<button class="btn" id="back">${I("back")}</button><h1>${tag(open) ? `${tag(open)} · ` : ""}${esc(open.name)}<small>${esc(open.project)}</small></h1><div class="acts"><button class="btn" id="done">${I("check")}Done</button></div>`
+    : `<h1>${tab === "done" ? "Done" : tab === "closed" ? "Closed" : tab === "apps" ? "Apps" : esc(W.Many)}<small><y-projects></y-projects></small></h1><div class="acts">${call.phase === "idle" ? "" : `<button class="btn" id="mute">${call.muted ? "Unmute" : "Mute"}</button><button class="btn end" id="end">End</button>`}</div>`;
+  const pct = (k) => usage[k] == null ? "—" : `${usage[k]}%`;
+  $("stats").innerHTML = open
+    ? `<div class="stats"><div><small>MODEL</small><b>${esc(model(open))}</b></div><div><small>EFFORT</small><b>${esc(open.effort || "—")}</b></div><div><small>CONTEXT</small><b class="mono">${open.context == null ? "—" : `${open.context}%`}</b><div class="bar"><i style="width:${open.context || 0}%"></i></div></div><div><small>STATUS</small><b class="${needs(open) ? "need-c" : open.status}">${esc(open.status)}</b></div></div>`
+    : `<div class="stats"><div><small>WEEK</small><b class="mono">${pct("week")}</b><div class="bar"><i style="width:${usage.week || 0}%"></i></div></div><div><small>5 HOURS</small><b class="mono">${pct("session")}</b><div class="bar"><i style="width:${usage.session || 0}%"></i></div></div><div><small>RUNNING</small><b class="mono">${running}</b></div><div><small>NEEDS YOU</small><b class="mono need-c">${waiting.length}</b></div></div>`;
+  if (open) {
+    $("main").innerHTML = `<div class="log">${turns.map((t) => `<div><span class="tm mono">${t.who === "user" ? "you" : t.who === "tool" ? "tool" : esc(W.one)}</span><span class="${t.who === "user" ? "me" : t.who === "tool" ? "tl mono" : "it"}">${esc(t.who === "tool" ? t.text.split("\n")[0].slice(0, 120) : t.text)}</span></div>`).join("")}</div>`;
+    $("main").scrollTop = 1e6;
+  } else if (tab === "done") {
+    $("main").innerHTML = table(mice.filter((m) => m.status === "done" || m.status === "failed").sort((a, b) => b.updatedAt - a.updatedAt));
+  } else if (tab === "closed") {
+    $("main").innerHTML = table(closed.filter(inProject).sort((a, b) => b.updatedAt - a.updatedAt));
+  } else if (tab === "apps") {
+    $("main").innerHTML = `<div class="sec"><span>APPS</span><span>${apps.length}</span></div>` + (apps.length
+      ? apps.map((a) => `<button class="need" data-app="${esc(a.id)}"><div class="t"><b>${esc(a.title)}</b><span>${a.mouse ? `${esc(W.One)} ${a.mouse} · ` : ""}${ago(a.at)}</span></div><span class="btn">Open</span></button>`).join("")
+      : `<div class="sec"><span>The pages that your ${esc(W.many)} make show here.</span></div>`);
+  } else {
+    const live = mice.filter((m) => m.status === "running" || needs(m)).sort((a, b) => needs(b) - needs(a) || b.updatedAt - a.updatedAt);
+    $("main").innerHTML = (waiting.length ? `<div class="sec"><span>NEEDS YOU</span><span>${waiting.length}</span></div>${waiting.map((m) => `<button class="need" data-id="${esc(m.id)}"><div class="t"><b>${tag(m) ? `${tag(m)} · ` : ""}${esc(m.next || m.name)}</b><span>${esc(m.name)} · ${esc(m.project)} · ${ago(m.updatedAt)}</span></div><span class="btn">Open</span></button>`).join("")}` : "")
+      + `<div class="sec"><span>OPEN</span><span>${live.length}</span></div>${table(live)}`;
+  }
+  $("text").placeholder = open ? `Message this ${W.one}` : `New ${W.one}: what to do`;
+  drawGo();
+  $("tabs").innerHTML = [["open", "grid", esc(W.Many)], ["done", "check", "Done"], ["closed", "door", "Closed"], ["apps", "apps", "Apps"], ["settings", "gear", "Settings"]].map(([id, i, n]) => `<button class="${!open && tab === id ? "on" : ""}" data-tab="${id}">${I(i)}${n}</button>`).join("");
+}
+// The button of the text box: the microphone when the box is empty, Stop while the dictation runs, else Send.
+function drawGo() {
+  const text = $("text").value.trim();
+  $("go").className = talking ? "btn end" : text ? "btn go" : "btn";
+  $("go").innerHTML = talking ? "Stop" : text ? "Send" : I("mic");
+  $("go").setAttribute("aria-label", talking ? "Stop" : text ? "Send" : "Dictate");
+}
+// Speech to text: the words show in the box while the user talks, and Stop sends them.
+async function dictate() {
+  if (talking) {
+    talking = false;
+    drawGo();
+    const text = await yonder.dictation.stop().catch((e) => (($("text").placeholder = e.message), ""));
+    if (text) ($("text").value = text), $("form").requestSubmit();
+    return;
+  }
+  talking = true;
+  drawGo();
+  await yonder.dictation.start().catch((e) => ((talking = false), drawGo(), ($("text").placeholder = e.message)));
+}
+async function load() {
+  if (!open) return;
+  const id = open.id;
+  const t = await yonder.mouse(id).catch(() => turns);
+  if (open?.id === id) (turns = t), draw();
+}
+async function loadUsage() {
+  const u = await yonder.tool("get_usage").catch(() => null);
+  const lines = [].concat(u?.claude_code_usage || []);
+  const find = (re) => { const l = lines.find((x) => re.test(x)); const m = l && l.match(/(\d+)% used/); return m ? Number(m[1]) : undefined; };
+  usage = { week: find(/^Week, all models/i), session: find(/session|5.hour/i) };
+  draw();
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("button, tr[data-id]");
+  if (!b) return;
+  const id = b.dataset.id;
+  if (id) (open = mice.find((m) => m.id === id)), (turns = []), draw(), load();
+  else if (b.id === "back") (open = null), draw();
+  else if (b.id === "done") yonder.done(open.id).then(() => ((open = null), draw()));
+  else if (b.id === "go") talking || !$("text").value.trim() ? dictate() : $("form").requestSubmit();
+  else if (b.id === "end") yonder.call.end();
+  else if (b.id === "mute") yonder.call.mute();
+  else if (b.dataset.app) yonder.apps.open(b.dataset.app);
+  else if (b.dataset.tab === "settings") yonder.open("settings");
+  else if (b.dataset.tab) (tab = b.dataset.tab), (open = null), draw(), tab === "closed" && loadClosed(), tab === "apps" && loadApps();
+});
+const loadClosed = () => yonder.mice.closed().then((c) => ((closed = c), draw()), () => {});
+const loadApps = () => yonder.apps.list().then((a) => ((apps = a), draw()), () => {});
+$("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const text = $("text").value.trim();
+  if (!text) return;
+  $("text").value = "";
+  drawGo();
+  if (open) (turns = [...turns, { who: "user", text }]), draw(), await yonder.send(open.id, text), load();
+  else await yonder.start(text, project.path === "*" ? "" : project.path);
+});
+$("text").addEventListener("input", drawGo);
+let tick = 0;
+setInterval(() => { if (++tick % 3 === 0) load(); if (tick % 60 === 0) loadUsage(); if (call.phase === "live") drawLive(); }, 1000);
+yonder.on("mice", (m) => ((all = m), pick(), open && (open = m.find((x) => x.id === open.id) || open), draw(), tab === "closed" && loadClosed()));
+yonder.on("call", (c) => ((call = c), c.phase !== "idle" && (talking = false), draw()));
+yonder.dictation.on((d) => {
+  if (!talking) return;
+  if (d.error) (talking = false), ($("text").placeholder = d.error);
+  else $("text").value = d.text;
+  drawGo();
+});
+yonder.on("project", (p) => ((project = p), pick(), draw()));
+Promise.all([yonder.mice(), yonder.call.state(), yonder.projects.current().catch(() => project)]).then(([m, c, p]) => ((all = m), (call = c), (project = p || project), pick(), draw(), yonder.ready(), loadUsage()));
+</script>

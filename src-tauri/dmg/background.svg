@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 660 380" width="660" height="380">
+  <!-- The background of the DMG window. Finder puts Yonder.app at (170, 200) and Applications at (490, 200), see settings.py. -->
+  <rect width="660" height="380" fill="#f4f2ee"/>
+  <g fill="#e4e0d8">
+    <circle cx="60" cy="350" r="80"/>
+    <circle cx="600" cy="60" r="70"/>
+  </g>
+  <text x="330" y="62" text-anchor="middle" font-family="Permanent Marker" font-size="30" fill="#111113">Send Yonder over yonder</text>
+  <text x="330" y="88" text-anchor="middle" font-family="Inter" font-weight="500" font-size="14" fill="#6b6f76">Drag the app into Applications</text>
+  <path d="M 250 252 Q 330 292 410 252" fill="none" stroke="#e5484d" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 9"/>
+  <path d="M 397 247 L 412 251 L 404 264" fill="none" stroke="#e5484d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <image xlink:href="bird.svg" x="245" y="122" width="170" height="113"/>
+</svg>

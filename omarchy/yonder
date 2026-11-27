@@ -1,0 +1,179 @@
+#!/bin/bash
+# yonder: Yonder on Linux (docs/omarchy.md). The bridge runs as the user service yonder.service.
+#
+#   yonder open     Bring the Yonder window to the front, or open it.
+#   yonder call     Start or end a call (Super + Y). With no window open, it opens one first.
+#   yonder pair     Show the QR code that pairs a phone, and wait until a phone scans it.
+#   yonder status   The text of the Yonder module of the Omarchy bar, as JSON.
+#   yonder update   Install the newest Yonder.
+#   yonder restart  Start the bridge again.
+#   yonder logs     Follow the log of the bridge.
+#   yonder uninstall  Remove Yonder. The settings and the pairings in ~/.config/yonder stay.
+set -euo pipefail
+
+# The port of the bridge: `port` of config.json, which the bridge writes. It is 7787 unless another user of this computer
+# had that port when the bridge started (bridge/peer.ts).
+BRIDGE=http://127.0.0.1:$(jq -r '.port // 7787' "$HOME/.config/yonder/config.json" 2>/dev/null || echo 7787)
+# The profile of the window. It is not in ~/.local/share/yonder, which an update replaces, so the sign-in stays.
+PROFILE=$HOME/.config/yonder/window
+
+# The window: the page of the bridge in a browser of the Chromium family, with a profile of its own. So the browser of
+# the user does not take the window, and the flags apply: --autoplay-policy lets the call key start the sound of a call
+# with no click. With no such browser, the page opens in the default browser. There is one window at most: an open
+# window comes to the front on Hyprland, or with wmctrl on X11. GNOME and KDE on Wayland let no app raise the window of
+# another app, so there a notice tells that Yonder is open.
+open_window() {
+  local address
+  address=$(hyprctl clients -j 2>/dev/null | jq -r 'first(.[] | select(.class | test("127\\.0\\.0\\.1")) | .address) // empty' || true)
+  if [[ -n $address ]]; then
+    hyprctl dispatch "hl.dsp.focus({ window = \"address:$address\" })" >/dev/null 2>&1 ||
+      hyprctl dispatch focuswindow "address:$address" >/dev/null
+    return
+  fi
+  if ! command -v hyprctl >/dev/null && [[ $(windows) != 0 ]]; then
+    if [[ -n ${DISPLAY:-} ]] && command -v wmctrl >/dev/null && wmctrl -a Yonder; then return; fi
+    notify-send "Yonder" "Yonder is open. Switch to it with Alt + Tab." 2>/dev/null || echo "Yonder is open."
+    return
+  fi
+  local flags=(--autoplay-policy=no-user-gesture-required --no-first-run --no-default-browser-check)
+  if command -v omarchy-launch-webapp >/dev/null; then
+    omarchy-launch-webapp "$BRIDGE/" --user-data-dir="$PROFILE" "${flags[@]}" >/dev/null 2>&1 &
+  else
+    local name path browser="" profile=$PROFILE
+    for name in google-chrome-stable google-chrome chromium chromium-browser brave-browser brave microsoft-edge-stable microsoft-edge vivaldi-stable vivaldi; do
+      path=$(command -v "$name") || continue
+      browser=$name
+      # A browser from a snap reads no hidden folder of the home folder, so its profile is in the folder of the snap.
+      [[ $path != /snap/bin/* ]] || profile=$HOME/snap/${path##*/}/common/yonder-window
+      break
+    done
+    if [[ -n $browser ]]; then
+      mkdir -p "$profile"
+      setsid "$browser" --app="$BRIDGE/" --user-data-dir="$profile" "${flags[@]}" >/dev/null 2>&1 &
+    else
+      setsid xdg-open "$BRIDGE/" >/dev/null 2>&1 &
+    fi
+  fi
+  disown
+}
+
+windows() { curl -s "$BRIDGE/call" | jq -r '.windows // 0' 2>/dev/null || echo 0; }
+
+case ${1:-help} in
+open)
+  open_window
+  ;;
+call)
+  reply=$(curl -s -X POST "$BRIDGE/call") || {
+    notify-send "Yonder" "The bridge does not run. Run: yonder restart"
+    exit 1
+  }
+  # No window heard the key: open one, wait until it listens, and send the key again.
+  if [[ $(jq -r .windows <<<"$reply") == 0 ]]; then
+    open_window
+    for _ in $(seq 50); do
+      sleep 0.2
+      [[ $(windows) != 0 ]] && break
+    done
+    # The window loads the account and the projects before a call can start.
+    sleep 1
+    curl -s -X POST "$BRIDGE/call" >/dev/null
+  fi
+  ;;
+pair)
+  # --hold keeps the terminal of the middle click of the bar open at the end.
+  finish() {
+    [[ ${HOLD:-} == --hold ]] && read -rp "Press Enter to close. " || true
+    exit "$1"
+  }
+  HOLD=${2:-}
+  # A new install waits a moment for the bridge.
+  for _ in $(seq 30); do
+    if curl -s -o /dev/null "$BRIDGE/relay"; then break; fi
+    sleep 0.5
+  done
+  asked=$(($(date +%s%N) / 1000000))
+  if ! reply=$(curl -s -X POST "$BRIDGE/relay"); then
+    echo "The Yonder bridge does not run. Run: yonder restart" >&2
+    finish 1
+  fi
+  error=$(jq -r '.error // empty' <<<"$reply")
+  if [[ -n $error ]]; then
+    echo "$error" >&2
+    finish 1
+  fi
+  # The bridge draws the QR code as text, so Yonder needs no qrencode.
+  qr=$(jq -r .text <<<"$reply")
+  echo "Scan this code with the Yonder app on the phone. It works one time, for 5 minutes."
+  printf '%s\n' "$qr"
+  lines=$(($(wc -l <<<"$qr") + 1))
+  expires=$(jq -r .expires <<<"$reply")
+  while (($(date +%s%N) / 1000000 < expires)); do
+    name=$(curl -s "$BRIDGE/relay" | jq -r --argjson asked "$asked" 'first(.phones[]? | select(.added >= $asked) | .name) // empty')
+    if [[ -n $name ]]; then
+      # The used code goes from the screen, so nobody scans it again.
+      [[ ! -t 1 ]] || printf '\e[%dA\e[J' "$lines"
+      echo "Paired with $name."
+      finish 0
+    fi
+    sleep 1
+  done
+  echo "The code ran out. Run yonder pair again." >&2
+  finish 1
+  ;;
+status)
+  curl -sf "$BRIDGE/status" ||
+    printf '{"text":"%s !","tooltip":"Yonder: the bridge does not run. Run: yonder restart","class":""}\n' $'\U000f036c'
+  ;;
+update)
+  curl -fsSL https://download.yonder.so/install.sh | bash
+  ;;
+restart)
+  systemctl --user restart yonder.service
+  ;;
+logs)
+  tail -n 50 -f "$HOME/.config/yonder/bridge.log"
+  ;;
+uninstall)
+  # The opposite of omarchy/install.sh. The workers of Claude Code keep running.
+  systemctl --user disable --now yonder.service 2>/dev/null || true
+  rm -f "$HOME/.config/systemd/user/yonder.service" "$HOME/.local/share/applications/yonder.desktop" \
+    "$HOME/.local/share/icons/hicolor/256x256/apps/yonder.png" "$HOME/.config/autostart/yonder.desktop"
+  systemctl --user daemon-reload
+  # The call key on GNOME. Only the shortcut of install.sh goes: a shortcut that the user made for `yonder call` stays.
+  media=org.gnome.settings-daemon.plugins.media-keys
+  custom=/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/yonder/
+  if keys=$(gsettings get $media custom-keybindings 2>/dev/null) && [[ $keys == *"'$custom'"* ]]; then
+    keys=${keys//"'$custom', "/}
+    keys=${keys//", '$custom'"/}
+    keys=${keys//"'$custom'"/}
+    [[ $keys != "[]" ]] || keys="@as []"
+    gsettings set $media custom-keybindings "$keys" || true
+    gsettings reset-recursively "$media.custom-keybinding:$custom" || true
+  fi
+  for file in "$HOME/.config/hypr/bindings.lua" "$HOME/.config/hypr/bindings.conf"; do
+    # Only the lines of install.sh: a binding that the user made for `yonder call` stays.
+    if [[ -f $file ]]; then
+      sed -i '/^-- Yonder: start or end a call/d; /^# Yonder: start or end a call/d;
+        /^o\.bind("SUPER + Y", "Yonder call", /d; /^bindd = SUPER, Y, Yonder call, exec, /d' "$file"
+    fi
+  done
+  hyprctl reload >/dev/null 2>&1 || true
+  if command -v omarchy-shell-config >/dev/null; then
+    (
+      # shellcheck disable=SC1091
+      source omarchy-shell-config
+      commit "$NORMALIZE | .bar.layout |= map_values(map(select(.id != \"yonder\")))"
+    ) || true
+  fi
+  rm -rf "${XDG_DATA_HOME:-$HOME/.local/share}/yonder" "$HOME/.local/bin/yonder"
+  echo "Yonder is removed. Its settings and pairings stay in ~/.config/yonder."
+  # The installer of a server turned linger on. Other services of the user can need it, so it stays.
+  if [[ $(loginctl show-user "$(id -un)" -P Linger 2>/dev/null) == yes ]]; then
+    echo "Linger stays on. To turn it off, run: sudo loginctl disable-linger $(id -un)"
+  fi
+  ;;
+*)
+  sed -n '4,10s/^# //p' "$0"
+  ;;
+esac

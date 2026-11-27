@@ -1,0 +1,207 @@
+name: yonder-ios
+options:
+  bundleIdPrefix: com.vladartym.yonder
+  # iOS 17 is the lowest version: @Observable, StoreKit views and the async APIs of AVFAudio.
+  deploymentTarget:
+    iOS: 17.0
+fileGroups: [../../src]
+configs:
+  debug: debug
+  release: release
+settingGroups:
+  app:
+    base:
+      PRODUCT_NAME: Yonder
+      PRODUCT_BUNDLE_IDENTIFIER: com.vladartym.yonder
+      DEVELOPMENT_TEAM: C5338FSGXJ
+targetTemplates:
+  app:
+    type: application
+    sources:
+      - path: Sources
+    scheme:
+      environmentVariables:
+        RUST_BACKTRACE: full
+        RUST_LOG: info
+    settings:
+      groups: [app]
+targets:
+  yonder-ios_iOS:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+      - path: Assets.xcassets
+      # Exclude built static libs: regenerating with xcodegen after a build
+      # otherwise turns the per-configuration libapp.a copies into colliding
+      # resources ("Multiple commands produce …/libapp.a"). They are linked
+      # via LIBRARY_SEARCH_PATHS, never bundled as resources.
+      - path: Externals
+        excludes: ["**/*.a"]
+      - path: yonder-ios_iOS
+      - path: assets
+        buildPhase: resources
+        type: folder
+      - path: LaunchScreen.storyboard
+      # The Live Activity in the Dynamic Island: the app starts it, and YonderIsland draws it.
+      - path: YonderIsland/YonderAttributes.swift
+      - path: YonderIsland/CallIntent.swift
+      # The Talk buttons outside the app open it, so iOS runs their intent in the app.
+      - path: YonderIsland/StartCallIntent.swift
+    info:
+      path: yonder-ios_iOS/Info.plist
+      properties:
+        LSRequiresIPhoneOS: true
+        UILaunchStoryboardName: LaunchScreen
+        UIRequiredDeviceCapabilities: [arm64, metal]
+        # The landscape views are for the player of a video only (VideoPlayer.swift). The window of the app stays
+        # upright: see the "Yonder patch" in ios/tao/src/platform/ios.rs.
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+        CFBundleShortVersionString: 0.1.0
+        CFBundleVersion: "0.1.0"
+    entitlements:
+      path: yonder-ios_iOS/yonder-ios_iOS.entitlements
+      # The push notifications of finished agents. xcodegen writes this file from these properties.
+      properties:
+        aps-environment: development
+        # Sign in with Apple (AppleSignIn.swift). The App ID has the capability, and the profile of the App Store has it.
+        com.apple.developer.applesignin: [Default]
+    scheme:
+      environmentVariables:
+        RUST_BACKTRACE: full
+        RUST_LOG: info
+    settings:
+      base:
+        # iPhone only: the UI is the layout of a phone, and the web view of an iPad sends the user agent of a Mac,
+        # so src/bridge.ts would not see a phone. App Store Connect then asks for no iPad screenshots.
+        TARGETED_DEVICE_FAMILY: 1
+        # CarPlay in the simulator only. A device build gets the CarPlay entitlement when Apple gives it, because the
+        # provisioning profile must have it, or the signing fails. See "The entitlement" in docs/carplay.md.
+        CODE_SIGN_ENTITLEMENTS[sdk=iphonesimulator*]: yonder-ios_iOS/simulator.entitlements
+        ENABLE_BITCODE: false
+        ARCHS: [arm64]
+        VALID_ARCHS: arm64 
+        LIBRARY_SEARCH_PATHS[arch=x86_64]: $(inherited) $(PROJECT_DIR)/Externals/x86_64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/$(PLATFORM_NAME) $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/$(PLATFORM_NAME)
+        LIBRARY_SEARCH_PATHS[arch=arm64]: $(inherited) $(PROJECT_DIR)/Externals/arm64/$(CONFIGURATION) $(SDKROOT)/usr/lib/swift $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/$(PLATFORM_NAME) $(DEVELOPER_DIR)/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift-5.0/$(PLATFORM_NAME)
+        ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: true
+        EXCLUDED_ARCHS[sdk=iphoneos*]: x86_64
+      groups: [app]
+    dependencies:
+      - framework: libapp.a
+        embed: false
+      - sdk: CoreGraphics.framework
+      - sdk: Metal.framework
+      - sdk: MetalKit.framework
+      - sdk: QuartzCore.framework
+      - sdk: Security.framework
+      - sdk: UIKit.framework
+      - sdk: WebKit.framework
+      - sdk: ActivityKit.framework
+        weak: true
+      - sdk: AppIntents.framework
+        weak: true
+      - target: YonderIsland
+      - target: YonderShare
+      - target: YonderWatch
+    preBuildScripts:
+      - script: |
+          bun tauri ios xcode-script -v --platform "${PLATFORM_DISPLAY_NAME:?}" --sdk-root "${SDKROOT:?}" --framework-search-paths "${FRAMEWORK_SEARCH_PATHS:?}" --header-search-paths "${HEADER_SEARCH_PATHS:?}" --gcc-preprocessor-definitions "${GCC_PREPROCESSOR_DEFINITIONS:-}" --configuration "${CONFIGURATION:?}" ${ARCHS:?}
+        name: Build Rust Code
+        basedOnDependencyAnalysis: false
+        outputFiles:
+          - $(SRCROOT)/Externals/x86_64/${CONFIGURATION}/libapp.a
+          - $(SRCROOT)/Externals/arm64/${CONFIGURATION}/libapp.a
+  # The widget extension that draws the Live Activity of Yonder: the Yonder icon and the counts of the agents
+  # in the Dynamic Island. See "The Dynamic Island" in docs/mobile.md.
+  YonderIsland:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: YonderIsland
+    info:
+      path: YonderIsland/Info.plist
+      properties:
+        # App Store Connect refuses an extension with no display name.
+        CFBundleDisplayName: Yonder
+        CFBundleShortVersionString: 0.1.0
+        CFBundleVersion: "0.1.0"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vladartym.yonder.island
+        TARGETED_DEVICE_FAMILY: 1
+        DEVELOPMENT_TEAM: C5338FSGXJ
+  # The share extension: share a link from another app to a new agent or to an agent, with a message. It sends with
+  # the Swift link of CarPlay. See "The share extension" in docs/mobile.md.
+  YonderShare:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: YonderShare
+      - path: Sources/yonder-ios/CarLink.swift
+      - path: Sources/yonder-ios/CarStore.swift
+    info:
+      path: YonderShare/Info.plist
+      properties:
+        CFBundleDisplayName: Yonder
+        CFBundleShortVersionString: 0.1.0
+        CFBundleVersion: "0.1.0"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: ShareViewController
+          NSExtensionAttributes:
+            NSExtensionActivationRule:
+              NSExtensionActivationSupportsWebURLWithMaxCount: 1
+              NSExtensionActivationSupportsText: true
+              NSExtensionActivationSupportsImageWithMaxCount: 10
+              NSExtensionActivationSupportsMovieWithMaxCount: 5
+              NSExtensionActivationSupportsFileWithMaxCount: 10
+    entitlements:
+      path: YonderShare/YonderShare.entitlements
+      # The Keychain group of the app, where CarStore keeps the pairing and the key.
+      properties:
+        keychain-access-groups: [$(AppIdentifierPrefix)com.vladartym.yonder]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vladartym.yonder.share
+        TARGETED_DEVICE_FAMILY: 1
+        DEVELOPMENT_TEAM: C5338FSGXJ
+        SWIFT_VERSION: "5.0"
+  # The Apple Watch app: plain SwiftUI with the Swift call of CarPlay inside a CallKit call. The iPhone app embeds it.
+  # See docs/watch.md. No `app` group: it sets the bundle ID and the name of the iPhone app. No ARCHS: a watch is
+  # arm64_32 or arm64, and the default builds both.
+  YonderWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "10.0"
+    sources:
+      - path: YonderWatch
+      - path: Sources/yonder-ios/CarCall.swift
+      - path: Sources/yonder-ios/CarLink.swift
+      - path: Sources/yonder-ios/CarStore.swift
+    info:
+      path: YonderWatch/Info.plist
+      properties:
+        CFBundleDisplayName: Yonder
+        CFBundleShortVersionString: 0.1.0
+        CFBundleVersion: "0.1.0"
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.vladartym.yonder
+        NSMicrophoneUsageDescription: Yonder listens to you during a voice call.
+        # A call goes on when the user lowers the wrist.
+        UIBackgroundModes: [voip]
+    settings:
+      base:
+        PRODUCT_NAME: YonderWatch
+        PRODUCT_BUNDLE_IDENTIFIER: com.vladartym.yonder.watchkitapp
+        TARGETED_DEVICE_FAMILY: 4
+        DEVELOPMENT_TEAM: C5338FSGXJ
+        SWIFT_VERSION: "5.0"

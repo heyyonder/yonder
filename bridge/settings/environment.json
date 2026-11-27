@@ -1,0 +1,11 @@
+{
+  "id": "environment",
+  "name": "Environments",
+  "icon": "smartphone",
+  "settings": [
+    {"key": "computerName", "type": "string", "default": "", "label": "Name", "store": "config", "control": "text", "only": "mac", "help": "The name of this computer in the environment dropdown, on the phone and on the other computers. Empty gives the name of the system.", "words": "name rename computer environment mac label"},
+    {"key": "hiddenComputers", "type": "list", "default": [], "label": "Show", "store": "device", "control": "custom", "component": "computers", "only": "phone", "help": "The computers whose agents and apps this phone shows, with a check. The computer in use always shows. Each phone keeps its own list.", "words": "show hide isolate separate other computers environments agents apps checkbox"},
+    {"key": "blockedComputers", "type": "list", "default": [], "label": "Can reach it", "store": "config", "control": "custom", "component": "reach", "only": "phone", "help": "The other computers that cannot reach this computer, by name or public key, also when a phone introduced them. All of them can by default.", "words": "reach link block mesh one way other computers"},
+    {"key": "preview", "type": "boolean", "default": true, "label": "Tunnel", "store": "config", "control": "toggle", "help": "Reach the sites of the Mac from the phone. Off closes each tunnel.", "words": "preview sites web localhost port remote reach tunnel"}
+  ]
+}

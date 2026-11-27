@@ -1,0 +1,50 @@
+{
+  "name": "Duet",
+  "about": "The look of Duet: warm paper, a serif title, and a pixel creature with a hat, eyewear and an extra for each agent.",
+  "kind": "screen",
+  "look": {
+    "light": {
+      "bg": "#f7f5f0",
+      "page": "#efebe4",
+      "panel": "#ffffff",
+      "hover": "#f0ece5",
+      "text": "#1f1c19",
+      "muted": "#77716a",
+      "line": "#e8e3db",
+      "accent": "#b84f30",
+      "accent-text": "#ffffff",
+      "green": "#3d9a58",
+      "red": "#d4433b",
+      "amber": "#c08414",
+      "blue": "#3a7fd4",
+      "purple": "#8659d4",
+      "live": "#3d9a58",
+      "call": "#1f1c19",
+      "call-text": "#ffffff"
+    },
+    "dark": {
+      "bg": "#1a1816",
+      "page": "#221f1c",
+      "panel": "#2a2724",
+      "hover": "#2f2b27",
+      "text": "#f4f0e9",
+      "muted": "#a29b91",
+      "line": "#35312c",
+      "accent": "#e27a5c",
+      "accent-text": "#1a1816",
+      "green": "#52c27a",
+      "red": "#ff6a5f",
+      "amber": "#f0a530",
+      "blue": "#5b9cf0",
+      "purple": "#a986f5",
+      "live": "#3fae63",
+      "call": "#f4f0e9",
+      "call-text": "#1a1816"
+    },
+    "font": "system"
+  },
+  "abilities": [
+    "dictation"
+  ],
+  "tools": []
+}

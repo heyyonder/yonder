@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>destination</key>
+	<string>export</string>
+	<key>method</key>
+	<string>app-store-connect</string>
+	<key>signingStyle</key>
+	<string>manual</string>
+	<key>signingCertificate</key>
+	<string>Apple Distribution</string>
+	<key>teamID</key>
+	<string>C5338FSGXJ</string>
+	<key>uploadSymbols</key>
+	<true/>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>com.vladartym.yonder</key>
+		<string>Yonder App Store yonder</string>
+		<key>com.vladartym.yonder.island</key>
+		<string>Yonder App Store yonder.island</string>
+		<key>com.vladartym.yonder.share</key>
+		<string>Yonder App Store yonder.share</string>
+		<key>com.vladartym.yonder.watchkitapp</key>
+		<string>Yonder App Store yonder.watchkitapp</string>
+	</dict>
+</dict>
+</plist>
