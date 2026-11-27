@@ -78,8 +78,10 @@ this document in the same commit.
 - For each connection, the relay sends a record to yonder.so: the room, the
   role, the device, the app version, the model, the times, the close
   reason, and the country, city, latitude and longitude from Cloudflare. It
-  does not send the IP address. yonder.so keeps these records with no end
-  date. They have no link to an account.
+  does not send the IP address. yonder.so deletes these records after 90
+  days. They have no link to an account.
+- The relay sends the records with a token. That token cannot read the
+  stats of the records. Only staff of yonder.so can read them.
 - The Claude connector (`mcp.yonder.so`) and the webhooks are not end to
   end encrypted. The relay and Cloudflare can read the tool calls, the
   results and the webhook bodies. The relay keeps nothing. Both are off
@@ -112,8 +114,8 @@ The backend keeps:
   photo of 160 px.
 - The old emails of an account, so that Apple and Google sign-in still find
   it.
-- The sign-in codes. A code stays in the database until it is used, also
-  for an email that has no account.
+- The sign-in codes, as a keyed hash only, also for an email that has no
+  account. The backend deletes each code after 10 minutes.
 - The plan and its Stripe, App Store or Google Play IDs. No card data
   reaches yonder.so.
 - The referral code and the bonus time.
@@ -135,11 +137,10 @@ The backend keeps no IP addresses. Rate limits use the IP for some seconds,
 in memory only.
 
 When a user deletes the account, the backend deletes the account, the plan,
-the backup, the photo, the tunnels in the database, the old emails, the
-votes and the ideas, and cancels the subscription. It keeps:
+the backup, the photo, the tunnels, the old emails, the votes, the ideas and
+the feedback reports, and cancels the subscription. It also deletes each
+tunnel, its DNS record and its Worker route at Cloudflare. It keeps:
 
-- the feedback reports, with no link to the account;
-- the tunnel and its DNS record at Cloudflare;
 - the Stripe customer and the invoices;
 - the waitlist emails, the FAQ questions and the connection records;
 - the data that the analytics services already have.
