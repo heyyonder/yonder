@@ -476,6 +476,10 @@ installSkill(HOME);
 // /mods, by session ID, with the time of the post. The mod posts each 30 seconds, so an older drawing is of a session
 // that ended.
 const MOD = installMod(join(CONFIG, "mod"));
+// The plugins of the user (plugins/README.md): each Claude Code worker loads each child of this folder with one more
+// --plugin-dir. An empty folder loads nothing and gives no error.
+const PLUGINS = join(CONFIG, "plugins");
+mkdirSync(PLUGINS, { recursive: true });
 const mods = new Map<string, { at: number; band?: unknown; panes: unknown[]; status: string[]; toasts: { at: number }[] }>();
 refreshRules(SCREENS);
 const PHONE_FILE = join(CONFIG, "phone.json");
@@ -825,9 +829,10 @@ setInterval(() => void sync.run(), 30_000);
 // A bridge that starts from a Claude Code terminal must not pass that session
 // to its workers. FORCE_COLOR of that terminal also colors the short ID in
 // the output of `claude --bg`, and then `send` cannot read it.
-// YONDER_BRIDGE: the address of this bridge, for a curl of an agent and for the mod (bridge/mod-register.js), because the
-// port is not always 7787 (bridge/peer.ts). YONDER_TOKEN: the token of the bridge, so the calls of the workers need no
-// check of the user. Another user cannot read the environment of a process. A copy of `env` reads the token of now.
+// YONDER_BRIDGE: the address of this bridge, for a curl of an agent and for the mod (plugins/yonder/hooks/register.js),
+// because the port is not always 7787 (bridge/peer.ts). YONDER_TOKEN: the token of the bridge, so the calls of the
+// workers need no check of the user. Another user cannot read the environment of a process. A copy of `env` reads the
+// token of now.
 const env: Record<string, string | undefined> = Object.fromEntries([
   ...Object.entries(process.env).filter(([k]) => (!/^CLAUDE/.test(k) || k === "CLAUDE_CONFIG_DIR") && k !== "FORCE_COLOR"),
   ["YONDER_BRIDGE", `http://127.0.0.1:${PORT}`],
@@ -2520,8 +2525,9 @@ const options = (w: Worker) => [
   // Claude Code puts YONDER_TOKEN of its environment in the header, so the token is not in the arguments, which other
   // users of the computer can read. A session with no YONDER_TOKEN sends an empty header, and the check of the user passes it.
   "--mcp-config", JSON.stringify({ mcpServers: { yonder: { type: "http", url: mcpUrl(w), headers: { "x-yonder-token": "${YONDER_TOKEN:-}" }, timeout: 30 * 60_000 } } }), ...defaultMcp(profileOf(w.profile)),
-  // Yonder's own mod. A resume with no options keeps it, as the other options of the start.
+  // Yonder's own mod, and the plugins of the user. A resume with no options keeps them, as the other options of the start.
   ...(MOD ? ["--plugin-dir", MOD] : []),
+  "--plugin-dir", PLUGINS,
   ...((w.mode ?? state.mode) === "bypassPermissions" ? ["--dangerously-skip-permissions"] : ["--permission-mode", w.mode ?? state.mode]),
   ...settingsOf(w),
   "--model", w.model ?? MODEL, "--effort", w.effort ?? "high", "--append-system-prompt", say(SPOKEN + named(w)), "--name", w.name,

@@ -1,9 +1,9 @@
 // What the Claude Code mods of an agent show, in its conversation view. A worker runs in a terminal that no one sees.
-// Yonder's own mod in the worker (bridge/mod-register.js) sends the band above the prompt, each open pane, each status
-// line and each toast, as Claude Code drew them for the terminal, and these parts draw them as HTML where Claude Code
-// draws them: the band over the message box, the status lines and the toasts under it, and the panes beside the chat.
-// Read only: a Button shows its label, because a plugin cannot press the Button of another plugin. The mods show in
-// the conversation, not on a tab of their own.
+// Yonder's own mod in the worker (plugins/yonder/hooks/register.js) sends the band above the prompt, each open pane,
+// each status line and each toast, as Claude Code drew them for the terminal, and these parts draw them as HTML where
+// Claude Code draws them: the band over the message box, the status lines and the toasts under it, and the panes beside
+// the chat. Read only: a Button shows its label, because a plugin cannot press the Button of another plugin. The mods
+// show in the conversation, not on a tab of their own.
 import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";

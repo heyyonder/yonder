@@ -1,9 +1,10 @@
 // @ts-check
-// The hooks module of Yonder's own mod for Claude Code (bridge/mod.ts). Each worker loads it with --plugin-dir. A worker
-// runs in a terminal that no one sees, and Claude Code draws the mods there: the band above the prompt, each open pane,
-// each status line and each toast. This mod keeps the last drawing of each, as Claude Code drew it, and posts them to
-// the bridge (POST /mods) when they change, and at least every 30 seconds, so a bridge that restarted has them again.
-// The app shows them in the conversation view of the agent. The mod draws nothing itself: each hook gives on what the other mods drew.
+// The hooks module of Yonder's own mod for Claude Code (plugins/yonder/, which bridge/mod.ts writes at each start).
+// Each worker loads it with --plugin-dir. A worker runs in a terminal that no one sees, and Claude Code draws the mods
+// there: the band above the prompt, each open pane, each status line and each toast. This mod keeps the last drawing of
+// each, as Claude Code drew it, and posts them to the bridge (POST /mods) when they change, and at least every 30
+// seconds, so a bridge that restarted has them again. The app shows them in the conversation view of the agent. The mod
+// draws nothing itself: each hook gives on what the other mods drew.
 // It is JavaScript with the types of Claude Code in comments, because the bridge imports it as text, and tsc of the
 // bridge does not know the module `claude-code`. A plugin cannot draw the mods of others itself: `$` has no ui.render.
 
