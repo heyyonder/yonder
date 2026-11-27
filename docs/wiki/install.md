@@ -740,6 +740,19 @@ These gates check each release before it uploads.
   gets the JSON of the Tauri updater, and the others get the version as
   text. A 404 (no such channel) sends the copy to the old static file
   of download.yonder.so, and a 204 means no update.
+- The same worker answers `download.yonder.so` (a route in front of the
+  custom domain of the bucket). The files of each version are in the
+  release `v<version>` of `heyyonder/yonder` on GitHub
+  (`github-release.ts`), a pre-release for staging. The worker sends each
+  old name there with a 302: `Yonder.dmg`, `Yonder.apk`,
+  `yonder-linux-<arch>.tar.gz`, `yonder-windows-x64.zip`, `install.sh`,
+  `omarchy.sh` and `install.ps1` go to the newest staging version of
+  their platform, and a name with a version goes to that version. It
+  makes `latest.json` and `latest-<platform>.txt` from the state. A
+  version before `FIRST` in `worker.ts` has no GitHub release, so its
+  files come from the bucket. The Mac JSON of the update server also
+  links to GitHub. `promote.ts` makes the release a full release, so
+  `releases/latest` on GitHub is the newest production version.
 - The channel and the server of a copy are in `channel.json`, the one
   place for the Mac app, the bridge and the screen. All the copies are
   `staging` now. `production` is for the store apps later.

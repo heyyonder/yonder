@@ -1,5 +1,6 @@
 // The free check of the rules of the update server (pick.ts): `bun updates/check.ts`. No network.
 import { accept, bucket, pick, text, type Feed } from "./pick";
+import { FIRST, link, resolve } from "./worker";
 
 let failed = 0;
 const ok = (cond: boolean, name: string) => (console.log(`${cond ? "ok" : "FAILED"}: ${name}`), cond || failed++);
@@ -34,5 +35,17 @@ ok(accept("2.83.430\nrollback\n", "2.83.430") === undefined, "refuse the same ve
 ok(accept("2.83.430", "") === "2.83.430", "a copy with no version file takes the version");
 ok(accept("", "2.83.430") === undefined && accept("<html>", "2.83.430") === undefined, "refuse an empty or wrong answer");
 ok(accept("2.9.1", "2.10.0") === undefined && accept("2.10.0", "2.9.1") === "2.10.0", "numbers compare as numbers");
+
+// download.yonder.so (worker.ts): each old name finds its file.
+const state = { staging: { mac: { version: "2.150.1400", percent: 100 }, linux: { version: "2.150.1399", percent: 10 }, android: { version: "2.149.1390", percent: 100 } } };
+const r = (name: string) => JSON.stringify(resolve(name, state));
+ok(r("Yonder.dmg") === JSON.stringify({ version: "2.150.1400", asset: "Yonder-2.150.1400.dmg" }), "Yonder.dmg is the newest DMG");
+ok(r("Yonder-2.1.5.app.tar.gz") === JSON.stringify({ version: "2.1.5", asset: "Yonder-2.1.5.app.tar.gz" }), "a versioned name keeps its version");
+ok(r("Yonder.apk") === JSON.stringify({ version: "2.149.1390", asset: "Yonder-2.149.1390.apk" }), "Yonder.apk is the newest APK");
+ok(r("yonder-linux-arm64.tar.gz") === JSON.stringify({ version: "2.150.1399", asset: "yonder-linux-arm64-2.150.1399.tar.gz" }), "the Linux archive, also during a slow rollout");
+ok(r("omarchy.sh") === JSON.stringify({ version: "2.150.1399", asset: "install.sh" }), "omarchy.sh is install.sh");
+ok(r("latest-linux.txt") === JSON.stringify({ text: "2.150.1399\n" }) && r("latest.json") === JSON.stringify({ mac: "2.150.1400" }), "the latest files come from the state");
+ok(resolve("install.ps1", state) === undefined && resolve("updates/state.json", state) === undefined, "no Windows release or another file: the bucket");
+ok(link(FIRST, "a") === `https://github.com/heyyonder/yonder/releases/download/v${FIRST}/a` && link("2.142.1323", "a") === "https://download.yonder.so/a", "a version before FIRST stays in the bucket");
 
 if (failed) process.exit(1);

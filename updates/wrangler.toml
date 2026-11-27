@@ -3,7 +3,8 @@
 name = "yonder-updates"
 main = "worker.ts"
 compatibility_date = "2025-10-01"
-routes = [{ pattern = "updates.yonder.so", custom_domain = true }]
+# download.yonder.so stays the custom domain of the bucket. The route puts this worker in front of it (worker.ts, downloads).
+routes = [{ pattern = "updates.yonder.so", custom_domain = true }, { pattern = "download.yonder.so/*", zone_name = "yonder.so" }]
 
 [[r2_buckets]]
 binding = "BUCKET"
