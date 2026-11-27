@@ -1,5 +1,5 @@
-// Screens and styles (docs/ui-themes.md): the screen of the user is the default screen, a sample of src/ui/, or a
-// screen of the user's own in ~/.config/yonder/ui/<name>/ on the Mac. A style is data: values for the default screen
+// Screens and styles (docs/ui-themes.md): the screen of the user is the default screen, a built-in theme of themes/, or
+// a screen of the user's own in ~/.config/yonder/themes/<name>/ on the Mac. A style is data: values for the default screen
 // (colors, font, corners, density, glass, talk layout, tabs and words). It cannot break the app: a value that is not
 // valid keeps its default. An own screen (`kind: "screen"`) is a page in a sandboxed frame (src/OwnScreen.tsx). The key `ui`
 // in localStorage and in phone.json names the screen in use: "terminal" (a sample), "my-terminal" (the newest good
@@ -8,17 +8,7 @@ import { useEffect, useState } from "react";
 import { bridgeFetch, phone } from "./bridge";
 import { syncPhoneConfig } from "./phone-config";
 import { swap } from "./names";
-import yonder from "./ui/yonder.json";
-import dashboard from "./ui/dashboard.json";
-import big from "./ui/big.json";
-import terminal from "./ui/terminal.json";
-import playful from "./ui/playful.json";
-import omarchy from "./ui/omarchy.json";
-import dashboardPage from "./ui/dashboard.html?raw";
-import duet from "./ui/duet.json";
-import duetPage from "./ui/duet.html?raw";
-import grokBot from "./ui/grok-bot.json";
-import grokBotPage from "./ui/grok-bot.html?raw";
+import { THEMES } from "../themes";
 
 export type Look = {
   name: string;
@@ -39,16 +29,7 @@ export type Version = { n: number; at: number; note?: string; by?: string; bad?:
 export type Mine = { name: string; title: string; about?: string; kind?: string; from?: string; colors?: { light?: Record<string, string | undefined>; dark?: Record<string, string | undefined> }; versions: Version[] };
 
 // The gallery, in its order. Yonder is the default and has no values.
-export const SAMPLES: Record<string, Look> = {
-  yonder,
-  dashboard: { ...(dashboard as Look), page: dashboardPage },
-  big,
-  terminal,
-  omarchy,
-  playful,
-  duet: { ...(duet as Look), page: duetPage },
-  "grok-bot": { ...(grokBot as Look), page: grokBotPage },
-};
+export const SAMPLES = THEMES as Record<string, Look>;
 export const DEFAULT = "yonder";
 // The screen with no pick. The window on Omarchy (a page with no Tauri on Linux, docs/omarchy.md) starts on the Omarchy
 // style, and the phones and the Mac start on the default.

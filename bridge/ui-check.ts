@@ -11,7 +11,7 @@ import { fork, importScreen, rename, list, markBad, publish, read, SAMPLES, save
 const root = mkdtempSync(join(tmpdir(), "yonder-ui-"));
 try {
   // The samples load, with the page of the own screen.
-  assert.equal(Object.keys(SAMPLES).join(), "yonder,dashboard,big,terminal,omarchy,playful");
+  assert.equal(Object.keys(SAMPLES).join(), "yonder,dashboard,big,terminal,omarchy,playful,duet,grok-bot");
   assert.match(SAMPLES.dashboard().page!, /yonder\.ready\(\)/);
 
   // A fork of a sample is version 1 of "my-terminal", and a second fork gets another name.

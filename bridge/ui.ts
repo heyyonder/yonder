@@ -1,24 +1,12 @@
-// The screens of the user (docs/ui-themes.md, src/look.ts): one folder for each screen in ~/.config/yonder/ui/<name>/,
+// The screens of the user (docs/ui-themes.md, src/look.ts): one folder for each screen in ~/.config/yonder/themes/<name>/,
 // with one file for each version: <n>.json, and <n>.html for an own screen (a page). A version never changes, so a
 // rollback is only a pick of an older number. state.json keeps the note, the agent and the bad mark of each version.
-// The phone reads them through /ui, and the agents and the voice through the customize tool. The samples are the files of
-// src/ui/, so the bridge and the screen have the same ones.
+// The phone reads them through /ui, and the agents and the voice through the customize tool. The samples are the built-in
+// themes of themes/, so the bridge and the screen have the same ones.
 import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
 import { dirname, extname, join, resolve, sep } from "node:path";
-import yonder from "../src/ui/yonder.json";
+import { THEMES } from "../themes";
 import { lintScreen } from "./screen-lint";
-import dashboard from "../src/ui/dashboard.json";
-import big from "../src/ui/big.json";
-import terminal from "../src/ui/terminal.json";
-import playful from "../src/ui/playful.json";
-import omarchy from "../src/ui/omarchy.json";
-import DASHBOARD_FILE from "../src/ui/dashboard.html" with { type: "file" };
-import duet from "../src/ui/duet.json";
-import DUET_FILE from "../src/ui/duet.html" with { type: "file" };
-import grokBot from "../src/ui/grok-bot.json";
-import GROK_BOT_FILE from "../src/ui/grok-bot.html" with { type: "file" };
-// With `type: "file"`, an import gives the path of the file, also in a compiled bridge. The types of Bun say HTMLBundle.
-const page = (file: unknown) => readFileSync(file as string, "utf8");
 
 export type Look = Record<string, unknown> & { name?: string; about?: string; kind?: string; page?: string; from?: string };
 type Meta = { note?: string; by?: string; bad?: boolean; error?: string };
@@ -28,16 +16,7 @@ type State = { versions?: Record<string, Meta>; source?: { mtime: number; hash?:
 export type Version = Meta & { n: number; at: number };
 
 export const DEFAULT = "yonder";
-export const SAMPLES: Record<string, () => Look> = {
-  yonder: () => yonder,
-  dashboard: () => ({ ...dashboard, page: page(DASHBOARD_FILE) }),
-  big: () => big,
-  terminal: () => terminal,
-  omarchy: () => omarchy,
-  playful: () => playful,
-  duet: () => ({ ...duet, page: page(DUET_FILE) }),
-  "grok-bot": () => ({ ...grokBot, page: page(GROK_BOT_FILE) }),
-};
+export const SAMPLES: Record<string, () => Look> = Object.fromEntries(Object.entries(THEMES).map(([id, look]) => [id, () => ({ ...look })]));
 const NAME = /^[a-z0-9][a-z0-9-]{0,40}$/;
 // The relay sends one answer in one frame of 1 MiB (bridge/relay.ts), so a version is 1 MB or less when gzipped. The
 // bridge gzips the answer of a large page (/ui in bridge/main.ts), and the phone unzips it (src/look.ts).

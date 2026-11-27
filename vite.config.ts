@@ -31,6 +31,16 @@ const buildInfo = `commit ${commit.slice(0, 7)}, built ${pad(time.getMonth() + 1
 export default defineConfig({
   plugins: [
     react(),
+    // A text import of Bun (`with { type: "text" }`, as in themes/index.ts) is a `?raw` import for Vite, so the screen
+    // and the bridge read the pages of the themes from one list.
+    {
+      name: "text-imports",
+      enforce: "pre",
+      transform(code, id) {
+        if (id.includes("/node_modules/") || !code.includes("type: \"text\"")) return;
+        return code.replace(/(from\s+"[^"?]+)("\s+)with\s*\{\s*type:\s*"text"\s*\}/g, "$1?raw$2");
+      },
+    },
     // The bridge reads the build of dist/ from build.txt, so that the apps load a new front end (src/front.ts).
     // needs.json: the phone app that this screen needs (`needs` in version.ts). commit.txt: the commit of the build, so
     // the bridge builds again only when the screen changed (`buildFront` in bridge/main.ts). code.txt: a hash of the JS

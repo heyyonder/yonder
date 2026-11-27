@@ -5,7 +5,7 @@
 // src/ under Vite, paired through the relay, in WebKit (the engine of the iPhone) and in Chromium.
 //
 // 1. The pictures: each sample in the light and the dark look, in three views with the same data (the agents, an
-//    approval, a chat), into docs/themes/<theme>/, for a theme gallery.
+//    approval, a chat), into themes/<theme>/shots/, for the theme gallery.
 // 2. The phone check of the samples Duet and Grok Bot at three iPhone sizes, in both engines: the page never scrolls,
 //    the edit sheet fits with no scroll, the bubbles sit on their side, each placeholder fits on one line, and the frame
 //    follows the keyboard when it opens and closes (src/main.tsx, app.css), also when iOS 26 makes the web view shorter.
@@ -30,7 +30,8 @@ const WT = resolve(import.meta.dir, "..");
 const TMP = mkdtempSync(join(tmpdir(), "yonder-themes-e2e-"));
 const SHOTS = join(TMP, "shots");
 mkdirSync(SHOTS, { recursive: true });
-const GALLERY = join(WT, "docs", "themes");
+const GALLERY = join(WT, "themes");
+const shotsOf = (theme: string) => join(GALLERY, theme, "shots");
 const free = () => {
   const s = Bun.serve({ port: 0, fetch: () => new Response() });
   const p = s.port;
@@ -149,13 +150,13 @@ class App {
   // A picture of the gallery: a PNG, as WebP when cwebp is on the computer.
   async picture(theme: string, name: string) {
     await this.page.waitForTimeout(600);
-    mkdirSync(join(GALLERY, theme), { recursive: true });
+    mkdirSync(shotsOf(theme), { recursive: true });
     const png = join(SHOTS, `gallery-${theme}-${name}.png`);
     await this.page.screenshot({ path: png });
-    const webp = join(GALLERY, theme, `${name}.webp`);
+    const webp = join(shotsOf(theme), `${name}.webp`);
     const cwebp = Bun.which("cwebp");
     if (cwebp) await Bun.spawn([cwebp, "-quiet", "-q", "80", png, "-o", webp]).exited;
-    else await Bun.write(join(GALLERY, theme, `${name}.png`), Bun.file(png));
+    else await Bun.write(join(shotsOf(theme), `${name}.png`), Bun.file(png));
     console.log(`picture: ${theme}/${name}`);
   }
   own = (theme: string) => SAMPLES[theme]().kind === "screen";
