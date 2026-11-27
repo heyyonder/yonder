@@ -96,6 +96,7 @@ export const appleSignIn = () =>
 export const signOut = () => save();
 export const superuser = () => !!saved()?.account.superuser;
 // yonder.so marks staff only in `plan`, as "Staff" when the account has no paid plan. A super user is staff too.
+// shortcut: staff with a paid plan, VIP or a trial is missed; add a `staff` field to the account answer of yonder.so to fix.
 export const staff = () => superuser() || saved()?.account.plan === "Staff";
 // A super user sets the Grok voice of the calls of each account.
 export const setVoice = (voice: string) => api("account", { voice });
