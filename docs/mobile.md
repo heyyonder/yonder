@@ -403,7 +403,7 @@ virtual microphone.
 ### Google Play
 
 - `bun run play` builds the release bundle (AAB) for all four ABIs, with the
-  version "2.B.N" of `version.ts` (see Versions in the wiki), so the `versionCode`
+  version "2.B.N" of `version.ts` (see Versions in `docs/wiki/install.md`), so the `versionCode`
   (1,000,000 + 1000 B + N) grows with each commit. Google Play refuses a `versionCode` that it has
   already seen. The bundle is
   `android/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab`.

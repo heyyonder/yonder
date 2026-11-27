@@ -26,5 +26,5 @@ first words after 0.4 to 1.6 s, and answers with a tool call after 2.2 to
 4.1 s. A full agent says its first text after a median of 15.4 s. So the 10
 to 30 seconds above are true only for a full session. `docs/brain.md` has the
 research, three designs and a plan. `bun bridge/brain-check.ts` starts such a
-session in a terminal. "Claude" under Voice agent (Grok) tells how the Claude
+session in a terminal. "Claude" in `voice-agent.md` tells how the Claude
 model of the Voice settings works.

@@ -45,8 +45,7 @@ it now. "Try it" at the end tells how.
   and the user must ask for it again.
 - The first words come about 2.2 s after the user stops. 1.2 s of
   silence ends the turn of the user (`SILENCE_MS`). Then Grok answers or
-  calls a tool after a median of about 1.0 s in a fresh call ("Voice
-  agent (Grok)" in the wiki).
+  calls a tool after a median of about 1.0 s in a fresh call (`docs/wiki/voice-agent.md`).
 - The open conversation already relays. Grok sends the words of the
   user to one agent with `message_worker`, and the app gives Grok the
   answer of the agent (`tell`). Each message stops the session of the
@@ -60,7 +59,7 @@ it now. "Try it" at the end tells how.
 
 ## Why the earlier decision said no
 
-"Decision: two layers, no orchestrator session" in the wiki says that a
+"Decision: two layers, no orchestrator session" in `docs/wiki/architecture.md` says that a
 Claude session between Grok and the agents adds 10 to 30 s to each turn,
 and that it needs a queue. That is true for a full session, as the 15.4 s
 above shows. A lean session that stays open answers a short question in
@@ -240,7 +239,7 @@ marks a number that only the vendor gives.
 - Speech to text: the speech model of Apple through `yonder-dictate`,
   which the dictation uses already. It is free, it runs on the Mac, it
   gives the words while the user talks, and it gave the last text of an
-  8-second clip in 0.25 s ("Dictation" in the wiki). The phone already
+  8-second clip in 0.25 s ("Dictation" in `docs/wiki/talking.md`). The phone already
   sends the sound of a dictation to the Mac (`/dictate`, through the
   relay). A service in the cloud is the other choice.
 - The end of a turn: 1.2 s of silence, as today, or a model that finds

@@ -20,7 +20,7 @@ Hermes (`hermes acp`). Antigravity,
 Cursor, Grok Build and Copilot still run one process for each turn,
 because nobody could sign in to them on the test Mac to test them on ACP.
 Approvals on the phone and an "Add an agent" row are not built yet. The
-wiki tells how the host works ("Agents in other CLIs").
+wiki tells how the host works ("Agents in other CLIs" in `docs/wiki/workers.md`).
 
 ## The plan
 
@@ -158,8 +158,8 @@ Settings, the sessions need no wrapper, and the user talks.
 
 - `claude --bg` with a daemon that keeps the session between turns, the
   agent view (`claude agents`) with working, blocked and done, and a
-  transcript in `~/.claude/projects`. The wiki has the details, under
-  Workers.
+  transcript in `~/.claude/projects`. The wiki has the details, in
+  `docs/wiki/workers.md`.
 
 ### Codex (OpenAI)
 
@@ -731,7 +731,7 @@ The rows above show the state of a test Mac.
   the code. Then the user signs in from the phone. The output of these
   commands is not verified.
 - Yonder never asks for a key, and never reads or copies the token of a
-  CLI. Each CLI keeps its own sign-in, as the wiki says for Claude Code:
+  CLI. Each CLI keeps its own sign-in, as `docs/wiki/workers.md` says for Claude Code:
   the work uses the plan of the user.
 
 ### Install
@@ -795,7 +795,7 @@ files.
 6. Grok: the `cli` input, the descriptions of the tools, and the prompt.
 7. The app: the CLI menu of New agent, the logos, and the three dots.
 8. `bridge/clis-check.ts` with a recorded Codex stream.
-9. The wiki (the CLIs under Workers, and the Agents tab under Mac app),
+9. The wiki (the CLIs in `workers.md`, and the Agents tab in `mac-app.md`),
    and the landing demo.
 
 ### Phase 2: one row for each CLI

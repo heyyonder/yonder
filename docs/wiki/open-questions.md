@@ -17,7 +17,7 @@
   kills such a bridge with SIGKILL.
 - Live View, a WebRTC video of the browser of the agent, is still only a
   design in `docs/tunnel.md`.
-- CarPlay is built (see "CarPlay" under Phone), but not tested on a car
+- CarPlay is built (see `carplay.md`), but not tested on a car
   screen. It waits for the CarPlay entitlement of Apple, which the
   developer of the app must request, and for a test in the CarPlay of
   the simulator or in a car.
@@ -38,7 +38,7 @@
 - Tesla is still only research. Tesla has no app store for other
   companies. Since update 2026.26, a web page in the car browser can use
   the microphone, so a web build of the phone app can work there.
-- The Apple Watch app is built (see "Apple Watch" under Phone), but
+- The Apple Watch app is built (see `watch.md`), but
   nobody has run it on a watch yet. The plan is in `docs/watch.md`.
 - Yonder for Omarchy is built (see "Omarchy"), but nobody has run it on
   a real Omarchy computer, and the release is not on download.yonder.so

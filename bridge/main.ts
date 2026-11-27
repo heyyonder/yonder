@@ -9197,7 +9197,7 @@ function installId() {
 async function update(now = false) {
   if (updating || (!now && Date.now() < callUntil)) return;
   const have = existsSync(join(ROOT, "version")) ? readFileSync(join(ROOT, "version"), "utf8").trim() : "";
-  // The update server (channel.json, "Update server" in the wiki) answers for this install: a slow rollout, a stop or a
+  // The update server (channel.json, "Update server" in docs/wiki/install.md) answers for this install: a slow rollout, a stop or a
   // rollback. 204 is no update. With no answer, the static file of the copies from before it; the query gets past
   // the cache of Cloudflare.
   const platform = WINDOWS ? "windows" : "linux";

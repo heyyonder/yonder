@@ -1,6 +1,6 @@
 # Projects
 
-The projects are workspaces (see Workspaces above). This part tells how
+The projects are workspaces (see `workspaces.md`). This part tells how
 the projects work, and most of it applies to the workspaces with a
 folder.
 
@@ -195,7 +195,7 @@ folder.
       agent as "Jack (agent 4)". The bridge (`findWorker`) and the app
       also take "Jack" and "Sundial 7" as a reference.
 - `~/.config/yonder/phone.json` holds the settings that each phone keeps:
-  `ui` (the screen in use, see "Screens and styles" under Phone),
+  `ui` (the screen in use, see `screens.md`),
   `theme` (`light` or `dark`), `chatFont` and `summaryFont`
   (`system`, `serif`, `rounded` or `mono`), `chatSize` (12, 13, 15 or 17)
   and `summarySize` (13, 15, 17 or 21), `usageBar` (`on` or `off`),

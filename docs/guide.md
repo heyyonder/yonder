@@ -266,7 +266,7 @@ with no click. The bridge reads the file again when it changes.
 
 The bridge checks each entry on its own. It leaves out a bad entry, keeps
 the others, and gives the errors in `list_workspaces`. The full rules are
-in the wiki.
+in `docs/wiki/workspaces.md`.
 
 ## Profiles
 

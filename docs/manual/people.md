@@ -42,7 +42,7 @@ agent can edit them, and the change applies at once:
 ```
 
 The **main** person owns the Mac window and the agents with no owner. The
-full rules are in the wiki.
+full rules are in "People" in `docs/wiki/workers.md`.
 
 ## Separate accounts on one computer
 

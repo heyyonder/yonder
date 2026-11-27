@@ -82,8 +82,8 @@
   It also takes photos, videos and documents: each file
   goes to the Mac in parts, and the agent gets the paths in `files`. A
   video gets its keyframes and the words of its sound.
-- Subscriptions: Yonder is free (see "Voice agent (Grok)" under
-  Architecture), so the phone apps sell no plan and have no subscribe
+- Subscriptions: Yonder is free (see
+  `voice-agent.md`), so the phone apps sell no plan and have no subscribe
   sheet. No code in `src/` uses `tauri-plugin-iap`, but it is still a
   dependency in `ios/Cargo.toml`, `android/Cargo.toml` and
   `package.json`.

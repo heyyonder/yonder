@@ -160,7 +160,7 @@ Each step is one commit that works alone. Each commit that changes what
 Yonder does updates `docs/wiki/workers.md` in the same commit.
 
 1. `people` in `config.json`, its check, the pairing that writes it, and
-   `deviceOf()` → person. The "People" section of the wiki gives the format
+   `deviceOf()` → person. The "People" section of `docs/wiki/workers.md` gives the format
    and the rules above, so the agents know how to edit it. A check script
    edits the file and reads the person of a device back with no restart.
 2. `owner` on tasks and schedules, and the `<from>` tag.

@@ -284,7 +284,7 @@
   when the user asks an agent, and pinned tabs and live views come
   later. The design, the phases and the mock-ups are in
   `docs/canvas.md`.
-- Screens and styles are built (see "Screens and styles" under Phone).
+- Screens and styles are built (see `screens.md`).
   The design, the format and the mock-ups are in `docs/ui-themes.md`.
 - Fonts can fail to load in a preview: a link from the `node_modules` of
   a worktree puts them outside the allow list of Vite. They fail on the

@@ -878,7 +878,7 @@ async fn check_update(app: AppHandle) -> Result<Option<String>, String> {
     Ok(version)
 }
 
-/// The updater of a copy for other Macs: the update server (channel.json, "Update server" in the wiki) with the install
+/// The updater of a copy for other Macs: the update server (channel.json, "Update server" in docs/wiki/install.md) with the install
 /// ID of this Mac, then the static latest.json of the copies from before it, when the server gives no feed (404).
 /// An older version installs only when the server marks it as a rollback.
 fn updater(app: &AppHandle) -> Result<tauri_plugin_updater::Updater, String> {

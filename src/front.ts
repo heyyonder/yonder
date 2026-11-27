@@ -365,7 +365,7 @@ async function storeUpdate(): Promise<{ url: string; version: string } | undefin
   const own = await getVersion().catch(() => "0");
   if (native(own) < 1_000_000) return;
   if (android) {
-    // The update server (channel.json, "Update server" in the wiki) answers for this install, so a slow rollout and a
+    // The update server (channel.json, "Update server" in docs/wiki/install.md) answers for this install, so a slow rollout and a
     // stop reach the phone; 204 is no update. With no answer, the static file. The link names the version that the
     // server gave, which is not always the newest APK.
     const id = localStorage.getItem("installId") || crypto.randomUUID();
