@@ -6605,24 +6605,40 @@ function server(device = "", brain = "", caller = "", signal = new AbortControll
           : { removed: removed.map((w) => w.num), note: "A removed agent cannot come back to the lists." };
       }),
   );
+  // The wiki has one file for each part in docs/wiki/, and index.md lists them, so a call sends one part and not the
+  // whole wiki. The topics in the description come from the index, so Grok can pick a part with no second call.
+  const wiki = join(ROOT, "docs/wiki");
+  const topics = SOURCE
+    ? readFileSync(join(wiki, "index.md"), "utf8").replace(/\n {2}/g, " ").match(/^- \[[a-z-]+\]\([a-z-]+\.md\): .*$/gm)?.map((l) => l.replace(/^- \[([a-z-]+)\]\([^)]+\): /, "$1: ")) ?? []
+    : [];
   mcp.registerTool(
     "about_yonder",
     {
       description:
         "The wiki of Yonder: what it is, what it can do, how it works, and the newest changes. " +
-        "Call it before you answer a question about Yonder itself.",
-      inputSchema: {},
+        "Call it before you answer a question about Yonder itself. With no topic, it gives the list of the parts and the newest changes. " +
+        "With a topic, it gives the list and that part." +
+        (topics.length ? ` The topics:\n${topics.join("\n")}` : ""),
+      inputSchema: { topic: z.string().optional().describe("The part of the wiki, such as voice-agent or phone. Leave it out for the newest changes.") },
     },
-    // Read at each call, so that each change to CLAUDE.md and the wiki is live at once, also before a rebuild.
+    // Read at each call, so that each change to the wiki is live at once, also before a rebuild.
     // The commits tell if the source is newer than the running app.
-    () => {
+    ({ topic }) => {
       if (!SOURCE) return { content: [{ type: "text", text: readFileSync(README, "utf8") }] };
-      const docs = `${readFileSync(join(ROOT, "CLAUDE.md"), "utf8")}\n\n${readFileSync(join(ROOT, "docs/wiki.md"), "utf8")}`;
+      const index = readFileSync(join(wiki, "index.md"), "utf8");
+      if (topic) {
+        const file = join(wiki, `${topic}.md`);
+        // Only a plain name, so that a topic cannot read a file outside the wiki.
+        const text = /^[a-z-]+$/.test(topic) && topic !== "index" && existsSync(file)
+          ? `${index}\n\n${readFileSync(file, "utf8")}`
+          : `${index}\n\nThe wiki has no topic "${topic}". Call about_yonder again with a topic of the list above.`;
+        return { content: [{ type: "text", text }] };
+      }
       const git = (...args: string[]) => Bun.spawnSync(["git", ...args], { cwd: ROOT }).stdout.toString().trim();
       const text =
-        `Source: version ${version(ROOT)}, commit ${git("rev-parse", "--short", "HEAD")}. ` +
+        `${index}\n\nSource: version ${version(ROOT)}, commit ${git("rev-parse", "--short", "HEAD")}. ` +
         "If the running app has an older version, the newer changes need a rebuild.\n\n" +
-        `Newest changes:\n${git("log", "-20", "--format=- %s")}\n\n${docs}`;
+        `Newest changes:\n${git("log", "-20", "--format=- %s")}`;
       return { content: [{ type: "text", text }] };
     },
   );

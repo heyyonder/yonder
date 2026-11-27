@@ -162,7 +162,8 @@ check() {
   local test=$HOME/.config/yonder-$port
   mkdir -p $tmp/bridge $tmp/relay $tmp/src $tmp/docs
   local file
-  for file in ${(f)"$(code)"} $SCRIPT $ROOT/CLAUDE.md $ROOT/docs/wiki.md; do cp $file $tmp/${file#$ROOT/}; done
+  for file in ${(f)"$(code)"} $SCRIPT $ROOT/CLAUDE.md; do cp $file $tmp/${file#$ROOT/}; done
+  cp -R $ROOT/docs/wiki $tmp/docs/
   ln -s $ROOT/node_modules $tmp/node_modules
   rm -rf $test
   YONDER_PORT=$port YONDER_WATCHDOG_EVERY=1 zsh $tmp/bridge/watchdog.sh > $tmp/watchdog.log 2>&1 &
