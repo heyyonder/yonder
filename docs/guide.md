@@ -559,9 +559,13 @@ A Yonder plugin is a Claude Code plugin. Yonder adds no new format. A
 plugin can give the agents skills, commands, hooks, MCP servers and
 subagents.
 
-- **Yonder's own mod** is in [`bridge/mod.ts`](../bridge/mod.ts). The
-  bridge writes it to `~/.config/yonder/mod/` at each start, and each
-  Claude Code agent loads it with `--plugin-dir`.
+- **Yonder's own mod** is in [`plugins/yonder/`](../plugins/yonder/). The
+  bridge writes it to `~/.config/yonder/mod/` at each start
+  (`bridge/mod.ts`), and each Claude Code agent loads it with
+  `--plugin-dir`.
+- **Your plugins** are in `~/.config/yonder/plugins/<name>/`. Each
+  Claude Code agent loads each plugin of that folder with one more
+  `--plugin-dir`.
 - **What a mod draws.** A mod can draw in the terminal: a band above the
   prompt, a pane, a status line or a toast. An agent of Yonder runs in a
   terminal that nobody sees. So Yonder's mod reads what the other mods
@@ -572,8 +576,7 @@ subagents.
   plugin runs with all the rights of your user, so install only a plugin
   that you trust.
 
-To make a plugin, follow the plugin docs of Claude Code. Yonder loads it
-in each Claude Code agent.
+To make a plugin, read [`plugins/README.md`](../plugins/README.md).
 
 ## Schedules and triggers
 
@@ -634,6 +637,7 @@ second bridge for a test, with `YONDER_PORT=7799`, uses
 | `relay.json` | The private key and the pairings of the relay link (mode 600). |
 | `themes/<name>/` | Your own themes, one file for each version. `ui/` is a link to it, the old name. |
 | `mod/` | Yonder's own mod, written again at each start. |
+| `plugins/<name>/` | Your plugins, one folder for each. Each Claude Code agent loads them. |
 | `runs/` | The output of each turn of a CLI that runs one process for each turn. |
 | `mcp-default.json` | Your MCP servers, for the profiles with a separate account. Only you can read it. |
 | `bridge.log`, `call.log`, `app.log` | The logs of the bridge, the voice calls and the desktop app. |
@@ -844,7 +848,9 @@ pie showData title Lines of source code by part
 | Folder | What it holds |
 |---|---|
 | `src/` | The screen: one React app for the Mac, the phones, Linux and Windows. `App.tsx` is the main view, `voice.ts` the voice call, `link.ts` the encryption of the phone, `elsewhere.ts` the other environments. |
-| `bridge/` | The bridge. `main.ts` is the MCP server and the agents, `clis.ts` the other CLIs, `acp-host.ts` the ACP host, `relay.ts` the relay link, `mod.ts` Yonder's mod. |
+| `bridge/` | The bridge. `main.ts` is the MCP server and the agents, `clis.ts` the other CLIs, `acp-host.ts` the ACP host, `relay.ts` the relay link, `mod.ts` writes Yonder's mod. |
+| `themes/` | The built-in themes, one folder each, and the list `index.ts`. |
+| `plugins/` | Yonder's own mod, a Claude Code plugin. |
 | `relay/` | The check of the relay. The relay itself is in its [own repository](https://github.com/vladartym/yonder-relay). |
 | `src-tauri/` | The Mac app (Tauri), with the notch, the keys and the menu bar. |
 | `ios/`, `android/` | The phone apps (Tauri mobile), with the widgets, the share sheet, CarPlay and the watch. |

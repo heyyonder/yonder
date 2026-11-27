@@ -214,7 +214,7 @@ provider that you choose, or with your own system.
 - [Voice](docs/voice/README.md): the optional voice module, with Grok,
   local speech or your own system.
 - [Run your own relay](https://github.com/vladartym/yonder-relay): keep your messages off our server.
-- [Themes](themes/README.md) and [plugins](docs/guide.md#plugins-and-mods): make Yonder
+- [Themes](themes/README.md) and [plugins](plugins/README.md): make Yonder
   yours.
 
 ## Contributing
