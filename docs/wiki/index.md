@@ -10,7 +10,7 @@ The wiki has one file for each part. The name of the file without `.md` is the t
 - [architecture](architecture.md): Architecture. Why Grok talks to the workers through the bridge, with no session
   between them.
 - [voice-agent](voice-agent.md): Voice agent (Grok). The realtime call, the voice and its volume, the other voice
-  providers, and how Grok uses the tools.
+  models, and how Grok uses the tools.
 - [bridge](bridge.md): Bridge. The MCP server that starts the workers: its tools, its port, the grants of macOS and
   two OS users on one computer.
 - [workers](workers.md): Workers. The Claude Code sessions, the agents in other CLIs, profiles, people, schedules,

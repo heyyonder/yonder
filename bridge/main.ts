@@ -6606,10 +6606,11 @@ function server(device = "", brain = "", caller = "", signal = new AbortControll
       }),
   );
   // The wiki has one file for each part in docs/wiki/, and index.md lists them, so a call sends one part and not the
-  // whole wiki. The topics in the description come from the index, so Grok can pick a part with no second call.
+  // whole wiki. The topics in the description come from the index, so Grok can pick a part with no second call. Each
+  // topic is in backticks, because `swap` keeps those: else "voice-agent" reads "voice-task" for a user with that word.
   const wiki = join(ROOT, "docs/wiki");
   const topics = SOURCE
-    ? readFileSync(join(wiki, "index.md"), "utf8").replace(/\n {2}/g, " ").match(/^- \[[a-z-]+\]\([a-z-]+\.md\): .*$/gm)?.map((l) => l.replace(/^- \[([a-z-]+)\]\([^)]+\): /, "$1: ")) ?? []
+    ? readFileSync(join(wiki, "index.md"), "utf8").replace(/\n {2}/g, " ").match(/^- \[[a-z-]+\]\([a-z-]+\.md\): .*$/gm)?.map((l) => l.replace(/^- \[([a-z-]+)\]\([^)]+\): /, "`$1`: ")) ?? []
     : [];
   mcp.registerTool(
     "about_yonder",
@@ -6619,7 +6620,7 @@ function server(device = "", brain = "", caller = "", signal = new AbortControll
         "Call it before you answer a question about Yonder itself. With no topic, it gives the list of the parts and the newest changes. " +
         "With a topic, it gives the list and that part." +
         (topics.length ? ` The topics:\n${topics.join("\n")}` : ""),
-      inputSchema: { topic: z.string().optional().describe("The part of the wiki, such as voice-agent or phone. Leave it out for the newest changes.") },
+      inputSchema: { topic: z.string().optional().describe("The part of the wiki, such as `voice-agent` or `phone`. Leave it out for the newest changes.") },
     },
     // Read at each call, so that each change to the wiki is live at once, also before a rebuild.
     // The commits tell if the source is newer than the running app.
