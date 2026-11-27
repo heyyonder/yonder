@@ -1,5 +1,5 @@
 // Turns the CarPlay display of a simulator on or off, with the private SimDevice method enableCarPlay:error: of
-// CoreSimulator. Xcode 27 has no Simulator app with an I/O menu. See "CarPlay" in docs/wiki.md. Run it with:
+// CoreSimulator. Xcode 27 has no Simulator app with an I/O menu. See docs/wiki/carplay.md. Run it with:
 //   clang -fobjc-arc -framework Foundation -o /tmp/carplay-sim ios/carplay-sim.m && /tmp/carplay-sim <UDID> on
 #import <Foundation/Foundation.h>
 #import <objc/message.h>

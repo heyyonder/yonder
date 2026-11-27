@@ -1,5 +1,5 @@
 // The rules of the update server (updates.yonder.so, worker.ts), shared with its clients. See "Update server" in
-// docs/wiki.md. The state is one JSON object: for each channel and platform, the version out now, the version before
+// docs/wiki/install.md. The state is one JSON object: for each channel and platform, the version out now, the version before
 // it, the percent of the installs that get the new one, a stop switch, a rollback mark and a minimum version.
 export const PLATFORMS = ["mac", "linux", "windows", "android"] as const;
 export type Platform = (typeof PLATFORMS)[number];

@@ -331,7 +331,7 @@ export async function startFront(render: () => void) {
   render();
   // A bundle that shows the app loses its try mark after 1.5 seconds, not 8. A user can close a black screen within a
   // few seconds, and else the next start marks a good bundle bad and runs the older bundle of the install, whose
-  // updates still go black (docs/wiki.md). It is then the good screen for `rollback`, and the native cover of
+  // updates still go black (docs/wiki/install.md). It is then the good screen for `rollback`, and the native cover of
   // a new load goes away, if the native controls did not take it away first (src/chrome.ts).
   setTimeout(() => {
     if (ios) void cover(false);
@@ -383,7 +383,7 @@ async function storeUpdate(): Promise<{ url: string; version: string } | undefin
 }
 
 // Asks the bridge for the build of the front end every 5 seconds. A new build loads by itself, with no button and no
-// notice, so the screen changes live by voice, with no "Update available" (docs/wiki.md, "Install the app"). A build with the same JS (`code`) has only new CSS, and the page puts the CSS in at once, also
+// notice, so the screen changes live by voice, with no "Update available" (docs/wiki/install.md). A build with the same JS (`code`) has only new CSS, and the page puts the CSS in at once, also
 // during a call (`restyle`). Another build loads with a new load of the page when that shows the same screen
 // (`settled`) and no call or talk view is on: on the phone when the app goes to the background, and in front only under
 // the native cover of the iPhone after 3 seconds with no touch; on the Mac when its window is not in front. A tap on

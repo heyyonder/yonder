@@ -88,7 +88,7 @@ export function syncPhoneConfig(onChange?: () => void) {
   // The Mac window follows only on the pull of App.tsx, which gives `onChange`. The page on Linux has no Tauri.
   if (!phone) return void (onChange && "__TAURI_INTERNALS__" in window && follow().catch(() => {}));
   // A real phone reaches phone.json only through its pairing. A fake phone of an agent with no pairing, such as a
-  // screenshot script on the bridge of the user, must not write its test settings into it (docs/wiki.md).
+  // screenshot script on the bridge of the user, must not write its test settings into it (docs/wiki/projects.md).
   if (!phone || !isPaired()) return;
   if (running) return void (again = true);
   running = sync()

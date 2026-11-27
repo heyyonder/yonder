@@ -43,7 +43,7 @@ with the page form as its fallback. When you only change one of them, name its n
 1. A SwiftUI view in `yonder-ios/`, with one hosting view for each control. A large one takes the taps of the page.
 2. A `@_cdecl("yonder_...")` function, or a field in `ChromeState.swift` for a twin. Use `@MainActor`.
 3. `extern "C"` and a `#[tauri::command]` in `ios/src/lib.rs`, added to `generate_handler!`.
-4. The page side with its fallback, then the new version in the `yonder_native_chrome` comment and in docs/wiki.md.
+4. The page side with its fallback, then the new version in the `yonder_native_chrome` comment and in docs/wiki/phone.md.
 
 ## Test what the user sees
 - Use XcodeBuildMCP `screenshot`, `snapshot_ui` and `record_sim_video` in an iOS 26 simulator, or the iPhone.

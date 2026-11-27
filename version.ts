@@ -2,7 +2,7 @@
 // screen over the air (src/front.ts) needs no new build. B is the build number: one more for each commit that changes a
 // native shell (src-tauri/, ios/, android/), because only these need a new build for the Mac, TestFlight or Android.
 // The 2 makes each version higher than each old version "1.N.0" and "1.B.N", for the Mac updater, App Store Connect and
-// the Android version code. A B or an N above 999 is no problem (docs/wiki.md, "Versions").
+// the Android version code. A B or an N above 999 is no problem (docs/wiki/install.md, "Versions").
 // `bun version.ts` prints it, for the scripts of package.json.
 import { execFileSync, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";

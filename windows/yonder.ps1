@@ -1,4 +1,4 @@
-# yonder: Yonder on Windows ("Windows" in docs/wiki.md). The loop of `yonder serve` runs the bridge from the log-in.
+# yonder: Yonder on Windows (docs/wiki/windows.md). The loop of `yonder serve` runs the bridge from the log-in.
 #
 #   yonder open       Bring the Yonder window to the front, or open it.
 #   yonder call       Start or end a call (Ctrl + Alt + Y). With no window open, it opens one first.

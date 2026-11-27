@@ -100,7 +100,7 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.lifecycle:lifecycle-process:2.10.0")
     // The crashes of the Kotlin code and of the native code go to Sentry. It starts by itself from the io.sentry.dsn of
-    // AndroidManifest.xml, which is empty (off) with no SENTRY_DSN. See "Crash reports" in docs/wiki.md.
+    // AndroidManifest.xml, which is empty (off) with no SENTRY_DSN. See "Crash reports" in docs/wiki/install.md.
     implementation("io.sentry:sentry-android:8.60.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")

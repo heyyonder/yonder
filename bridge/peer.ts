@@ -1,4 +1,4 @@
-// More than one OS user on one computer, such as Bob and Mary on one Mac, each with their own Yonder (docs/wiki.md,
+// More than one OS user on one computer, such as Bob and Mary on one Mac, each with their own Yonder (docs/wiki/bridge.md,
 // "Two OS users on one computer"). Each bridge then needs its own port, and must refuse the programs of the other user.
 // For one user, nothing changes: the bridge keeps port 7787, and each program of that user passes.
 import { spawnSync } from "node:child_process";

@@ -421,13 +421,13 @@ export const loadPairings = async () => [...new Map((await store<Pairing[]>("rea
 // `dirty`: a conversation, the settings or the talk view was on the screen since this page started (App.tsx sets it).
 // Then the iPhone does not load the page again: each such new load shows black, also with `still`, and a start of the
 // app always shows the app. An update waits in `front`, a switch of the Mac waits in the pairing, and
-// the next start of the app runs them (docs/wiki.md).
+// the next start of the app runs them (docs/wiki/install.md).
 export const hold = { talk: false, dirty: false };
 
 // Stops each animation and transition of the page (`html.still` in src/app.css), and resolves 1.5 seconds later. The
 // iPhone shows only the background, for good, after a new load of the page while the icon of the update button turns,
 // and after a switch to another Mac. A teardown of the app while an icon turns does the same, with no load. The same
-// teardown 1.5 seconds after the icon stops shows the app (docs/wiki.md). So each new load
+// teardown 1.5 seconds after the icon stops shows the app (docs/wiki/install.md). So each new load
 // of the page waits for it: an update and `heal` (src/front.ts), a switch of the Mac and an unpair (below). The bridge
 // also loads this file, so the function touches the page only when it runs.
 export function still() {

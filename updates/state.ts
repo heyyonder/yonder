@@ -6,7 +6,7 @@
 //   bun run resume <channel>                             the rollout goes on
 //   bun run rollback <channel> <platform|all>            the version before goes back to each install
 //   bun run release-status                               the state of each channel
-// See "Update server" in docs/wiki.md.
+// See "Update server" in docs/wiki/install.md.
 import { readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";

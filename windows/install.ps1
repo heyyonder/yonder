@@ -1,4 +1,4 @@
-# Installs Yonder on Windows ("Windows" in docs/wiki.md):  irm https://download.yonder.so/install.ps1 | iex
+# Installs Yonder on Windows (docs/wiki/windows.md):  irm https://download.yonder.so/install.ps1 | iex
 #
 # It puts the bridge, the window (dist\) and the yonder command in %LOCALAPPDATA%\Yonder, and the command on the PATH
 # of the user. It adds Yonder and Yonder Call to the Start menu, with the key Ctrl + Alt + Y on Yonder Call, and Yonder

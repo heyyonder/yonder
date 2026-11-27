@@ -21,5 +21,5 @@ tauri-plugin-haptics = "2"
 # The browser inside the app for Yonder Preview (Custom Tabs). See docs/tunnel.md.
 tauri-plugin-opener = "2"
 tauri-plugin-dialog = "2"
-# The Face ID lock of the app (LocalAuthentication), and the fingerprint lock on Android. See "Phone" in docs/wiki.md.
+# The Face ID lock of the app (LocalAuthentication), and the fingerprint lock on Android. See docs/wiki/phone.md.
 tauri-plugin-biometric = "2"

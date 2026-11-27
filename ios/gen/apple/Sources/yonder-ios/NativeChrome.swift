@@ -1,5 +1,5 @@
 // The native chrome of the iPhone app: the tab bar and the round buttons in the real Liquid Glass of iOS 26, over the
-// web view. The web view cannot draw real glass (see "The tabs of the phone" in docs/wiki.md), so these controls are
+// web view. The web view cannot draw real glass (see "The tabs of the phone" in docs/wiki/phone.md), so these controls are
 // native: the tab bar of UIKit (GlassTabBar.swift), and SwiftUI for the buttons and the switches. The page keeps its own
 // controls in their places and hides them (`useNativeChrome` in src/App.tsx). It sends the state and the place of each
 // control through the `native_chrome` command of ios/src/lib.rs, and a tap calls the page back with `window.yonderChrome`.

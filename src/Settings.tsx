@@ -1250,7 +1250,7 @@ export function Settings({ theme, setTheme, keys, setKeys, ranges, setRanges, mo
               {/* Environment is the bridge and the screen of the computer in use, which update over the air. The app is
                   the native shell of this device. Each shows only the commit number N of "2.B.N", with its channel,
                   as Discord shows its build: the two numbers are meant to differ, and the line under them says if the
-                  app is too old ("Versions" in docs/wiki.md). A tap copies both full versions. Full
+                  app is too old ("Versions" in docs/wiki/install.md). A tap copies both full versions. Full
                   versions with different middle numbers, as "2.104.707" and "2.98.645", make the phone look out of date. */}
               <div className="group">
                 <button className="row nav" onClick={copyVersions}>

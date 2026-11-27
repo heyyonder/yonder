@@ -127,7 +127,7 @@ export function startBrain(claude: string, mcp: string, model: string, call: str
 
 // POST /brain {call, text?, stop?, end?} sends to the brain of the call, and starts it when it does not run. A POST with
 // no text starts it early, so that the first answer does not wait for it. GET /brain?call=<id>&after=<n> gives its new
-// events. A new call starts a new brain, as each call of Grok starts fresh (wiki).
+// events. A new call starts a new brain, as each call of Grok starts fresh (docs/wiki/voice-agent.md).
 // shortcut: one brain for the bridge, so a second device that calls at the same time takes it over. Keep one for each call if that happens.
 let brain: Brain | undefined;
 let usedAt = 0;

@@ -14,7 +14,7 @@
 // --ios does only step 4, for a release of the iPhone app alone.
 // --dry-run sends only the reads (GET), and prints each change that it does not send. A failed step does not stop the
 // steps after it, except the version and the health check, and the command then exits with 1.
-// See "Production" in docs/wiki.md.
+// See "Production" in docs/wiki/install.md.
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";

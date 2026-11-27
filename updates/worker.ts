@@ -2,7 +2,7 @@
 // The Mac gets the JSON of the Tauri updater (the shape of latest.json, with "rollback" in notes), and Linux, Windows
 // and Android get the version as text (pick.ts). 404: no such channel or platform, so the client asks the static file
 // of download.yonder.so. 204: no update. The state and the Mac signatures are in the bucket of download.yonder.so.
-// Deploy it with `bun run deploy-updates`. See "Update server" in docs/wiki.md.
+// Deploy it with `bun run deploy-updates`. See "Update server" in docs/wiki/install.md.
 import { pick, text, type State } from "./pick";
 
 type Bucket = { get(key: string): Promise<{ json<T>(): Promise<T> } | null> };

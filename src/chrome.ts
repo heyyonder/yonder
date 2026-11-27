@@ -1,6 +1,6 @@
 // The native chrome of the iPhone (NativeChrome.swift in ios/gen/apple/Sources/yonder-ios): on iOS 26 the tab bar and
 // each button with `data-native` are native controls in real Liquid Glass, because the web view cannot draw real glass
-// ("The tabs of the phone" in docs/wiki.md). The page keeps its own controls in their places, hidden while their native
+// ("The tabs of the phone" in docs/wiki/phone.md). The page keeps its own controls in their places, hidden while their native
 // control shows (`[data-native-on]` in src/app.css), and sends their places and their state on each change. A native tap opens
 // a tab, or clicks the hidden button, so each button keeps one handler: the three dots open the glass menu of the page,
 // as all the menus of the app. An older app or an iOS before 26 keeps the controls of the page. The native buttons are

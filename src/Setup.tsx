@@ -1,4 +1,4 @@
-// The first run after the pairing (docs/wiki.md, "First run"): folder access on the Mac, the questions that pick a
+// The first run after the pairing (docs/wiki/mac-app.md, "The first run"): folder access on the Mac, the questions that pick a
 // built-in screen, the CLI and the permission mode, the summary "Your Yonder", the sign-in of the CLI, then the
 // permissions of the phone, each with its reason first. Each step that is done already is skipped.
 //

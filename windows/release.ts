@@ -1,4 +1,4 @@
-// Builds Yonder for Windows ("Windows" in docs/wiki.md): a zip with the bridge as one program, the window (dist/), the
+// Builds Yonder for Windows (docs/wiki/windows.md): a zip with the bridge as one program, the window (dist/), the
 // yonder command and the icon. Then it puts the zip and the installer on https://download.yonder.so, as
 // omarchy/release.ts does for Linux. The x64 build also runs on Windows on Arm, through its emulation.
 // Run it with `bun run release-windows`. Add `--no-upload` to keep the files in windows/out.

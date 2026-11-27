@@ -327,7 +327,7 @@ pub enum ValidOrientations {
 
 // Yonder patch: the window of the app stays upright. The Info.plist allows the landscape view only for the player of
 // a video (VideoPlayer.swift), which turns with the phone. See "The phone apps show only the portrait view" in
-// docs/wiki.md.
+// docs/wiki/phone.md.
 impl Default for ValidOrientations {
   #[inline]
   fn default() -> ValidOrientations {

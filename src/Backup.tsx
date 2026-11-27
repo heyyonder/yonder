@@ -1,4 +1,4 @@
-// Export and Import of the General settings (bridge/backup.ts, docs/wiki.md "Backup"). Export saves the setup of the
+// Export and Import of the General settings (bridge/backup.ts, docs/wiki/projects.md "Backup"). Export saves the setup of the
 // computer to Downloads of that computer. Import applies a file that Export made. With keys, Export includes the keys,
 // the tokens and the pairings, and Import applies them. Thus a user without a Yonder account cannot lose the setup.
 import { useRef, useState } from "react";

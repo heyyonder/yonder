@@ -1,4 +1,4 @@
-// The safe saves of the files of the bridge, and the export and the import of the setup (docs/wiki.md "Backup").
+// The safe saves of the files of the bridge, and the export and the import of the setup (docs/wiki/projects.md "Backup").
 // - writeSafe writes a copy and renames it into place, so a crash never leaves half a file. The file before the save
 //   stays as <file>.bak.
 // - readSafe reads a file, or its .bak when the file is missing or broken. A broken file moves to <file>.broken-<time>,

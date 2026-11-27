@@ -1,4 +1,4 @@
-// Check the workspaces (docs/wiki.md, "Workspaces"): `bun bridge/workspaces-check.ts`. It needs no network and no running
+// Check the workspaces (docs/wiki/workspaces.md): `bun bridge/workspaces-check.ts`. It needs no network and no running
 // bridge, and it starts no agent, so it uses no credits. It runs bridge/main.ts on a free port with a test home that holds
 // the projects of an older bridge, and checks the move into config.json `workspaces`, the old tool names, the live edits
 // of the file by an agent, and the pick of the workspace for a new agent when Clef is not there.

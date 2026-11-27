@@ -1,4 +1,4 @@
-// Push notifications to the paired phones through APNs, the push service of Apple. See "Push" in docs/wiki.md.
+// Push notifications to the paired phones through APNs, the push service of Apple. See "Push" in docs/wiki/phone.md.
 // The key is ~/.config/yonder/AuthKey_<key id>.p8 from the Apple Developer site. Without it, nothing is sent.
 // The fetch of Bun has no HTTP/2, and APNs needs it, so this uses node:http2.
 import { readdirSync, readFileSync } from "node:fs";
